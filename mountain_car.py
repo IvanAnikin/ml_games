@@ -75,8 +75,8 @@ def training_data(num_trials, min_score, sim_steps):
 def test_play_display_info(episodes_count = 1000):
     env = gym.make('MountainCar-v0')
 
-    print("env.action_space.n: ", env.action_space.n)
-    print("env.observation_space.shape[0]]: ", env.observation_space.shape[0])
+    #print("env.action_space.n: ", env.action_space.n)
+    #print("env.observation_space.shape[0]]: ", env.observation_space.shape[0])
 
     num_episode_steps = env.spec.max_episode_steps
     print("num_episode_steps: ", num_episode_steps)
@@ -123,6 +123,7 @@ def test_play_display_info(episodes_count = 1000):
                     #SAVE GAME
                 #if (episode % 100 == 0 and episode != 0):
                 #    print("total_reward", total_reward)
+
 
 
     average_reward = all_rewards/episodes_count
