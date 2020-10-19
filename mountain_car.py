@@ -40,7 +40,7 @@ def gather_data(env, num_trials, min_score, sim_steps):
         training_sampleX, training_sampleY = [], []
         for step in range(sim_steps):
             # action corresponds to the prevgit remote add origin https://github.com/IvanAnikin/ml_games.gitious observation so record before step
-            action = np.random.randint(0, 2)
+            action = np.random.choice([0,1,2])
             one_hot_action = np.zeros(2)
             one_hot_action[action] = 1
             training_sampleX.append(observation)
@@ -69,4 +69,63 @@ def training_data(num_trials, min_score, sim_steps):
     env = gym.make("MountainCar-v0")
     trainingX, trainingY = gather_data(env, num_trials, min_score, sim_steps)
     return trainingX, trainingY
+
+
+
+def test_play_display_info(episodes_count = 1000):
+    env = gym.make('MountainCar-v0')
+
+    print("env.action_space.n: ", env.action_space.n)
+    print("env.observation_space.shape[0]]: ", env.observation_space.shape[0])
+
+    num_episode_steps = env.spec.max_episode_steps
+    print("num_episode_steps: ", num_episode_steps)
+
+    all_rewards = 0
+    max_reward = 0
+
+    for episode in range(episodes_count):
+
+        total_reward = 0
+
+        observation = env.reset()
+
+        state = np.reshape(observation, [1, env.observation_space.shape[0]])
+
+        if (episode % 100 == 0 and episode != 0): print("episode", episode)
+
+        for episode_step in range(num_episode_steps):
+            # env.render(mode="human")
+
+            action = random.randrange(env.action_space.n)
+
+            observation, reward, done, _ = env.step(action)
+
+            # if(episode_step%40==0 and episode_step!=0):
+            # print(episode_step, "||   reward: ", reward)
+            # print("observation: ", observation)
+            # print("state: ", state)
+
+            # Recalculates the reward
+            if observation[1] > state[0][1] >= 0 and observation[1] >= 0:
+                total_reward += 10
+            if observation[1] < state[0][1] <= 0 and observation[1] <= 0:
+                total_reward += 10
+            # if done and episode_step < num_episode_steps - 1:
+            # print(3)
+            else:
+                total_reward-=10
+
+            if(done):
+                all_rewards += total_reward
+                if(total_reward>max_reward):
+                    max_reward = total_reward
+                    #SAVE GAME
+                #if (episode % 100 == 0 and episode != 0):
+                #    print("total_reward", total_reward)
+
+
+    average_reward = all_rewards/episodes_count
+    print("average_reward: ", average_reward)
+    print("max_reward: ", max_reward)
 
