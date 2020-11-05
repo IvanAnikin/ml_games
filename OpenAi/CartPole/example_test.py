@@ -94,6 +94,9 @@ def create_model(LR, dropout):
         metrics=["accuracy"])
     return model
 
+
+
+
 def training_data(num_trials, min_score, sim_steps):
     env = gym.make("CartPole-v0")
     trainingX, trainingY = gather_data(env, num_trials, min_score, sim_steps)
@@ -123,12 +126,25 @@ def cart_pole_v1():
     print()
 
     model = create_model(1e-3, 0.4)  ##########################
+    #model = keras.models.load_model("CartPoleModel_1")
     model_creation_time = time.time() - training_time_moment
     model_creation_time_moment = time.time()
     # print("Model creating time:", model_creation_time)
-    print()
+    #print()
 
     model.summary()
+    print()
+
+
+    #Model saving and loading
+
+    #print("saving model")
+    #model.save("CartPoleModel_1")
+
+
+    reconstructed_model = keras.models.load_model("CartPoleModel_1")
+    print("Reconstructed model:")
+    reconstructed_model.summary()
     print()
 
     epochs = 10
@@ -137,6 +153,8 @@ def cart_pole_v1():
     print()
     print("Model fitting time:", model_fit_time)
     print()
+
+
 
     loss_train = np.array(history.history['loss'])
     epochs_range = range(1, epochs + 1)
@@ -156,7 +174,7 @@ def cart_pole_v1():
     observation = []
     score = 0
     for step in range(sim_steps):
-        # env.render()
+        env.render()
         if len(observation) == 0:
             action = random.randrange(0, 2)
         else:

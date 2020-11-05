@@ -7,7 +7,7 @@ LEARNING_RATE = 0.1
 
 DISCOUNT = 0.95
 EPISODES = 25000
-SHOW_EVERY = 3000
+SHOW_EVERY = 500
 
 DISCRETE_OS_SIZE = [20, 20]
 discrete_os_win_size = (env.observation_space.high - env.observation_space.low)/DISCRETE_OS_SIZE
@@ -31,14 +31,21 @@ def start():
     epsilon = 1
 
     for episode in range(EPISODES):
-        discrete_state = get_discrete_state(env.reset())
+        discrete_state = get_discrete_state(env.reset())    ## RESET + get first DISCRETE STATE
         done = False
 
+
+#### VISUALISATION
         if episode % SHOW_EVERY == 0:
             render = True
-            print(episode)
+            print("episode: ", episode)
+            print("discrete_state", discrete_state)
+            print("q_table[discrete_state]: ", q_table[discrete_state])
+            print("np.argmax(q_table[discrete_state]: ", np.argmax(q_table[discrete_state]))
         else:
             render = False
+
+##########
 
         while not done:
 
@@ -69,6 +76,11 @@ def start():
 
                 # And here's our equation for a new Q value for current state and action
                 new_q = (1 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + DISCOUNT * max_future_q)
+
+                if episode % SHOW_EVERY == 0:
+
+                    print("new_q: ", new_q)
+                    print("discrete_state + (action,): ", discrete_state + (action,))
 
                 # Update Q table with new Q value
                 q_table[discrete_state + (action,)] = new_q

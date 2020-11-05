@@ -20,7 +20,7 @@ import gym
 
 ##      ______CART POLE______
 
-example_test.cart_pole_v1()
+#example_test.cart_pole_v1()
 
 
 ##      ______MOUNTAIN CAR______
@@ -42,7 +42,9 @@ example_test.cart_pole_v1()
 # EXAAMPLE Sentdex
 
 
-#env = gym.make("MountainCar-v0")
-#print("reset discrete_state: ", MountainCar_Sendex_example.get_discrete_state(env.reset()))
-#print("env.reset(): ", env.reset())
-#print("env.observation_space.low: ", env.observation_space.low)
+env = gym.make("MountainCar-v0")
+print("reset discrete_state: ", MountainCar_Sendex_example.get_discrete_state(env.reset()))
+print("env.reset(): ", env.reset())
+print("env.observation_space.low: ", env.observation_space.low)
+
+MountainCar_Sendex_example.start()
