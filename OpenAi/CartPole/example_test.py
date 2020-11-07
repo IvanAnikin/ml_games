@@ -19,6 +19,10 @@ from collections import Counter
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
+from tensorflow.keras.callbacks import TensorBoard
+
+
+
 import time
 import numpy as np
 import matplotlib.pyplot as plt

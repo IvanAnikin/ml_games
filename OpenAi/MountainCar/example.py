@@ -60,6 +60,8 @@ def play_random_games(games=100):
     :return:
     """
 
+    print(env.unwrapped.goal_position)
+
     # Storage for All Games Movements
     all_movements = []
 
@@ -106,6 +108,7 @@ def play_random_games(games=100):
             all_movements.append(
                 GameData(episode_reward, current_game_data)
             )
+            #print("current_game_data: ", current_game_data)
 
     # Sort Movements Array
     all_movements.sort(key=lambda item: item.reward, reverse=True)
@@ -117,6 +120,7 @@ def play_random_games(games=100):
     movements_only = []
     for single_game_movements in all_movements:
         movements_only.extend([item for item in single_game_movements.data])
+        #print("single_game_movements.data: ", single_game_movements.data)
 
     # Create DataFrame
     dataframe = pd.DataFrame(

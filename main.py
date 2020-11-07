@@ -5,6 +5,8 @@ import OpenAi.CartPole.example_test as example_test
 import OpenAi.MountainCar.example as MountainCar_example
 import OpenAi.MountainCar.sentdex_example as MountainCar_Sendex_example
 
+import OpenAi.Pendulum.testing as Pendulum_testing
+
 
 
 
@@ -19,18 +21,17 @@ import gym
 
 
 ##      ______CART POLE______
-
 #example_test.cart_pole_v1()
 
 
 ##      ______MOUNTAIN CAR______
-
 #mountain_car.test_play_display_info()
 
 
 # EXAMPLE 1
 #print("[+] Playing Random Games")
 #df = MountainCar_example.play_random_games(games=1000)
+
 
 #print("[+] Training NN Model")
 #ml_model = MountainCar_example.generate_ml(df)
@@ -40,11 +41,17 @@ import gym
 
 
 # EXAAMPLE Sentdex
+#env = gym.make("MountainCar-v0")
+#print("reset discrete_state: ", MountainCar_Sendex_example.get_discrete_state(env.reset()))
+#print("env.reset(): ", env.reset())
+#print("env.observation_space.low: ", env.observation_space.low)
+
+#MountainCar_Sendex_example.start()
 
 
-env = gym.make("MountainCar-v0")
-print("reset discrete_state: ", MountainCar_Sendex_example.get_discrete_state(env.reset()))
-print("env.reset(): ", env.reset())
-print("env.observation_space.low: ", env.observation_space.low)
+##__________Breakout_________
 
-MountainCar_Sendex_example.start()
+##Testing
+#Pendulum_testing.test_games()
+Pendulum_testing.gather_data()
+#Pendulum_testing.prep()
