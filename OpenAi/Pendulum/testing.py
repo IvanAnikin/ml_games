@@ -1,5 +1,6 @@
 import time
 import numpy as np
+import random
 
 import gym
 
@@ -22,6 +23,10 @@ def prep():
         env.render()
 
         observation, reward, done, info = env.step([np.random.uniform(-2,2)])
+
+        print("observation: ", observation)
+        print("reward:", reward)
+        time.sleep(1)
 
         if done:
             break
@@ -53,64 +58,65 @@ def create_model(LR = 1e-3, dropout = 0.4):
 
 
 
-def test_games(num_trials = 1000, sim_steps = 200):
+def test_games(num_trials = 1000, sim_steps = 199):
 
     env = gym.make("Pendulum-v0")
 
     max_reward = -10000
-    best_game_memory = []
+    least_velocity = 10000
+
+    velocities = []
 
     for _ in range(num_trials):
         observation = env.reset()
 
         trial_reward = 0
+        trial_velocity = 0
 
-        game_memory = []
 
         for step in range(sim_steps):
-            #env.render()
 
 
-            #action = np.random.randint(0, 1)
             action = np.random.uniform(-2,2)
 
             observation, reward, done, wtff = env.step([action])
 
-            game_memory.append([observation, action])
 
-            #print("observation: ", observation)
-            #print("reward:", reward)
-            #time.sleep(1)
-
+            trial_velocity += abs(observation[2])
             trial_reward += reward
 
+            if(done):
+                break
+
+        velocities.append(trial_velocity)
 
         if (trial_reward > max_reward):
             max_reward = trial_reward
-            best_game_memory = game_memory
+
+        if (trial_velocity < least_velocity):
+            least_velocity = trial_velocity
 
 
 
-
-        #print("trial_reward: ", trial_reward)
-
-    print("max_reward: ", max_reward)
-    print("best_game_memory: ", best_game_memory)
+    #print("max_reward: ", max_reward)
+    print("Average velocity: {}".format(np.mean(velocities)))
+    print("Median velocity: {}".format(np.median(velocities)))
 
 
-def training_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
+def training_data(num_trials = 1000, min_score = -1000, sim_steps = 199):
     env = gym.make("Pendulum-v0")
 
     trainingX, trainingY = [], []
     max_reward = -10000
-    best_game_memory = []
 
     scores = []
+    velocities = []
 
     for _ in range(num_trials):
         observation = env.reset()
 
         trial_reward = 0
+        trial_velocity = 0
         game_memory = []
         training_sampleX, training_sampleY = [], []
 
@@ -121,31 +127,37 @@ def training_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
             observation, reward, done, wtff = env.step([action])
             game_memory.append([observation, action])
             trial_reward += reward
+            trial_velocity += abs(observation[2])
 
             training_sampleX.append(observation)
             training_sampleY.append(action)
 
             if(done):
-                #print("done || step: ", step, "observation: ", observation, "reward: ", reward, "trial_reward: ", trial_reward)
+                print("WON")
                 break
 
-        if (trial_reward > max_reward and trial_reward > min_score):
+        if (trial_reward > max_reward and trial_reward > min_score):        # add velocity if
             max_reward = trial_reward
-            best_game_memory = game_memory
 
             trainingX += training_sampleX
             trainingY += training_sampleY
 
+                                                                                                                            # Change NN
+
         scores.append(trial_reward)
-                                                                    # Change NN
+        velocities.append(trial_velocity)
+
 
     #print(len(trainingY))
     #print("trainingX[0]): ", trainingX[0])
     #print("trainingY[0]): ", trainingY[0])
 
     trainingX, trainingY = np.array(trainingX), np.array(trainingY)
-    print("Average: {}".format(np.mean(scores)))
-    print("Median: {}".format(np.median(scores)))
+    print("Best score: ", max_reward)
+    print("Average score: {}".format(np.mean(scores)))
+    print("Median score: {}".format(np.median(scores)))
+    print("Average velocity: {}".format(np.mean(velocities)))
+    print("Median velocity: {}".format(np.median(velocities)))
     return trainingX, trainingY
 
 
@@ -154,7 +166,7 @@ def training_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
 
 def create_model(LR, dropout):
     model = Sequential()
-    model.add(Dense(128, input_shape=(4,), activation="relu"))
+    model.add(Dense(128, input_shape=(3,), activation="relu"))
     model.add(Dropout(dropout))
 
     model.add(Dense(256, activation="relu"))
@@ -168,7 +180,7 @@ def create_model(LR, dropout):
 
     model.add(Dense(128, activation="relu"))
     model.add(Dropout(dropout))
-    model.add(Dense(2, activation="softmax"))
+    model.add(Dense(1, activation="softmax"))
 
     model.compile(
         loss="categorical_crossentropy",
@@ -183,7 +195,7 @@ def create_model(LR, dropout):
 def pendulum_v0():
     start_time = time.time()
 
-    trainingX, trainingY = training_data(1000)  ##########################
+    trainingX, trainingY = training_data(10000, -700)  ##########################
 
     training_time = time.time() - start_time
     training_time_moment = time.time()
@@ -205,3 +217,34 @@ def pendulum_v0():
 
     model.summary()
     print()
+
+    epochs = 10
+    history = model.fit(trainingX, trainingY, epochs=epochs)  ##########################
+    model_fit_time = time.time() - model_creation_time_moment
+    print()
+    print("Model fitting time:", model_fit_time)
+    print()
+
+
+
+
+    env = gym.make("Pendulum-v0")
+    env.reset()
+
+    game_memory = []
+    observation = []
+    score = 0
+    for step in range(199):
+        env.render()
+        if len(observation) == 0:
+            action = random.randrange(0, 2)
+        else:
+            action = model.predict(observation.reshape(1, 3))
+        observation, reward, done, info = env.step([action])
+        prev_obs = observation
+        game_memory.append([observation, action])
+        score += reward
+        if done:
+            break
+
+    print("Score:", score)
