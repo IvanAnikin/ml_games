@@ -1,11 +1,13 @@
 import time
+import numpy as np
 
 import gym
 
-import numpy as np
+
 from tensorflow import keras
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.layers.core import Dense, Dropout
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
 
 
 def prep():
@@ -96,13 +98,14 @@ def test_games(num_trials = 1000, sim_steps = 200):
     print("best_game_memory: ", best_game_memory)
 
 
-def gather_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
+def training_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
     env = gym.make("Pendulum-v0")
 
     trainingX, trainingY = [], []
     max_reward = -10000
     best_game_memory = []
 
+    scores = []
 
     for _ in range(num_trials):
         observation = env.reset()
@@ -133,10 +136,17 @@ def gather_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
             trainingX += training_sampleX
             trainingY += training_sampleY
 
+        scores.append(trial_reward)
                                                                     # Change NN
 
-    print(len(trainingY))
+    #print(len(trainingY))
+    #print("trainingX[0]): ", trainingX[0])
+    #print("trainingY[0]): ", trainingY[0])
 
+    trainingX, trainingY = np.array(trainingX), np.array(trainingY)
+    print("Average: {}".format(np.mean(scores)))
+    print("Median: {}".format(np.median(scores)))
+    return trainingX, trainingY
 
 
 
@@ -165,3 +175,33 @@ def create_model(LR, dropout):
         optimizer=keras.optimizers.Adam(lr=LR),                                           #define LR !!!!!!!!!
         metrics=["accuracy"])
     return model
+
+
+
+
+
+def pendulum_v0():
+    start_time = time.time()
+
+    trainingX, trainingY = training_data(1000)  ##########################
+
+    training_time = time.time() - start_time
+    training_time_moment = time.time()
+    print()
+    print("training X: ", trainingX.shape)
+    print("training Y: ", trainingY.shape)
+    print()
+    print()
+    print("Getting training data time:", training_time)
+    print()
+    print()
+
+    model = create_model(1e-3, 0.4)  ##########################
+    # model = keras.models.load_model("CartPoleModel_1")
+    model_creation_time = time.time() - training_time_moment
+    model_creation_time_moment = time.time()
+    # print("Model creating time:", model_creation_time)
+    # print()
+
+    model.summary()
+    print()

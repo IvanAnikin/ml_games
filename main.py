@@ -52,6 +52,7 @@ import gym
 ##__________Breakout_________
 
 ##Testing
-#Pendulum_testing.test_games()
-Pendulum_testing.gather_data()
 #Pendulum_testing.prep()
+#Pendulum_testing.test_games()
+#Pendulum_testing.training_data()
+Pendulum_testing.pendulum_v0()
