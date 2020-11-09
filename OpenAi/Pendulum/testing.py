@@ -136,3 +136,32 @@ def gather_data(num_trials = 1000, min_score = -1000, sim_steps = 200):
                                                                     # Change NN
 
     print(len(trainingY))
+
+
+
+
+
+
+def create_model(LR, dropout):
+    model = Sequential()
+    model.add(Dense(128, input_shape=(4,), activation="relu"))
+    model.add(Dropout(dropout))
+
+    model.add(Dense(256, activation="relu"))
+    model.add(Dropout(dropout))
+
+    model.add(Dense(512, activation="relu"))
+    model.add(Dropout(dropout))
+
+    model.add(Dense(256, activation="relu"))
+    model.add(Dropout(dropout))
+
+    model.add(Dense(128, activation="relu"))
+    model.add(Dropout(dropout))
+    model.add(Dense(2, activation="softmax"))
+
+    model.compile(
+        loss="categorical_crossentropy",
+        optimizer=keras.optimizers.Adam(lr=LR),                                           #define LR !!!!!!!!!
+        metrics=["accuracy"])
+    return model
