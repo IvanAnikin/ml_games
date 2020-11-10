@@ -1,3 +1,6 @@
 venv/*
 __pycache__/*
 .idea/*
+OpenAi/CartPole/__pycache__/*
+OpenAi/MountainCar/__pycache__/*
+OpenAi/Pendulum/__pycache__/*

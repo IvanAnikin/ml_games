@@ -36,6 +36,7 @@ import random
 
 def gather_data(env, num_trials, min_score, sim_steps):
     trainingX, trainingY = [], []
+    SHOW_EVERY = 500
 
     print("num_trials: ", num_trials)
     print("min_score: ", min_score)
@@ -43,7 +44,7 @@ def gather_data(env, num_trials, min_score, sim_steps):
     print()
 
     scores = []
-    for _ in range(num_trials):
+    for episode in range(num_trials):
         observation = env.reset()
         score = 0
         training_sampleX, training_sampleY = [], []
@@ -63,6 +64,8 @@ def gather_data(env, num_trials, min_score, sim_steps):
             scores.append(score)
             trainingX += training_sampleX
             trainingY += training_sampleY
+
+        if episode % SHOW_EVERY == 0: print("episode: ", episode, "saved trials: ", len(trainingY))
 
     trainingX, trainingY = np.array(trainingX), np.array(trainingY)
     print("Average: {}".format(np.mean(scores)))

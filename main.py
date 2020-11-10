@@ -54,6 +54,7 @@ import gym
 ##Testing
 #Pendulum_testing.prep()
 #Pendulum_testing.test_games()
-Pendulum_testing.training_data()
+#Pendulum_testing.training_data()
 
 #Pendulum_testing.pendulum_v0()
+Pendulum_testing.play_and_train()
