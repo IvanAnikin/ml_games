@@ -4,3 +4,6 @@ __pycache__/*
 OpenAi/CartPole/__pycache__/*
 OpenAi/MountainCar/__pycache__/*
 OpenAi/Pendulum/__pycache__/*
+games_stats/*
+CartPoleModel_/variables/*
+.git/*

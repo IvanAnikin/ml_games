@@ -1,60 +1,26 @@
 
+import OpenAi.MountainCar.Q_Learning.gym_agent as MountainCar_Q_Learning_gym_agent
+import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
+import OpenAi.MountainCar.Q_Learning.visualisation_agent as MountainCar_Q_Learning_visualisation_agent
 
-import OpenAi.CartPole.example_test as example_test
-
-import OpenAi.MountainCar.example as MountainCar_example
-import OpenAi.MountainCar.sentdex_example as MountainCar_Sendex_example
-
-import OpenAi.Pendulum.testing as Pendulum_testing
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 
 
 
-import gym
+LEARNING_RATES = [0.15, 0.20]
+EPSILONS = [0.2, 0.5, 0.7]
+END_EPSILON_DECAYING_POSITIONS = [1.5, 2.0, 2.5]
+DISCOUNTS = [0.70, 0.85, 0.95]
+DISCRETE_OS_SIZES = [10, 20, 30]
 
+episodes = 5000
+show_every = 1000
+stats_every = 100
 
+MountainCar_Q_Learning_gym_agent.save_games(LEARNING_RATES=LEARNING_RATES, EPSILONS= EPSILONS, END_EPSILON_DECAYING_POSITIONS=END_EPSILON_DECAYING_POSITIONS, DISCOUNTS=DISCOUNTS, DISCRETE_OS_SIZES=DISCRETE_OS_SIZES, episodes=episodes, show_every=show_every, stats_every=stats_every)
 
+#MountainCar_Q_Learning_visualisation_agent.visualise_stats(LEARNING_RATES=LEARNING_RATES, episodes=episodes, stats_every=stats_every)
 
-
-
-
-##      ______CART POLE______
-#example_test.cart_pole_v1()
-
-
-##      ______MOUNTAIN CAR______
-#mountain_car.test_play_display_info()
-
-
-# EXAMPLE 1
-#print("[+] Playing Random Games")
-#df = MountainCar_example.play_random_games(games=1000)
-
-
-#print("[+] Training NN Model")
-#ml_model = MountainCar_example.generate_ml(df)
-
-#print("[+] Playing Games with NN")
-#MountainCar_example.play_game(ml_model=ml_model, games=3)
-
-
-# EXAAMPLE Sentdex
-#env = gym.make("MountainCar-v0")
-#print("reset discrete_state: ", MountainCar_Sendex_example.get_discrete_state(env.reset()))
-#print("env.reset(): ", env.reset())
-#print("env.observation_space.low: ", env.observation_space.low)
-
-#MountainCar_Sendex_example.start()
-
-
-##__________Breakout_________
-
-##Testing
-#Pendulum_testing.prep()
-#Pendulum_testing.test_games()
-#Pendulum_testing.training_data()
-
-#Pendulum_testing.pendulum_v0()
-Pendulum_testing.play_and_train()
