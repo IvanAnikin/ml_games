@@ -4,6 +4,8 @@ import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_sto
 import gym
 import numpy as np
 
+import time
+
 
 
 
@@ -39,7 +41,7 @@ def mountain_car_single_game(EPISODES = 25000, LEARNING_RATE = 0.1, epsilon = 0.
 
         episode_reward = 0
 
-        if episode % SHOW_EVERY == 0:
+        if episode % SHOW_EVERY == 0 and episode != 0:
             print(f"episode: {episode} ||  successful episodes: {successful_episodes}")
             successful_episodes = 0
 
@@ -100,33 +102,46 @@ def mountain_car_single_game(EPISODES = 25000, LEARNING_RATE = 0.1, epsilon = 0.
 
 def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECAYING_POSITIONS = [2.0], DISCOUNTS = [0.95], DISCRETE_OS_SIZES = [20], episodes = 5000, show_every = 4000, stats_every = 100):
 
+	games_count = len(LEARNING_RATES) * len(EPSILONS) * len(END_EPSILON_DECAYING_POSITIONS) * len(DISCOUNTS) * len(DISCRETE_OS_SIZES)
+	total_rounds_time = 0
+	round = 0
+	
+	print("games_count: ", games_count)
+	
+	for learning_rate_cycle in range(len(LEARNING_RATES)):
+		for epsilon_cycle in range(len(EPSILONS)):
+			for end_epsilon_decaying_cycle in range(len(END_EPSILON_DECAYING_POSITIONS)):
+				for discount_cycle in range(len(DISCOUNTS)):
+					for discrete_os_size_cycle in range(len(DISCRETE_OS_SIZES)):
+					
+						round += 1
+						
+						learning_rate = LEARNING_RATES[learning_rate_cycle]
+						epsilon = EPSILONS[epsilon_cycle]
+						end_epsilon_decaying = END_EPSILON_DECAYING_POSITIONS[end_epsilon_decaying_cycle]
+						discount = DISCOUNTS[discount_cycle]
+						discrete_os_size = [DISCRETE_OS_SIZES[discrete_os_size_cycle], DISCRETE_OS_SIZES[discrete_os_size_cycle]]
+						# '''
+						NAME = "ep-{}__stats-{}__lr-{}__eps-{}__epsDec-{}__disc-{}__size-{}".format(episodes, stats_every, learning_rate, epsilon, end_epsilon_decaying, discount, discrete_os_size)
+						print(NAME)
+						start = time.time()
+						stats_ep_rewards = mountain_car_single_game(LEARNING_RATE=learning_rate,
+																	epsilon=epsilon,
+																	end_epsilon_decaying_position=end_epsilon_decaying,
+																	DISCOUNT=discount,
+																	DISCRETE_OS_SIZE=discrete_os_size,
+																	EPISODES=episodes,
+																	SHOW_EVERY=show_every,
+																	STATS_EVERY=stats_every)
+						round_time = time.time()-start
+						total_rounds_time += round_time											
+						print("round: |", round, "/", games_count, "|")
+						print("round time length: ", round_time, "  |||  time left expected: ", total_rounds_time / round * games_count - round)
+						stats_ep_rewards_ep = stats_ep_rewards['ep']
+						stats_ep_rewards_avg = stats_ep_rewards['avg']
 
-    for learning_rate_cycle in range(len(LEARNING_RATES)):
-        for epsilon_cycle in range(len(EPSILONS)):
-            for end_epsilon_decaying_cycle in range(len(END_EPSILON_DECAYING_POSITIONS)):
-                for discount_cycle in range(len(DISCOUNTS)):
-                    for discrete_os_size_cycle in range(len(DISCRETE_OS_SIZES)):
-                        learning_rate = LEARNING_RATES[learning_rate_cycle]
-                        epsilon = EPSILONS[epsilon_cycle]
-                        end_epsilon_decaying = END_EPSILON_DECAYING_POSITIONS[end_epsilon_decaying_cycle]
-                        discount = DISCOUNTS[discount_cycle]
-                        discrete_os_size = [DISCRETE_OS_SIZES[discrete_os_size_cycle], DISCRETE_OS_SIZES[discrete_os_size_cycle]]
-                        # '''
-                        NAME = "ep-{}__stats-{}__lr-{}__eps-{}__epsDec-{}__disc-{}__size-{}".format(episodes, stats_every, learning_rate, epsilon, end_epsilon_decaying, discount, discrete_os_size)
-                        print(NAME)
-                        stats_ep_rewards = mountain_car_single_game(LEARNING_RATE=learning_rate,
-                                                                    epsilon=epsilon,
-                                                                    end_epsilon_decaying_position=end_epsilon_decaying,
-                                                                    DISCOUNT=discount,
-                                                                    DISCRETE_OS_SIZE=discrete_os_size,
-                                                                    EPISODES=episodes,
-                                                                    SHOW_EVERY=show_every,
-                                                                    STATS_EVERY=stats_every)
+						MountainCar_Q_Learning_storage_agent.save_np(name=NAME, data=np.array(stats_ep_rewards_avg))
+						
 
-                        stats_ep_rewards_ep = stats_ep_rewards['ep']
-                        stats_ep_rewards_avg = stats_ep_rewards['avg']
-
-                        MountainCar_Q_Learning_storage_agent.save_np(name=NAME, data=np.array(stats_ep_rewards_avg))
-
-    EPISODES_NAME = "ep-{}__stats-{}__episodes".format(episodes, stats_every)
-    MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
+	EPISODES_NAME = "ep-{}__stats-{}__episodes".format(episodes, stats_every)
+	MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
