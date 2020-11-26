@@ -33,7 +33,7 @@ stats_every = 100
 
 
 
-MountainCar_Q_Learning_gym_agent.save_games(LEARNING_RATES=LEARNING_RATES, EPSILONS= EPSILONS, END_EPSILON_DECAYING_POSITIONS=END_EPSILON_DECAYING_POSITIONS, DISCOUNTS=DISCOUNTS, DISCRETE_OS_SIZES=DISCRETE_OS_SIZES, episodes=episodes, show_every=show_every, stats_every=stats_every)
+#MountainCar_Q_Learning_gym_agent.save_games(LEARNING_RATES=LEARNING_RATES, EPSILONS= EPSILONS, END_EPSILON_DECAYING_POSITIONS=END_EPSILON_DECAYING_POSITIONS, DISCOUNTS=DISCOUNTS, DISCRETE_OS_SIZES=DISCRETE_OS_SIZES, episodes=episodes, show_every=show_every, stats_every=stats_every)
 
-#MountainCar_Q_Learning_visualisation_agent.visualise_stats(LEARNING_RATES=LEARNING_RATES, episodes=episodes, stats_every=stats_every)
+MountainCar_Q_Learning_visualisation_agent.visualise_stats(LEARNING_RATES=LEARNING_RATES, EPSILONS= EPSILONS, END_EPSILON_DECAYING_POSITIONS=END_EPSILON_DECAYING_POSITIONS, DISCOUNTS=DISCOUNTS, DISCRETE_OS_SIZES=DISCRETE_OS_SIZES, episodes=episodes, show_every=show_every, stats_every=stats_every)
 
