@@ -5,6 +5,10 @@ import gym
 import numpy as np
 
 
+def get_discrete_state(state):
+        discrete_state = (state - env.observation_space.low) / discrete_os_win_size
+        return tuple(discrete_state.astype(
+            np.int))  # we use this tuple to look up the 3 Q values for the available actions in the q-table
 
 
 def mountain_car_single_game(EPISODES = 25000, LEARNING_RATE = 0.1, epsilon = 0.5, end_epsilon_decaying_position = 2, DISCOUNT = 0.95, DISCRETE_OS_SIZE = [20, 20], SHOW_EVERY = 3000, STATS_EVERY=50):
@@ -21,17 +25,10 @@ def mountain_car_single_game(EPISODES = 25000, LEARNING_RATE = 0.1, epsilon = 0.
 
     q_table = np.random.uniform(low=-2, high=0, size=(DISCRETE_OS_SIZE + [env.action_space.n]))
 
-
-
     successful_episodes = 0
 
     rewards = []
     stats_ep_rewards = {'ep': [], 'avg': []}
-
-    def get_discrete_state(state):
-        discrete_state = (state - env.observation_space.low) / discrete_os_win_size
-        return tuple(discrete_state.astype(
-            np.int))  # we use this tuple to look up the 3 Q values for the available actions in the q-table
 
     for episode in range(EPISODES):
         discrete_state = get_discrete_state(env.reset())
@@ -130,3 +127,5 @@ def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECA
 
     EPISODES_NAME = "ep-{}__stats-{}__episodes".format(episodes, stats_every)
     MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
+	
+	
