@@ -5,7 +5,7 @@ import gym
 import numpy as np
 
 import time
-
+import datetime
 
 
 
@@ -136,7 +136,7 @@ def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECA
 						round_time = time.time()-start
 						total_rounds_time += round_time											
 						print("round: |", round, "/", games_count, "|")
-						print("round time length: ", round_time, "  |||  time left expected: ", total_rounds_time / round * games_count - round)
+						print("round time length: ", time.strftime('%M:%S',round_time), "  |||  time left expected: ", time.strftime('%H:%M:%S', total_rounds_time / round * (games_count - round)))
 						stats_ep_rewards_ep = stats_ep_rewards['ep']
 						stats_ep_rewards_avg = stats_ep_rewards['avg']
 
@@ -144,4 +144,4 @@ def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECA
 						
 
 	EPISODES_NAME = "ep-{}__stats-{}__episodes".format(episodes, stats_every)
-	MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
+	#MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
