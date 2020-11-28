@@ -97,7 +97,7 @@ def mountain_car_single_game(EPISODES = 25000, LEARNING_RATE = 0.1, epsilon = 0.
 
     env.close()
 
-    return stats_ep_rewards
+    return stats_ep_rewards, q_table
 
 
 def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECAYING_POSITIONS = [2.0], DISCOUNTS = [0.95], DISCRETE_OS_SIZES = [20], episodes = 5000, show_every = 4000, stats_every = 100):
@@ -145,3 +145,53 @@ def save_games(LEARNING_RATES = [0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECA
 
 	EPISODES_NAME = "ep-{}__stats-{}__episodes".format(episodes, stats_every)
 	#MountainCar_Q_Learning_storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards_ep))
+
+
+
+
+
+#successful episodes - count
+
+#get discrete_os_size from q_table len()
+
+def play_with_given_q_table(q_table, DISCRETE_OS_SIZE, EPISODES, SHOW_EVERY):
+
+    env = gym.make("MountainCar-v0")
+
+    discrete_os_win_size = (env.observation_space.high - env.observation_space.low) / DISCRETE_OS_SIZE
+    successful_episodes = 0
+
+    def get_discrete_state(state):
+        discrete_state = (state - env.observation_space.low) / discrete_os_win_size
+        return tuple(discrete_state.astype(
+            np.int))  # we use this tuple to look up the 3 Q values for the available actions in the q-table
+
+    for episode in range(EPISODES):
+        discrete_state = get_discrete_state(env.reset())
+        done = False
+
+        episode_reward = 0
+
+        if episode % SHOW_EVERY == 0 and episode != 0:
+            print(f"episode: {episode} ||  successful episodes: {successful_episodes}")
+            #successful_episodes = 0
+
+        while not done:
+
+            action = np.argmax(q_table[discrete_state])
+
+            new_state, reward, done, _ = env.step(action)
+            episode_reward += reward
+
+            new_discrete_state = get_discrete_state(new_state)
+
+            discrete_state = new_discrete_state
+
+            if episode % SHOW_EVERY == 0 and episode != 0:
+                env.render()
+
+        print("episode_reward: ", episode_reward)
+
+    env.close()
+
+    return successful_episodes
