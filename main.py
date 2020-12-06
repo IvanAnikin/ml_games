@@ -3,6 +3,8 @@ import OpenAi.MountainCar.Q_Learning.gym_agent as MountainCar_Q_Learning_gym_age
 import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
 import OpenAi.MountainCar.Q_Learning.visualisation_agent as MountainCar_Q_Learning_visualisation_agent
 import OpenAi.MountainCar.Q_Learning.stats_agent as MountainCar_Q_Learning_stats_agent
+import OpenAi.Pendulum.Actor_Critic.gym_agent as Pendulum_AC_gym_agent
+import OpenAi.Pendulum.Actor_Critic.ActorCritic as Pendulum_AC_ActorCritic
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -47,11 +49,21 @@ stats_every = 40000
 
 #MountainCar_Q_Learning_storage_agent.save_np("q_table_30000__lr-0.2__eps-0.7__epsDec-1.5__disc-0.95__size-[20, 20]", q_table)
 
+'''
 q_table = MountainCar_Q_Learning_storage_agent.load_np("q_table_30000__lr-0.2__eps-0.7__epsDec-1.5__disc-0.95__size-[20, 20]")
 successful_episodes, average_score = MountainCar_Q_Learning_gym_agent.play_with_given_q_table(q_table, [20, 20], 2000, 1)
 print("successful_episodes: ", successful_episodes)
 print("average_score: ", average_score)
+'''
 
+num_trials = 10000
+trial_len = 500
 
+learning_rate = 0.001
+epsilon = 1.0
+epsilon_decay = .995
+gamma = .95
+tau = .125
 
+Pendulum_AC_gym_agent.train(num_trials, trial_len, learning_rate, epsilon, epsilon_decay, gamma, tau)
 
