@@ -1,3 +1,7 @@
+"""
+solving pendulum using actor-critic model
+"""
+
 import gym
 import numpy as np
 from keras.models import Sequential, Model
@@ -15,15 +19,15 @@ from collections import deque
 # determines how to assign values to each state, i.e. takes the state
 # and action (two-input model) and determines the corresponding value
 class ActorCritic:
-    def __init__(self, env, sess,  learning_rate, epsilon, epsilon_decay, gamma, tau):
+    def __init__(self, env, sess):
         self.env = env
         self.sess = sess
 
-        self.learning_rate = learning_rate
-        self.epsilon = epsilon
-        self.epsilon_decay = epsilon_decay
-        self.gamma = gamma
-        self.tau = tau
+        self.learning_rate = 0.001
+        self.epsilon = 1.0
+        self.epsilon_decay = .995
+        self.gamma = .95
+        self.tau = .125
 
         # ===================================================================== #
         #                               Actor Model                             #
@@ -74,9 +78,6 @@ class ActorCritic:
         model = Model(input=state_input, output=output)
         adam = Adam(lr=0.001)
         model.compile(loss="mse", optimizer=adam)
-
-        model.summary()
-
         return state_input, model
 
     def create_critic_model(self):
@@ -170,5 +171,3 @@ class ActorCritic:
         if np.random.random() < self.epsilon:
             return self.env.action_space.sample()
         return self.actor_model.predict(cur_state)
-
-

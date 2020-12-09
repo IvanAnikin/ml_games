@@ -119,7 +119,7 @@ def cart_pole_v1():
 
     start_time = time.time()
 
-    trainingX, trainingY = training_data(20000, 70, 500)  ##########################
+    trainingX, trainingY = training_data(10000, 70, 500)  ##########################
 
     training_time = time.time() - start_time
     training_time_moment = time.time()
@@ -149,10 +149,10 @@ def cart_pole_v1():
     #model.save("CartPoleModel_1")
 
 
-    reconstructed_model = keras.models.load_model("CartPoleModel_1")
-    print("Reconstructed model:")
-    reconstructed_model.summary()
-    print()
+    #reconstructed_model = keras.models.load_model("CartPoleModel_1")
+    #print("Reconstructed model:")
+    #reconstructed_model.summary()
+    #print()
 
     epochs = 10
     history = model.fit(trainingX, trainingY, epochs=epochs)  ##########################

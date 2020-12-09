@@ -25,15 +25,16 @@ import OpenAi.Pendulum.Actor_Critic.ActorCritic as Pendulum_AC_ActorCritic
 
 def train(num_trials = 10000, trial_len = 500, learning_rate = 0.001, epsilon = 1.0, epsilon_decay = .995, gamma = .95, tau = .125):
 
-    sess = tf.Session()
-    K.set_session(sess)
+    sess = tf.compat.v1.Session()
+    tf.compat.v1.keras.backend.set_session(sess)
     env = gym.make("Pendulum-v0")
 
     actor_critic = Pendulum_AC_ActorCritic.ActorCritic(env, sess, learning_rate, epsilon, epsilon_decay, gamma, tau)
 
     cur_state = env.reset()
     action = env.action_space.sample()
-    while True:
+    done = False
+    while done == False:
         env.render()
         cur_state = cur_state.reshape((1, env.observation_space.shape[0]))
         action = actor_critic.act(cur_state)
@@ -45,7 +46,7 @@ def train(num_trials = 10000, trial_len = 500, learning_rate = 0.001, epsilon = 
         actor_critic.remember(cur_state, action, reward, new_state, done)
         actor_critic.train()
 
-        cur_state = new_state
+    cur_state = new_state
 
 
 
