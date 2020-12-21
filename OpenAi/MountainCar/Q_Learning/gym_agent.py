@@ -188,8 +188,8 @@ def play_with_given_q_table(q_table, DISCRETE_OS_SIZE, EPISODES, SHOW_EVERY):
 
             discrete_state = new_discrete_state
 
-            #if episode % SHOW_EVERY == 0 and episode != 0:
-                #env.render()
+            if episode % SHOW_EVERY == 0 and episode != 0:
+                env.render()
             if done:
                 all_scores += episode_reward
                 if new_state[0] >= env.goal_position:
