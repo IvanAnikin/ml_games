@@ -23,7 +23,7 @@ batch_size=64
 critic_lr = 0.002
 actor_lr = 0.001
 
-episodes = 100
+episodes = 5
 stats_every = 10
 
 
@@ -41,21 +41,26 @@ Agent = Agent_file.Agent(env=env, buffer_capacity=buffer_capacity, batch_size=ba
 ep_reward_list = [] # To store average reward history of last few episodes
 avg_reward_list = []
 
+Agent.models.actor_model.load_weights("pendulum_actor.h5")
+Agent.models.critic_model.load_weights("pendulum_critic.h5")
+
+Agent.models.target_actor.load_weights("pendulum_target_actor.h5")
+Agent.models.target_critic.load_weights("pendulum_target_critic.h5")
+
 for ep in range(episodes):
+
     prev_state = env.reset()
     episodic_reward = 0
 
     while True:
+        env.render()
 
         tf_prev_state = tf.expand_dims(tf.convert_to_tensor(prev_state), 0)
 
         action = Agent.action(tf_prev_state, ou_noise) # Recieve state and reward from environment.
         state, reward, done, info = env.step(action)
 
-        Agent.record((prev_state, action, reward, state))
         episodic_reward += reward
-
-        Agent.learn()
 
         if done: # End this episode when `done` is True
             break
@@ -68,23 +73,9 @@ for ep in range(episodes):
     avg_reward = np.mean(ep_reward_list[-stats_every:])
     print("Episode * {} * Avg Reward is ==> {}".format(ep, avg_reward))
     avg_reward_list.append(avg_reward)
-    if(ep % 25 == 0 and ep != 0 or ep == episodes-1):
-        print(ep)
-        Agent.models.actor_model.save_weights("pendulum_actor__{}.h5".format(ep))
-        Agent.models.critic_model.save_weights("pendulum_critic__{}.h5".format(ep))
 
-        Agent.models.target_actor.save_weights("pendulum_target_actor__{}.h5".format(ep))
-        Agent.models.target_critic.save_weights("pendulum_target_critic__{}.h5".format(ep))
 
 plt.plot(avg_reward_list)
 plt.xlabel("Episode")
 plt.ylabel("Avg. Epsiodic Reward")
 plt.show()
-
-NAME = "{}_ep-{}__stats-{}__lr-{}__eps-{}__epsDec-{}__disc-{}__size-{}".format(env_name, episodes, stats_every, gamma,
-                                                                            tau, buffer_capacity, batch_size,
-                                                                            critic_lr, actor_lr)
-MountainCar_Q_Learning_storage_agent.save_np(name=NAME, data=np.array(avg_reward_list))
-
-
-
