@@ -63,6 +63,7 @@ for std_devc in range(len(std_devs)):
                             Weights_Critic_Name = "Weights_Critic___" + NAME + ".h5"
                             Weights_Acor_Target_Name = "Weights_Acor_Target___" + NAME + ".h5"
                             Weights_Critic_Target_Name = "Weights_Critic_Target___" + NAME + ".h5"
+                            
                             '''
 
                             print(NAME)
