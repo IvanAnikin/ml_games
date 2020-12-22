@@ -48,9 +48,10 @@ for std_devc in range(len(std_devs)):
                             critic_lr = critic_lrs[critic_lrc]
                             actor_lr = actor_lrs[actor_lrc]
 
-                            NAME = "{}_ep-{}__stats-{}__lr-{}__eps-{}__epsDec-{}__disc-{}__size-{}".format(env_name,
+                            NAME = "{}__episodes-{}__stats_every-{}__std_devc-{}__gamma-{}__tau-{}__buffer_capacity-{}__batch_size-{}__critic_lr-{}__actor_lr-{}".format(env_name,
                                                                                                            episodes,
                                                                                                            stats_every,
+                                                                                                           std_devc,
                                                                                                            gamma,
                                                                                                            tau,
                                                                                                            buffer_capacity,
