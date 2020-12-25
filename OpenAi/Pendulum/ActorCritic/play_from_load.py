@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import OpenAi.Pendulum.ActorCritic.visualisation as visualiser
 import OpenAi.Pendulum.ActorCritic.Agent as Agent_file
 import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
+import OpenAi.Agents.storage_agent as storage_agent
 
 
 
@@ -41,23 +42,28 @@ Agent = Agent_file.Agent(env=env, buffer_capacity=buffer_capacity, batch_size=ba
 ep_reward_list = [] # To store average reward history of last few episodes
 avg_reward_list = []
 
-Agent.models.actor_model.load_weights("pendulum_actor.h5")
-Agent.models.critic_model.load_weights("pendulum_critic.h5")
+weights_ep = 25
+Agent.models.actor_model.load_weights("pendulum_actor__{}.h5".format(weights_ep))
+Agent.models.critic_model.load_weights("pendulum_critic__{}.h5".format(weights_ep))
 
-Agent.models.target_actor.load_weights("pendulum_target_actor.h5")
-Agent.models.target_critic.load_weights("pendulum_target_critic.h5")
+Agent.models.target_actor.load_weights("pendulum_target_actor__{}.h5".format(weights_ep))
+Agent.models.target_critic.load_weights("pendulum_target_critic__{}.h5".format(weights_ep))
 
 for ep in range(episodes):
 
     prev_state = env.reset()
     episodic_reward = 0
 
+    frames = []
     while True:
         env.render()
+        frames.append(env.render(mode="rgb_array"))
 
         tf_prev_state = tf.expand_dims(tf.convert_to_tensor(prev_state), 0)
 
-        action = Agent.action(tf_prev_state, ou_noise) # Recieve state and reward from environment.
+        #action = Agent.action(tf_prev_state, ou_noise) # Recieve state and reward from environment.
+        action = env.action_space.sample()
+
         state, reward, done, info = env.step(action)
 
         episodic_reward += reward
@@ -69,13 +75,11 @@ for ep in range(episodes):
 
     ep_reward_list.append(episodic_reward)
 
+    name = "{}__gif__{}-th_step__{}".format(env_name, weights_ep, ep)
+    storage_agent.save_frames_as_gif(frames=frames, name=name)
+
     # Mean of last 40 episodes
     avg_reward = np.mean(ep_reward_list[-stats_every:])
     print("Episode * {} * Avg Reward is ==> {}".format(ep, avg_reward))
     avg_reward_list.append(avg_reward)
 
-
-plt.plot(avg_reward_list)
-plt.xlabel("Episode")
-plt.ylabel("Avg. Epsiodic Reward")
-plt.show()

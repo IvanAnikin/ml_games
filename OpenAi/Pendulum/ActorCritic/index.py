@@ -69,7 +69,7 @@ for ep in range(episodes):
     print("Episode * {} * Avg Reward is ==> {}".format(ep, avg_reward))
     avg_reward_list.append(avg_reward)
     if(ep % 25 == 0 and ep != 0 or ep == episodes-1):
-        print(ep)
+        print("saving {}-th episode weights".format(ep))
         Agent.models.actor_model.save_weights("pendulum_actor__{}.h5".format(ep))
         Agent.models.critic_model.save_weights("pendulum_critic__{}.h5".format(ep))
 
@@ -81,9 +81,16 @@ plt.xlabel("Episode")
 plt.ylabel("Avg. Epsiodic Reward")
 plt.show()
 
-NAME = "{}_ep-{}__stats-{}__lr-{}__eps-{}__epsDec-{}__disc-{}__size-{}".format(env_name, episodes, stats_every, gamma,
-                                                                            tau, buffer_capacity, batch_size,
-                                                                            critic_lr, actor_lr)
+NAME = "{}__episodes-{}__stats_every-{}__std_devc-{}__gamma-{}__tau-{}__buffer_capacity-{}__batch_size-{}__critic_lr-{}__actor_lr-{}".format(env_name,
+                                                                                                           episodes,
+                                                                                                           stats_every,
+                                                                                                           std_dev,
+                                                                                                           gamma,
+                                                                                                           tau,
+                                                                                                           buffer_capacity,
+                                                                                                           batch_size,
+                                                                                                           critic_lr,
+                                                                                                           actor_lr)
 MountainCar_Q_Learning_storage_agent.save_np(name=NAME, data=np.array(avg_reward_list))
 
 

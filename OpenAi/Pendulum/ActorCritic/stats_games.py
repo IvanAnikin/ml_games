@@ -51,7 +51,7 @@ for std_devc in range(len(std_devs)):
                             NAME = "{}__episodes-{}__stats_every-{}__std_devc-{}__gamma-{}__tau-{}__buffer_capacity-{}__batch_size-{}__critic_lr-{}__actor_lr-{}".format(env_name,
                                                                                                            episodes,
                                                                                                            stats_every,
-                                                                                                           std_devc,
+                                                                                                           std_dev,
                                                                                                            gamma,
                                                                                                            tau,
                                                                                                            buffer_capacity,
