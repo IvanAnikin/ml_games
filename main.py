@@ -3,6 +3,7 @@ import OpenAi.MountainCar.Q_Learning.gym_agent as MountainCar_Q_Learning_gym_age
 import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
 import OpenAi.MountainCar.Q_Learning.visualisation_agent as MountainCar_Q_Learning_visualisation_agent
 import OpenAi.MountainCar.Q_Learning.stats_agent as MountainCar_Q_Learning_stats_agent
+import OpenAi.CartPole.example_test as CartPole
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -68,3 +69,6 @@ tau = .125
 
 Pendulum_AC_gym_agent.test_games(num_trials, trial_len, learning_rate, epsilon, epsilon_decay, gamma, tau)
 '''
+
+CartPole.cart_pole_v1()
+

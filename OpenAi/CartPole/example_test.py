@@ -22,6 +22,8 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.callbacks import TensorBoard
 
 
+import OpenAi.Agents.storage_agent as storage_agent
+
 
 import time
 import numpy as np
@@ -121,6 +123,7 @@ def cart_pole_v1():
 
     trainingX, trainingY = training_data(10000, 70, 500)  ##########################
 
+
     training_time = time.time() - start_time
     training_time_moment = time.time()
     print()
@@ -173,24 +176,38 @@ def cart_pole_v1():
     plt.show()
 
     env = gym.make("CartPole-v0")
+    env_name = "CartPole-v0"
+
 
     sim_steps = 500
+
 
     env.reset()
     game_memory = []
     observation = []
     score = 0
-    for step in range(sim_steps):
-        env.render()
-        if len(observation) == 0:
-            action = random.randrange(0, 2)
-        else:
-            action = np.argmax(model.predict(observation.reshape(1, 4)))
-        observation, reward, done, info = env.step(action)
-        prev_obs = observation
-        game_memory.append([observation, action])
-        score += reward
-        if done:
-            break
-
+    frames = []
+    episodes = 3
+    for ep in range(episodes):
+        for step in range(sim_steps):
+            env.render()
+            frames.append(env.render(mode="rgb_array"))
+            if len(observation) == 0:
+                action = random.randrange(0, 2)
+            else:
+                action = np.argmax(model.predict(observation.reshape(1, 4)))
+            observation, reward, done, info = env.step(action)
+            prev_obs = observation
+            game_memory.append([observation, action])
+            score += reward
+            if done:
+                break
+        weights_ep = 0.25
+        name = "{}__gif__{}-th_step__{}".format(env_name, weights_ep, ep)
+        storage_agent.save_frames_as_gif(frames=frames, name=name)
+        env.reset()
     print("Score:", score)
+
+
+
+

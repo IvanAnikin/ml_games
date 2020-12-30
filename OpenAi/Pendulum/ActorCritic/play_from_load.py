@@ -75,8 +75,7 @@ for ep in range(episodes):
 
     ep_reward_list.append(episodic_reward)
 
-    name = "{}__gif__{}-th_step__{}".format(env_name, weights_ep, ep)
-    storage_agent.save_frames_as_gif(frames=frames, name=name)
+    storage_agent
 
     # Mean of last 40 episodes
     avg_reward = np.mean(ep_reward_list[-stats_every:])
