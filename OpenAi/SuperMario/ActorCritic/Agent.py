@@ -3,7 +3,7 @@
 import tensorflow as tf
 import numpy as np
 
-import OpenAi.Pendulum.ActorCritic.Models as Models
+import OpenAi.SuperMario.ActorCritic.Models as Models
 
 
 """
@@ -23,8 +23,8 @@ the maximum predicted value as seen by the Critic, for a given state.
 """
 class Agent:
     def __init__(self, env, buffer_capacity=100000, batch_size=64, gamma = -0.99, tau = 0.005, critic_lr = 0.002, actor_lr = 0.001):
-        num_states = env.observation_space.shape[0]
-        num_actions = env.action_space.shape[0]
+        num_states = env.observation_space.shape
+        num_actions = env.action_space.n
         # Number of "experiences" to store at max
         self.buffer_capacity = buffer_capacity
         # Num of tuples to train on.

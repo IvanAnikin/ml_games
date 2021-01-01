@@ -1,13 +1,16 @@
 
-import gym
+import gym_super_mario_bros
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+from nes_py.wrappers import JoypadSpace
+
 import tensorflow as tf
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-import OpenAi.Pendulum.ActorCritic.visualisation as visualiser
-import OpenAi.Pendulum.ActorCritic.Agent as Agent_file
-import OpenAi.Agents.storage_agent as storage_agent
+import OpenAi.SuperMario.ActorCritic.Agent as Agent_file
+import Clean_Results.Agents.storage_agent as storage_agent
+import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 
 
 
@@ -27,8 +30,9 @@ episodes = 100
 stats_every = 10
 
 
-env_name = "Pendulum-v0"
-env = gym.make(env_name)
+env_name = "SuperMarioBros-v0"
+env = gym_super_mario_bros.make(env_name)
+env = JoypadSpace(env, SIMPLE_MOVEMENT)
 
 visualiser.show_env_props(env)
 

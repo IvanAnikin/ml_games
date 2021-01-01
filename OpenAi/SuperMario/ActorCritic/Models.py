@@ -1,6 +1,7 @@
 
 import tensorflow as tf
 from tensorflow.keras import layers
+
 import numpy as np
 
 
@@ -16,9 +17,9 @@ as we use the `tanh` activation.
 class Models:
     def __init__(self, env, critic_lr = 0.002, actor_lr = 0.001):
         self.num_states = env.observation_space.shape[0]
-        self.num_actions = env.action_space.shape[0]
-        self.upper_bound = env.action_space.high[0]
-        self.lower_bound = env.action_space.low[0]
+        self.num_actions = env.action_space.n
+        #self.upper_bound = env.action_space.high[0]
+        #self.lower_bound = env.action_space.low[0]
         # Number of "experiences" to store at max
 
         self.actor_model = self.get_actor()
@@ -48,7 +49,7 @@ class Models:
         outputs = layers.Dense(1, activation="tanh", kernel_initializer=last_init)(out)
 
         # Our upper bound is 2.0 for Pendulum.
-        outputs = outputs * self.upper_bound
+        #outputs = outputs * self.upper_bound
         model = tf.keras.Model(inputs, outputs)
         return model
 
@@ -89,7 +90,7 @@ class Models:
         sampled_actions = sampled_actions.numpy() + noise
 
         # We make sure action is within bounds
-        legal_action = np.clip(sampled_actions, self.lower_bound, self.upper_bound)
+        #legal_action = np.clip(sampled_actions, self.lower_bound, self.upper_bound)
 
-        return [np.squeeze(legal_action)]
+        #return [np.squeeze(legal_action)]
 
