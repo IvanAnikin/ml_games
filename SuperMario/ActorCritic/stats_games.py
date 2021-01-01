@@ -5,9 +5,9 @@ from tensorflow.keras import layers
 import numpy as np
 import matplotlib.pyplot as plt
 
-import Clean_Results.Pendulum.ActorCritic.visualisation as visualiser
-import Clean_Results.Pendulum.ActorCritic.Agent as Agent_file
-import Clean_Results.Agents.storage_agent as storage_agent
+import OpenAi.Pendulum.ActorCritic.visualisation as visualiser
+import OpenAi.Pendulum.ActorCritic.Agent as Agent_file
+import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
 
 
 
@@ -105,5 +105,5 @@ for std_devc in range(len(std_devs)):
 
 
 
-                            storage_agent.save_np(name=NAME, data=np.array(avg_reward_list))
+                            MountainCar_Q_Learning_storage_agent.save_np(name=NAME, data=np.array(avg_reward_list))
 

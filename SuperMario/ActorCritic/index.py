@@ -5,9 +5,9 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-import Clean_Results.Agents.visualisation_agent as visualiser
-import Clean_Results.Agents.storage_agent as storage_agent
-import Clean_Results.Pendulum.ActorCritic.Agent as Agent_file
+import OpenAi.Pendulum.ActorCritic.visualisation as visualiser
+import OpenAi.Pendulum.ActorCritic.Agent as Agent_file
+import OpenAi.Agents.storage_agent as storage_agent
 
 
 
