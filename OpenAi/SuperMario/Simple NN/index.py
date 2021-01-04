@@ -5,6 +5,7 @@ from nes_py.wrappers import JoypadSpace
 
 import tensorflow as tf
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -16,7 +17,7 @@ import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 
 
-episodes = 100
+episodes = 10000
 stats_every = 10
 show_every = 200
 show_length = 50
@@ -28,6 +29,8 @@ epsilon = 0.1
 #START_EPSILON_DECAYING = 1
 #END_EPSILON_DECAYING = episodes // end_epsilon_decaying_position
 #epsilon_decay_value = epsilon / (END_EPSILON_DECAYING - START_EPSILON_DECAYING)
+
+model_file_path = './nn_model.HDF5'
 
 
 env_name = "SuperMarioBros-v0"
@@ -55,29 +58,31 @@ identity = np.identity(env.action_space.n) # for quickly get a hot vector, like 
 prev_state = env.reset()
 #    episodic_reward = 0
 
-i = 0
-while True:
-    for step in range(5000):
-        if done:
-            state = env.reset()
-            print("done=True on step: ", step)
 
-        #env.render()
-        #if step <= show_until: env.render() # and i > 5
-        #if step % show_every == 0 and step != 0:
-        #    print("step: ", step)
+for step in range(episodes):
+    if done:
+        state = env.reset()
+        print("done=True on step: ", step)
 
-        action = Agent.get_action(prev_state=prev_state, epsilon=epsilon)
-        state, reward, done, info = env.step(action)
+    action = Agent.get_action(prev_state=prev_state, epsilon=epsilon)
+    state, reward, done, info = env.step(action)
 
-        if reward > 0:
-            Agent.models.model.train_on_batch(x=np.expand_dims(prev_state, axis=0), y=identity[action: action + 1])
+    if reward > 0:
+        Agent.models.model.train_on_batch(x=np.expand_dims(prev_state, axis=0), y=identity[action: action + 1])
 
-        prev_state = state
-    # episodic_reward += reward
+    prev_state = state
 
-    print("end of while: ", i)
-    i += 1
+    # env.render()
+    # if step <= show_until: env.render()
+    # if step % show_every == 0 and step != 0:
+    #    print("step: ", step)
+
+Agent.models.model.save(model_file_path)
+
+
+
+# episodic_reward += reward
+
 
 #ep_reward_list.append(episodic_reward)
 
@@ -91,10 +96,13 @@ while True:
     #print("")
 
 
-plt.plot(avg_reward_list)
-plt.xlabel("Episode")
-plt.ylabel("Avg. Epsiodic Reward")
-plt.show()
+#plt.plot(avg_reward_list)
+#plt.xlabel("Episode")
+#plt.ylabel("Avg. Epsiodic Reward")
+#lt.show()
+
+
+
 
 
 #storage_agent.save_np(name=NAME, data=np.array(avg_reward_list))

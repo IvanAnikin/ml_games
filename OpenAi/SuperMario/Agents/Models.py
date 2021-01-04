@@ -1,5 +1,6 @@
 
 import tensorflow as tf
+import os
 from tensorflow.keras import layers
 
 import numpy as np
@@ -7,6 +8,10 @@ import numpy as np
 
 # from example:
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
+
+
+model_file_path = './nn_model.HDF5'
+
 class Simple_NN:
     def __init__(self, env, show_model = False):
 
@@ -15,7 +20,10 @@ class Simple_NN:
 
         self.show_model = show_model
 
-        self.model = self.generate_model()
+        if os.path.exists(model_file_path):
+            self.model  = tf.keras.models.load_model(model_file_path)
+        else:
+            self.model = self.generate_model()
 
 
 
