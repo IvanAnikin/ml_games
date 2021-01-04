@@ -5,6 +5,50 @@ from tensorflow.keras import layers
 import numpy as np
 
 
+# from example:
+# https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
+class Simple_NN:
+    def __init__(self, env, show_model = False):
+
+        self.num_states = env.observation_space.shape
+        self.num_actions = env.action_space.n
+
+        self.show_model = show_model
+
+        self.model = self.generate_model()
+
+
+
+    def generate_model(self):
+        # + shape of hidden layers - try few
+        model = tf.keras.models.Sequential([
+            tf.keras.layers.Convolution2D(32, 8, 8, input_shape=self.num_states),
+            tf.keras.layers.Activation('relu'),
+
+            tf.keras.layers.Convolution2D(64, 4, 4),
+            tf.keras.layers.Activation('relu'),
+
+            tf.keras.layers.Convolution2D(64, 3, 3),
+            tf.keras.layers.Activation('relu'),
+
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(512),
+            tf.keras.layers.Activation('relu'),
+
+            tf.keras.layers.Dense(self.num_actions, activation=tf.nn.softmax),
+            # tf.keras.layers.Dense(1, activation="linear")
+        ])
+
+        # + loss, metrics accuracy -- ?
+        model.compile(optimizer='adam',
+                      loss='mse',
+                      metrics=['accuracy'])
+
+        if self.show_model: model.summary()
+
+        return model
+
+
 """
 Here we define the Actor and Critic networks. These are basic Dense models
 with `ReLU` activation.
@@ -16,17 +60,23 @@ as we use the `tanh` activation.
 
 class Models:
     def __init__(self, env, critic_lr = 0.002, actor_lr = 0.001):
+
         self.num_states = env.observation_space.shape[0]
         self.num_actions = env.action_space.n
-        #self.upper_bound = env.action_space.high[0]
-        #self.lower_bound = env.action_space.low[0]
-        # Number of "experiences" to store at max
 
         self.actor_model = self.get_actor()
         self.critic_model = self.get_critic()
 
         self.target_actor = self.get_actor()
         self.target_critic = self.get_critic()
+
+        ##
+        print("Actor Model: ")
+        self.actor_model.summary()
+
+        print("Critic Model: ")
+        self.critic_model.summary()
+        ##
 
         # Making the weights equal initially
         self.target_actor.set_weights(self.actor_model.get_weights())
@@ -40,17 +90,15 @@ class Models:
         self.actor_optimizer = tf.keras.optimizers.Adam(self.actor_lr)
 
     def get_actor(self):
-        # Initialize weights between -3e-3 and 3-e3
-        last_init = tf.random_uniform_initializer(minval=-0.003, maxval=0.003)
 
         inputs = layers.Input(shape=(self.num_states,))
         out = layers.Dense(256, activation="relu")(inputs)
         out = layers.Dense(256, activation="relu")(out)
-        outputs = layers.Dense(1, activation="tanh", kernel_initializer=last_init)(out)
+        outputs = layers.Dense(self.num_actions)(out)
 
-        # Our upper bound is 2.0 for Pendulum.
-        #outputs = outputs * self.upper_bound
+
         model = tf.keras.Model(inputs, outputs)
+
         return model
 
 

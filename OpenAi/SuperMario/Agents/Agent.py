@@ -3,7 +3,36 @@
 import tensorflow as tf
 import numpy as np
 
-import OpenAi.SuperMario.ActorCritic.Models as Models
+import OpenAi.SuperMario.Agents.Models as Models
+
+
+# from example:
+# https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
+class Agent_Simple_NN:
+    def __init__(self, env, show_model = True):
+
+        self.env = env
+
+        self.num_states = self.env.observation_space.shape
+        self.num_actions = self.env.action_space.n
+
+        self.models = Models.Simple_NN(env=env, show_model=show_model) # learning rate (other params)
+
+
+    def get_action(self, prev_state, epsilon):
+
+        if np.random.random() > epsilon:
+            action = np.argmax(self.models.model.predict(np.expand_dims(prev_state, axis=0)))
+        else:
+            action = self.env.action_space.sample()
+
+        return action
+
+
+
+
+
+
 
 
 """

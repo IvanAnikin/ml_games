@@ -8,7 +8,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-import OpenAi.SuperMario.ActorCritic.Agent as Agent_file
+import OpenAi.SuperMario.Agents.Agent as Agent_file
 import Clean_Results.Agents.storage_agent as storage_agent
 import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 
