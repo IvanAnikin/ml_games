@@ -17,12 +17,11 @@ import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 
 
-episodes = 10000
+episodes = 1000
 stats_every = 10
 show_every = 200
 show_length = 50
 show_until = 50
-
 
 epsilon = 0.1
 #end_epsilon_decaying_position = 2
@@ -30,10 +29,16 @@ epsilon = 0.1
 #END_EPSILON_DECAYING = episodes // end_epsilon_decaying_position
 #epsilon_decay_value = epsilon / (END_EPSILON_DECAYING - START_EPSILON_DECAYING)
 
-model_file_path = './nn_model.HDF5'
+
+
+
+
+
+
 
 
 env_name = "SuperMarioBros-v0"
+training_version_name = "Simple_NN"
 env = gym_super_mario_bros.make(env_name)
 env = JoypadSpace(env, SIMPLE_MOVEMENT)
 # env.action_space.sample() = numbers, for example, 0,1,2,3...
@@ -41,23 +46,35 @@ env = JoypadSpace(env, SIMPLE_MOVEMENT)
 # reward = int; for example, 0, 1 ,2, ...
 # done = False or True
 # info = {'coins': 0, 'flag_get': False, 'life': 3, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40}
+
+
+EPISODES_NAME = "env-{}__v-{}__ep-{}__stats-{}__episodes".format(env_name, training_version_name, episodes, stats_every)
+REWARDS_NAME = "env-{}__v-{}__ep-{}__stats-{}__rewards".format(env_name, training_version_name, episodes, stats_every)
+model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model.HDF5".format(env_name, training_version_name, episodes, stats_every)
+
 visualiser.show_env_props(env)
 
+print("episodes: ", episodes)
+print("stats_every: ", stats_every)
+print("epsilon: ", epsilon)
+print("REWARDS_NAME: ", REWARDS_NAME)
 
 
-Agent = Agent_file.Agent_Simple_NN(env=env, show_model=True)
+Agent = Agent_file.Agent_Simple_NN(env=env, model_file_path=model_file_path, show_model=True)
 
-ep_reward_list = [] # To store average reward history of last few episodes
+
+ep_reward_list = []
 avg_reward_list = []
+ep_stats = []
 
 done = True
 last_state = None
 identity = np.identity(env.action_space.n) # for quickly get a hot vector, like 0001000000000000
 
 #for ep in range(episodes):
-prev_state = env.reset()
-#    episodic_reward = 0
 
+prev_state = env.reset()
+episodic_reward = 0
 
 for step in range(episodes):
     if done:
@@ -72,6 +89,12 @@ for step in range(episodes):
 
     prev_state = state
 
+    episodic_reward += reward
+    if step % stats_every == 0 and step != 0:
+        ep_reward_list.append(episodic_reward/stats_every)
+        ep_stats.append(step)
+        print("step: ", step, " || episodic_reward/stats_every: ", episodic_reward/stats_every)
+        episodic_reward = 0
     # env.render()
     # if step <= show_until: env.render()
     # if step % show_every == 0 and step != 0:
@@ -79,9 +102,18 @@ for step in range(episodes):
 
 Agent.models.model.save(model_file_path)
 
+# save ep_reward_list array
+storage_agent.save_np(name=EPISODES_NAME, data=np.array(ep_stats))
+storage_agent.save_np(name=REWARDS_NAME, data=np.array(ep_reward_list))
 
 
-# episodic_reward += reward
+
+
+
+
+
+
+
 
 
 #ep_reward_list.append(episodic_reward)

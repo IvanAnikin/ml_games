@@ -10,10 +10,10 @@ import numpy as np
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 
 
-model_file_path = './nn_model.HDF5'
+
 
 class Simple_NN:
-    def __init__(self, env, show_model = False):
+    def __init__(self, env, model_file_path, show_model = False):
 
         self.num_states = env.observation_space.shape
         self.num_actions = env.action_space.n
@@ -24,6 +24,9 @@ class Simple_NN:
             self.model  = tf.keras.models.load_model(model_file_path)
         else:
             self.model = self.generate_model()
+
+
+        if self.show_model: self.model.summary()
 
 
 
@@ -51,8 +54,6 @@ class Simple_NN:
         model.compile(optimizer='adam',
                       loss='mse',
                       metrics=['accuracy'])
-
-        if self.show_model: model.summary()
 
         return model
 

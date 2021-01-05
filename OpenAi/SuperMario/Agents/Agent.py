@@ -9,14 +9,14 @@ import OpenAi.SuperMario.Agents.Models as Models
 # from example:
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 class Agent_Simple_NN:
-    def __init__(self, env, show_model = True):
+    def __init__(self, env, model_file_path, show_model = True):
 
         self.env = env
 
         self.num_states = self.env.observation_space.shape
         self.num_actions = self.env.action_space.n
 
-        self.models = Models.Simple_NN(env=env, show_model=show_model) # learning rate (other params)
+        self.models = Models.Simple_NN(env=env, model_file_path=model_file_path, show_model=show_model) # learning rate (other params)
 
 
     def get_action(self, prev_state, epsilon):
