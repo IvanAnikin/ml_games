@@ -13,14 +13,14 @@ import numpy as np
 
 
 class Simple_NN:
-    def __init__(self, env, model_file_path, show_model = False):
+    def __init__(self, env, model_file_path, load_model = False, show_model = False):
 
         self.num_states = env.observation_space.shape
         self.num_actions = env.action_space.n
 
         self.show_model = show_model
 
-        if os.path.exists(model_file_path):
+        if load_model and os.path.exists(model_file_path):
             self.model  = tf.keras.models.load_model(model_file_path)
         else:
             self.model = self.generate_model()
@@ -56,6 +56,7 @@ class Simple_NN:
                       metrics=['accuracy'])
 
         return model
+
 
 
 """

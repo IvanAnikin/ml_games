@@ -1,22 +1,27 @@
 
 
 import tensorflow as tf
+from tensorflow.keras import layers
+
+from typing import Tuple
 import numpy as np
 
 import OpenAi.SuperMario.Agents.Models as Models
 
 
+
+
 # from example:
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 class Agent_Simple_NN:
-    def __init__(self, env, model_file_path, show_model = True):
+    def __init__(self, env, model_file_path, load_model = False, show_model = True):
 
         self.env = env
 
         self.num_states = self.env.observation_space.shape
         self.num_actions = self.env.action_space.n
 
-        self.models = Models.Simple_NN(env=env, model_file_path=model_file_path, show_model=show_model) # learning rate (other params)
+        self.models = Models.Simple_NN(env=env, model_file_path=model_file_path, load_model=load_model, show_model=show_model) # learning rate (other params)
 
 
     def get_action(self, prev_state, epsilon):
@@ -27,6 +32,35 @@ class Agent_Simple_NN:
             action = self.env.action_space.sample()
 
         return action
+
+
+class Actor_Critic_1(tf.keras.Model):
+    """Combined actor-critic network."""
+
+    def __init__(
+            self,
+            env,
+            num_hidden_units: int):
+        """Initialize."""
+        super().__init__()
+
+        self.env = env
+
+        self.num_states = self.env.observation_space.shape
+        self.num_actions = self.env.action_space.n
+
+        self.common = layers.Dense(num_hidden_units, activation="relu")
+        self.actor = layers.Dense(self.num_actions)
+        self.critic = layers.Dense(1)
+
+    def call(self, inputs: tf.Tensor, epsilon: float) -> Tuple[tf.Tensor, tf.Tensor]: #EPSILON -- ?
+
+        x = self.common(inputs)
+
+        #if np.random.random() > epsilon:
+        return self.actor(x), self.critic(x)
+        #else:
+        #    return self.env.action_space.sample(), self.critic(x)
 
 
 
