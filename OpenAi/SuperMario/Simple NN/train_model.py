@@ -48,7 +48,7 @@ env = JoypadSpace(env, RIGHT_ONLY)
 EPISODES_NAME = "env-{}__v-{}__ep-{}__stats-{}__episodes".format(env_name, training_version_name, episodes, stats_every)
 REWARDS_NAME = "env-{}__v-{}__ep-{}__stats-{}__rewards".format(env_name, training_version_name, episodes, stats_every)
 episodes = 10000
-model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model.HDF5".format(env_name, training_version_name, episodes, stats_every)
+model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model_2.HDF5".format(env_name, training_version_name, episodes, stats_every)
 
 visualiser.show_env_props(env)
 
@@ -109,9 +109,8 @@ for step in range(episodes):
     # if step % show_every == 0 and step != 0:
     #    print("step: ", step)
 
-model_file_path_2 = "./env-{}__v-{}__ep-{}__stats-{}__nn_model_2.HDF5".format(env_name, training_version_name, episodes, stats_every)
-Agent.models.model.save(model_file_path_2)
-#Agent.models.model.save(model_file_path)
+#model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model_2.HDF5".format(env_name, training_version_name, episodes, stats_every)
+Agent.models.model.save(model_file_path)
 
 # save ep_reward_list array
 storage_agent.save_np(name=EPISODES_NAME, data=np.array(ep_stats))

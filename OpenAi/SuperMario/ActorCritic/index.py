@@ -7,8 +7,10 @@ import tensorflow as tf
 
 import numpy as np
 import matplotlib.pyplot as plt
+import tqdm
 
 import OpenAi.SuperMario.Agents.Agent as Agent_file
+import OpenAi.SuperMario.Agents.Models as Models_file
 import Clean_Results.Agents.storage_agent as storage_agent
 import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 
@@ -48,9 +50,12 @@ print("load_model: ", load_model,  " || show_model: ", show_model)
 
 num_actions = env.action_space.n  # 2
 num_hidden_units = 128
+gamma = 0.99
 
-model = Agent_file.Actor_Critic_1(env=env, num_hidden_units=num_hidden_units)
-#Agent = Agent_file.Agent_Simple_NN(env=env, model_file_path=model_file_path, load_model=load_model, show_model=show_model)
+
+agent = Agent_file.Actor_Critic_1(env=env, gamma=gamma, num_hidden_units=num_hidden_units)
+
+
 
 
 
@@ -68,6 +73,47 @@ episodic_reward = 0
 avg_ep_reward = 0
 avg_reward = 0
 ep_trained = 0
+
+
+
+
+max_episodes = 10000
+max_steps_per_episode = 1000
+
+# Cartpole-v0 is considered solved if average reward is >= 195 over 100
+# consecutive trials
+reward_threshold = 195
+running_reward = 0
+
+# Discount factor for future rewards
+gamma = 0.99
+
+
+
+with tqdm.trange(max_episodes) as t:
+  for i in t:
+    initial_state = tf.constant(env.reset(), dtype=tf.float32)
+    episode_reward = int(agent.train_step(
+        initial_state, max_steps_per_episode))
+
+    running_reward = episode_reward*0.01 + running_reward*.99
+
+    t.set_description(f'Episode {i}')
+    t.set_postfix(
+        episode_reward=episode_reward, running_reward=running_reward)
+
+    # Show average episode reward every 10 episodes
+    if i % 10 == 0:
+      pass # print(f'Episode {i}: average reward: {avg_reward}')
+
+    if running_reward > reward_threshold:
+        break
+
+print(f'\nSolved at episode {i}: average reward: {running_reward:.2f}!')
+
+
+
+'''
 
 for step in range(episodes):
     if done:
@@ -93,10 +139,14 @@ for step in range(episodes):
         print("step: ", step, " || avg_ep_reward: ", avg_ep_reward, " || avg_reward: ", avg_reward, " || ep_trained: ", ep_trained)
         episodic_reward = 0
         ep_trained = 0
+'''
+
+
+
+
 
 
 #model.save(model_file_path) #model save - ?
-
 
 storage_agent.save_np(name=EPISODES_NAME, data=np.array(ep_stats))
 storage_agent.save_np(name=REWARDS_NAME, data=np.array(ep_reward_list))

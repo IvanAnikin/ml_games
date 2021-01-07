@@ -4,14 +4,36 @@ import os
 from tensorflow.keras import layers
 
 import numpy as np
+from typing import Any, List, Sequence, Tuple
+
+
+
+
+
+
+class ActorCritic_1(tf.keras.Model):
+  """Combined actor-critic network."""
+
+  def __init__(
+      self,
+      num_actions: int,
+      num_hidden_units: int):
+    """Initialize."""
+    super().__init__()
+
+    self.common = layers.Dense(num_hidden_units, activation="relu")
+    self.actor = layers.Dense(num_actions)
+    self.critic = layers.Dense(1)
+
+  def call(self, inputs: tf.Tensor) -> Tuple[tf.Tensor, tf.Tensor]:
+    x = self.common(inputs)
+    return self.actor(x), self.critic(x)
+
+
 
 
 # from example:
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
-
-
-
-
 class Simple_NN:
     def __init__(self, env, model_file_path, load_model = False, show_model = False):
 
@@ -20,7 +42,8 @@ class Simple_NN:
 
         self.show_model = show_model
 
-        if load_model and os.path.exists(model_file_path):
+        if load_model: #and os.path.exists(model_file_path):
+            print("loading model: {}".format(model_file_path))
             self.model  = tf.keras.models.load_model(model_file_path)
         else:
             self.model = self.generate_model()

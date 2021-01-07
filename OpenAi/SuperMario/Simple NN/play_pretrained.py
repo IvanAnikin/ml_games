@@ -17,43 +17,24 @@ import OpenAi.SuperMario.Agents.visualisation_agent as visualiser
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 
 
-episodes = 10000
+episodes = 30000
 stats_every = 100
-#show_every = 200
-#show_length = 50
-#show_until = 50
 show_model = True
 load_model = True
 
 epsilon = 0.1
-#end_epsilon_decaying_position = 2
-#START_EPSILON_DECAYING = 1
-#END_EPSILON_DECAYING = episodes // end_epsilon_decaying_position
-#epsilon_decay_value = epsilon / (END_EPSILON_DECAYING - START_EPSILON_DECAYING)
-
-
-
-
-
-
 
 
 
 env_name = "SuperMarioBros-v0"
 training_version_name = "Simple_NN"
 env = gym_super_mario_bros.make(env_name)
-#env = JoypadSpace(env, SIMPLE_MOVEMENT)
 env = JoypadSpace(env, RIGHT_ONLY)
-# env.action_space.sample() = numbers, for example, 0,1,2,3...
-# state = RGB of raw picture; is a numpy array with shape (240, 256, 3)
-# reward = int; for example, 0, 1 ,2, ...
-# done = False or True
-# info = {'coins': 0, 'flag_get': False, 'life': 3, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40}
 
 
 EPISODES_NAME = "env-{}__v-{}__ep-{}__stats-{}__episodes".format(env_name, training_version_name, episodes, stats_every)
 REWARDS_NAME = "env-{}__v-{}__ep-{}__stats-{}__rewards".format(env_name, training_version_name, episodes, stats_every)
-model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model.HDF5".format(env_name, training_version_name, episodes, stats_every)
+model_file_path = "./env-{}__v-{}__ep-{}__stats-{}__nn_model_2.HDF5".format(env_name, training_version_name, episodes, stats_every)
 
 visualiser.show_env_props(env)
 
@@ -74,9 +55,6 @@ ep_stats = []
 done = True
 last_state = None
 identity = np.identity(env.action_space.n) # for quickly get a hot vector, like 0001000000000000
-
-
-
 
 
 prev_state = env.reset()
