@@ -105,7 +105,9 @@ for i in range(n_games):
         if not load_checkpoint:
             agent.save_models()
 
-    print('episode ', i, 'score %.1f' % score, 'avg_score %.1f' % avg_score)
+    if i % 10 == 0:
+        #print('episode ', i, 'score %.1f' % score, 'avg_score %.1f' % avg_score)
+        print('episode ', i, 'avg_score %.1f' % avg_score)
 
 if not load_checkpoint:
     x = [i+1 for i in range(n_games)]

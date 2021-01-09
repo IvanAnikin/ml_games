@@ -161,7 +161,7 @@ class Actor_Critic_1():
 
         return actor_loss + critic_loss
 
-    @tf.function
+    #@tf.function
     def train_step(
             self,
             initial_state: tf.Tensor,
@@ -173,8 +173,7 @@ class Actor_Critic_1():
 
         with tf.GradientTape() as tape:
             # Run the model for one episode to collect training data
-            action_probs, values, rewards = self.run_episode(
-                initial_state, self.model, max_steps_per_episode)
+            action_probs, values, rewards = self.run_episode(initial_state, self.model, max_steps_per_episode)
             # data for max_steps
             # action_probs  =   log probability of the action chosen
             # values        =   critic values for actions
