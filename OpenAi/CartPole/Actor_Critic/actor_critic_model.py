@@ -8,13 +8,18 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+import OpenAi.Agents.storage_agent as storage_agent
 
 
 seed = 42
 gamma = 0.99
 max_steps_per_episode = 10000
+save_gif = True
+save_gif_every = 25
+env_name = "CartPole-v0"
+training_version_name = "Actor_Critic_1"
 
-env = gym.make("CartPole-v0")
+env = gym.make(env_name)
 env.seed(seed)
 
 num_inputs = env.observation_space.shape[0]
@@ -34,11 +39,56 @@ critic = layers.Dense(1)(common)
 
 model = keras.Model(inputs=inputs, outputs=[action, critic])
 
-
+model.summary()
+print()
 
 """
 ## Train
 """
+
+def train():
+
+    # Calculate expected value from rewards
+    # - At each timestep what was the total reward received after that timestep
+    # - Rewards in the past are discounted by multiplying them with gamma
+    # - These are the labels for our critic
+
+    returns = []
+    discounted_sum = 0
+    for r in rewards_history[::-1]:
+        discounted_sum = r + gamma * discounted_sum
+        returns.insert(0, discounted_sum)
+
+    # Normalize
+    returns = np.array(returns)
+    returns = (returns - np.mean(returns)) / (np.std(returns) + eps)
+    returns = returns.tolist()
+
+    # Calculating loss values to update our network
+    history = zip(action_probs_history, critic_value_history, returns)
+    actor_losses = []
+    critic_losses = []
+    for log_prob, value, ret in history:
+        # At this point in history, the critic estimated that we would get a
+        # total reward = `value` in the future. We took an action with log probability
+        # of `log_prob` and ended up recieving a total reward = `ret`.
+        # The actor must be updated so that it predicts an action that leads to
+        # high rewards (compared to critic's estimate) with high probability.
+        diff = ret - value
+        actor_losses.append(-log_prob * diff)  # actor loss
+
+        # The critic must be updated so that it predicts a better estimate of
+        # the future rewards.
+        critic_losses.append(
+            huber_loss(tf.expand_dims(value, 0), tf.expand_dims(ret, 0))
+        )
+
+    # Backpropagation
+    loss_value = sum(actor_losses) + sum(critic_losses)
+    grads = tape.gradient(loss_value, model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))
+
+
 
 optimizer = keras.optimizers.Adam(learning_rate=0.01)
 huber_loss = keras.losses.Huber()
@@ -52,6 +102,7 @@ episode_count = 0
 while True:  # Run until solved
     state = env.reset()
     episode_reward = 0
+    frames = []
     with tf.GradientTape() as tape:
         for timestep in range(1, max_steps_per_episode):
             # env.render(); Adding this line would show the attempts
@@ -74,63 +125,40 @@ while True:  # Run until solved
             rewards_history.append(reward)
             episode_reward += reward
 
+            # GIFS SAVING
+            if(save_gif and episode_count % save_gif_every == 0): #and episode_count != 0
+                env.render()
+                frames.append(env.render(mode="rgb_array"))
+
             if done:
                 break
 
         # Update running reward to check condition for solving
         running_reward = 0.05 * episode_reward + (1 - 0.05) * running_reward
 
-        # Calculate expected value from rewards
-        # - At each timestep what was the total reward received after that timestep
-        # - Rewards in the past are discounted by multiplying them with gamma
-        # - These are the labels for our critic
 
-        returns = []
-        discounted_sum = 0
-        for r in rewards_history[::-1]:
-            discounted_sum = r + gamma * discounted_sum
-            returns.insert(0, discounted_sum)
-
-        # Normalize
-        returns = np.array(returns)
-        returns = (returns - np.mean(returns)) / (np.std(returns) + eps)
-        returns = returns.tolist()
-
-        # Calculating loss values to update our network
-        history = zip(action_probs_history, critic_value_history, returns)
-        actor_losses = []
-        critic_losses = []
-        for log_prob, value, ret in history:
-            # At this point in history, the critic estimated that we would get a
-            # total reward = `value` in the future. We took an action with log probability
-            # of `log_prob` and ended up recieving a total reward = `ret`.
-            # The actor must be updated so that it predicts an action that leads to
-            # high rewards (compared to critic's estimate) with high probability.
-            diff = ret - value
-            actor_losses.append(-log_prob * diff)  # actor loss
-
-            # The critic must be updated so that it predicts a better estimate of
-            # the future rewards.
-            critic_losses.append(
-                huber_loss(tf.expand_dims(value, 0), tf.expand_dims(ret, 0))
-            )
-
-        # Backpropagation
-        loss_value = sum(actor_losses) + sum(critic_losses)
-        grads = tape.gradient(loss_value, model.trainable_variables)
-        optimizer.apply_gradients(zip(grads, model.trainable_variables))
+        train()
 
         # Clear the loss and reward history
         action_probs_history.clear()
         critic_value_history.clear()
         rewards_history.clear()
 
+
+    # GIFS SAVING
+    if (save_gif and episode_count % save_gif_every == 0): #and episode_count != 0
+        name = "{}__{}__gif__{}".format(env_name, training_version_name, episode_count)
+        storage_agent.save_frames_as_gif(frames=frames, name=name)
     # Log details
     episode_count += 1
     if episode_count % 10 == 0:
         template = "running reward: {:.2f} at episode {}"
         print(template.format(running_reward, episode_count))
 
+
     if running_reward > 195:  # Condition to consider the task solved
         print("Solved at episode {}!".format(episode_count))
         break
+
+
+
