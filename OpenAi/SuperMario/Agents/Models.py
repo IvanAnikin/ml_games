@@ -1,13 +1,25 @@
 
 import tensorflow as tf
-import os
+from tensorflow import keras
 from tensorflow.keras import layers
 
-import numpy as np
-from typing import Any, List, Sequence, Tuple
+
+from typing import Tuple
+import os
 
 
 
+class Actor_Critic_2():
+    def __init__(self, input_shape, num_hidden, num_actions):
+        inputs = layers.Input(shape=input_shape)
+        flatten = layers.Flatten()(inputs)
+
+        common = layers.Dense(num_hidden, activation="relu")(flatten)
+
+        action = layers.Dense(num_actions, activation="softmax")(common)
+        critic = layers.Dense(1)(common)
+
+        self.model = keras.Model(inputs=inputs, outputs=[action, critic])
 
 
 
@@ -42,7 +54,7 @@ class Simple_NN:
 
         self.show_model = show_model
 
-        if load_model: #and os.path.exists(model_file_path):
+        if load_model and os.path.exists(model_file_path):
             print("loading model: {}".format(model_file_path))
             self.model  = tf.keras.models.load_model(model_file_path)
         else:

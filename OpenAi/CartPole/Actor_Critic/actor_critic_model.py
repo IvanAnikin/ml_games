@@ -13,9 +13,11 @@ import OpenAi.Agents.storage_agent as storage_agent
 
 seed = 42
 gamma = 0.99
-max_steps_per_episode = 10000
+max_episodes = 400
+max_steps_per_episode = 1000
 save_gif = True
 save_gif_every = 25
+stats_every = 10
 env_name = "CartPole-v0"
 training_version_name = "Actor_Critic_1"
 
@@ -98,8 +100,11 @@ critic_value_history = []
 rewards_history = []
 running_reward = 0
 episode_count = 0
+avg_score_episodic = 0
 
-while True:  # Run until solved
+stats_ep_rewards = {'ep': [], 'avg': []}
+
+for episode in range(max_episodes):  # Run until solved
     state = env.reset()
     episode_reward = 0
     frames = []
@@ -127,7 +132,7 @@ while True:  # Run until solved
 
             # GIFS SAVING
             if(save_gif and episode_count % save_gif_every == 0): #and episode_count != 0
-                env.render()
+                #env.render()
                 frames.append(env.render(mode="rgb_array"))
 
             if done:
@@ -148,17 +153,29 @@ while True:  # Run until solved
     # GIFS SAVING
     if (save_gif and episode_count % save_gif_every == 0): #and episode_count != 0
         name = "{}__{}__gif__{}".format(env_name, training_version_name, episode_count)
-        storage_agent.save_frames_as_gif(frames=frames, name=name)
-    # Log details
+        #storage_agent.save_frames_as_gif(frames=frames, name=name)
+
+    avg_score_episodic = (avg_score_episodic + episode_reward) / 2
     episode_count += 1
+
+    # Log details
     if episode_count % 10 == 0:
         template = "running reward: {:.2f} at episode {}"
         print(template.format(running_reward, episode_count))
+        print("avg_score_episodic: {}".format(avg_score_episodic))
+
+    if episode_count % stats_every == 0:
+        stats_ep_rewards['ep'].append(episode_count)
+        stats_ep_rewards['avg'].append(avg_score_episodic)
+        avg_score_episodic = 0
 
 
-    if running_reward > 195:  # Condition to consider the task solved
-        print("Solved at episode {}!".format(episode_count))
-        break
+    #if running_reward > 195:  # Condition to consider the task solved
+    #    print("Solved at episode {}!".format(episode_count))
+    #    break
 
-
+EPISODES_NAME = "{}__{}__stats_ep__{}".format(env_name, training_version_name, episode_count)
+REWARDS_NAME = "{}__{}__stats_avg__{}".format(env_name, training_version_name, episode_count)
+storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards['ep']))
+storage_agent.save_np(name=REWARDS_NAME, data=np.array(stats_ep_rewards['avg']))
 

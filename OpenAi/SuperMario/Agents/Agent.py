@@ -1,7 +1,7 @@
 
 
 import tensorflow as tf
-from tensorflow.keras import layers
+from tensorflow import keras
 
 from typing import Tuple, List
 import numpy as np
@@ -10,6 +10,63 @@ import OpenAi.SuperMario.Agents.Models as Models
 
 
 
+class Actor_Critic_2():
+    def __init__(self, env, gamma, learning_rate, num_hidden):
+        self.gamma = gamma
+        self.learning_rate = learning_rate
+
+        self.huber_loss = keras.losses.Huber()
+        self.optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
+        self.eps = np.finfo(np.float32).eps.item()
+
+        self.num_inputs = env.observation_space.shape
+        self.num_actions = env.action_space.n
+        self.num_hidden = num_hidden
+
+        self.ModelClass = Models.Actor_Critic_2(self.num_inputs, self.num_hidden, self.num_actions)
+        self.model = self.ModelClass.model
+
+    def train(self, rewards_history, action_probs_history, critic_value_history, tape):
+        # Calculate expected value from rewards
+        # - At each timestep what was the total reward received after that timestep
+        # - Rewards in the past are discounted by multiplying them with gamma
+        # - These are the labels for our critic
+
+        returns = []
+        discounted_sum = 0
+        for r in rewards_history[::-1]:
+            discounted_sum = r + self.gamma * discounted_sum
+            returns.insert(0, discounted_sum)
+
+        # Normalize
+        returns = np.array(returns)
+        returns = (returns - np.mean(returns)) / (np.std(returns) + self.eps)
+        returns = returns.tolist()
+
+        # Calculating loss values to update our network
+        history = zip(action_probs_history, critic_value_history, returns)
+        actor_losses = []
+        critic_losses = []
+
+        for log_prob, value, ret in history:
+            # At this point in history, the critic estimated that we would get a
+            # total reward = `value` in the future. We took an action with log probability
+            # of `log_prob` and ended up recieving a total reward = `ret`.
+            # The actor must be updated so that it predicts an action that leads to
+            # high rewards (compared to critic's estimate) with high probability.
+            diff = ret - value
+            actor_losses.append(-log_prob * diff)  # actor loss
+
+            # The critic must be updated so that it predicts a better estimate of
+            # the future rewards.
+            critic_losses.append(
+                self.huber_loss(tf.expand_dims(value, 0), tf.expand_dims(ret, 0))
+            )
+        # Backpropagation
+        loss_value = sum(actor_losses) + sum(critic_losses)
+
+        grads = tape.gradient(loss_value, self.model.trainable_variables)
+        self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
 
 # from example:
 # https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
