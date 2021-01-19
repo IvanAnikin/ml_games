@@ -228,11 +228,3 @@ for episode in range(max_episodes):  # Run until solved
     #if episode_count % 10 == 0:
     template = "running reward: {:.2f} at episode {} || x_pos: {}"
     print(template.format(running_reward, episode_count, info['x_pos']))
-
-
-EPISODES_NAME = "{}__{}__{}__stats_ep__{}".format(env_name, training_version_name, movement_type, episode_count)
-REWARDS_NAME = "{}__{}__{}__stats_avg__{}".format(env_name, training_version_name, movement_type, episode_count)
-X_POS_NAME = "{}__{}__{}__stats_x_pos__{}".format(env_name, training_version_name, movement_type, episode_count)
-save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards['ep']))
-save_np(name=REWARDS_NAME, data=np.array(stats_ep_rewards['avg']))
-save_np(name=X_POS_NAME, data=np.array(stats_ep_rewards['x_pos']))

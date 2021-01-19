@@ -10,6 +10,27 @@ import OpenAi.SuperMario.Agents.Models as Models
 
 
 
+class Q_Learning():
+    def __init__(self, env):
+
+        self.env = env
+
+        self.DISCRETE_OS_SIZE = [20, 20]
+        self.q_table = np.random.uniform(low=0, high=5, size=(self.DISCRETE_OS_SIZE + [env.action_space.n]))
+        print(self.q_table)
+
+
+    def act(self, old_state):
+
+        action = self.env.action_space.sample()
+
+        return action
+
+
+
+
+
+
 class Actor_Critic_2():
     def __init__(self, env, gamma, learning_rate, num_hidden):
         self.gamma = gamma
