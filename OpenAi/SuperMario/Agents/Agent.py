@@ -11,21 +11,48 @@ import OpenAi.SuperMario.Agents.Models as Models
 
 
 class Q_Learning():
-    def __init__(self, env):
+    def __init__(self, env, gamma, alpha, show_model, num_hidden):
 
         self.env = env
+        self.gamma = gamma
+        self.alpha = alpha
 
-        self.DISCRETE_OS_SIZE = [20, 20]
-        self.q_table = np.random.uniform(low=0, high=5, size=(self.DISCRETE_OS_SIZE + [env.action_space.n]))
-        print(self.q_table)
+        self.num_states = env.observation_space.shape
+        self.num_actions = env.action_space.n
 
 
-    def act(self, old_state):
+        #self.DISCRETE_OS_SIZE = [20, 20]
+        #self.OS_SIZE = list(env.observation_space.shape) # --- ? Discrete size
+        #elf.q_table = np.random.uniform(low=0, high=5, size=(self.OS_SIZE + [env.action_space.n]))
+        #print(self.q_table)
 
-        action = self.env.action_space.sample()
+        self.ModelClass = Models.DQN(input_shape=self.num_states, num_hidden=num_hidden,
+                                     num_actions=self.num_actions, show_model=show_model)
+        self.model = self.ModelClass.model
+
+
+# https://console.paperspace.com/gcn-team/notebook/pr5ddt1g9
+    def act(self, state):
+        #action = np.argmax(self.q_table[state])
+
+        #action = self.env.action_space.sample()                                                                            # random actions with epsilon ??
+
+        action = self.model(state)
+
 
         return action
 
+    def learn(self, state, action_id, reward, next_state, done):
+
+        #if done:
+        #    target = reward
+        #else:
+        #    target = reward + self.gamma * max(self.q_table[next_state])
+
+        #td_error = target - self.q_table[state, action_id]
+        #self.q_table[state, action_id] = self.q_table[state, action_id] + self.alpha * td_error
+
+        return
 
 
 

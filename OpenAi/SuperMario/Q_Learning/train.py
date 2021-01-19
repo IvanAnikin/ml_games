@@ -7,8 +7,17 @@ from nes_py.wrappers import JoypadSpace
 import OpenAi.SuperMario.Agents.Agent as Agents_file
 
 
-seed = 42
+
 episodes = 10
+# Q Learning Agent Parameters
+ALPHA = 0.1          # Learning rate
+MIN_EPSILON = 0.05   # Random move probability
+GAMMA = 0.95         # Discount factor
+
+num_hidden = 128
+show_model = True
+
+seed = 42
 
 env_name = "SuperMarioBros-v0"
 training_version_name = "Actor_Critic_1"
@@ -20,7 +29,7 @@ env.seed(seed)                                          # SEED -- ?
 
 
 
-Agent = Agents_file.Q_Learning(env=env)
+Agent = Agents_file.Q_Learning(env=env, gamma=GAMMA, alpha=ALPHA, show_model=show_model, num_hidden=num_hidden)
 
 
 

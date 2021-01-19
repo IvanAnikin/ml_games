@@ -9,8 +9,24 @@ import os
 
 
 
+class DQN():
+    def __init__(self, input_shape, num_hidden, num_actions, show_model):
+
+        inputs = layers.Input(shape=input_shape)
+        flatten = layers.Flatten()(inputs)
+
+        common = layers.Dense(num_hidden, activation="relu")(flatten)
+
+        actions = layers.Dense(num_actions, activation="softmax")(common)
+
+        self.model = keras.Model(inputs=inputs, outputs=[actions])
+
+        if show_model: self.model.summary()
+
+
 class Actor_Critic_2():
     def __init__(self, input_shape, num_hidden, num_actions):
+
         inputs = layers.Input(shape=input_shape)
         flatten = layers.Flatten()(inputs)
 
