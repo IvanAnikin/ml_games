@@ -37,20 +37,28 @@ class Q_Learning():
 
         #action = self.env.action_space.sample()                                                                            # random actions with epsilon ??
 
-        action = self.model(state)
+        action_probs = self.model(state)
 
 
-        return action
+        return action_probs
 
-    def learn(self, state, action_id, reward, next_state, done):
+    def learn(self, state, action_probs, reward, next_state, done):
 
-        #if done:
-        #    target = reward
-        #else:
-        #    target = reward + self.gamma * max(self.q_table[next_state])
+        X = state
 
-        #td_error = target - self.q_table[state, action_id]
-        #self.q_table[state, action_id] = self.q_table[state, action_id] + self.alpha * td_error
+        next_state = tf.convert_to_tensor(next_state)
+        next_state = tf.expand_dims(next_state, 0)
+
+        old_state_action_probs = self.act(state=state)
+        new_state_action_probs = self.act(state=next_state)
+
+        old_action = np.argmax(old_state_action_probs)
+        new_action = np.argmax(new_state_action_probs)
+
+        Y = old_state_action_probs + (self.alpha * (reward + self.gamma * new_state_action_probs - old_state_action_probs))
+        if done : Y = tf.convert_to_tensor(np.full((7,), reward))
+
+        self.model.fit(X, Y, verbose=0) # verbose=0 -- logging none
 
         return
 

@@ -3,9 +3,12 @@ import gym_super_mario_bros
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT, RIGHT_ONLY
 from nes_py.wrappers import JoypadSpace
 
+import numpy as np
+
+import tensorflow as tf
 
 import OpenAi.SuperMario.Agents.Agent as Agents_file
-
+import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 
 episodes = 10
@@ -27,6 +30,7 @@ env = gym_super_mario_bros.make(env_name)
 env = JoypadSpace(env, SIMPLE_MOVEMENT)
 env.seed(seed)                                          # SEED -- ?
 
+num_actions = env.action_space.n
 
 
 Agent = Agents_file.Q_Learning(env=env, gamma=GAMMA, alpha=ALPHA, show_model=show_model, num_hidden=num_hidden)
@@ -34,21 +38,37 @@ Agent = Agents_file.Q_Learning(env=env, gamma=GAMMA, alpha=ALPHA, show_model=sho
 
 
 for episode in range(episodes):
-    old_state = state = env.reset()
+    state = env.reset()
 
     while (True):
 
+        state = tf.convert_to_tensor(state)
+        state = tf.expand_dims(state, 0)
 
-        action = Agent.act(old_state)
+        action_probs = Agent.act(state)
+        # Sample action from action probability distribution
+        #action = np.random.choice(num_actions, p=np.squeeze(action_probs))
+        action = np.argmax(action_probs)
 
-        state, reward, done, info = env.step(action)
-
+        new_state, reward, done, info = env.step(action)
 
         if info['flag_get']:
-            print('WE GOT THE FLAG!!!!!!!')
+            print('!!! WE GOT THE FLAG !!!')
             flag = True
+
+        if info['x_pos'] >= hp.LEVEL_WIN_DIST:
+            print('!!! LEVEL {} Solved !!!'.format(1))
 
         if done:
             break
 
-        old_state = state
+
+        # Learn
+        Agent.learn(state=state, action_probs=action_probs, reward=reward, next_state=new_state, done=done)
+
+
+
+
+
+
+        state = new_state

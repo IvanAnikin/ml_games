@@ -2,6 +2,7 @@
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+from keras.optimizers import Adam
 
 
 from typing import Tuple
@@ -17,9 +18,10 @@ class DQN():
 
         common = layers.Dense(num_hidden, activation="relu")(flatten)
 
-        actions = layers.Dense(num_actions, activation="softmax")(common)
+        actions = layers.Dense(num_actions, activation="linear")(common)
 
-        self.model = keras.Model(inputs=inputs, outputs=[actions])
+        self.model = keras.Model(inputs=inputs, outputs=actions)
+        self.model.compile(loss="mse", optimizer=Adam(lr=0.001), metrics=['accuracy'])
 
         if show_model: self.model.summary()
 
