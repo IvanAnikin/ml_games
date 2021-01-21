@@ -19,8 +19,10 @@ state = env.reset()
 
 for step in range(5000):
 
-    action = env.action_space.sample()
+    action = 6
     state, reward, done, info = env.step(action)
+
+    #print(info['y_pos'])
 
     env.render()
     if done:

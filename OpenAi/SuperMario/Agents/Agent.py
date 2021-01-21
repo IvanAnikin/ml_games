@@ -5,8 +5,10 @@ from tensorflow import keras
 
 from typing import Tuple, List
 import numpy as np
+import random
 
 import OpenAi.SuperMario.Agents.Models as Models
+import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 
 
@@ -20,6 +22,12 @@ class Q_Learning():
         self.num_states = env.observation_space.shape
         self.num_actions = env.action_space.n
 
+        self.crossed1425Gap = False
+        self.crossed594Gap = False
+
+        self.stuck_duration = 0
+        self.jumps = 0
+        self.prev_x_pos = 0
 
         #self.DISCRETE_OS_SIZE = [20, 20]
         #self.OS_SIZE = list(env.observation_space.shape) # --- ? Discrete size
@@ -31,26 +39,50 @@ class Q_Learning():
         self.model = self.ModelClass.model
 
 
-# https://console.paperspace.com/gcn-team/notebook/pr5ddt1g9
-    def act(self, state):
-        #action = np.argmax(self.q_table[state])
-
+    # https://console.paperspace.com/gcn-team/notebook/pr5ddt1g9
+    def act(self, state, info):
         #action = self.env.action_space.sample()                                                                            # random actions with epsilon ??
 
         action_probs = self.model(state)
+        action = np.argmax(action_probs)
+
+        # Get Mario unstuck
+        # from https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/approxQAgent.py#L4
+        # other potential: https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/approxSarsaAgent.py
+
+        if(info != 0):
+            #mpos = self.marioPosition(state)
+            # Check if stuck
+            #if not self.canMoveRight(state, mpos):
+            if self.prev_x_pos == info['x_pos']:
+                self.stuck_duration += 1
+
+            if self.stuck_duration > 100:
+                print("Stuck!")
+                if self.jumps > 20:
+                    self.jumps = 0
+                    self.stuck_duration = 0
+                # On ground, get started with jump
+                # if self.groundVertDistance(state, mpos) == 0:
+                if info['y_pos'] == 79:
+                    action = random.choice([2, 5]) # 5 = jump || or 2 = jump and right
+                else:
+                    action = 5
+                    self.jumps += 1
+            self.prev_x_pos = info['x_pos']
+
+        return action
 
 
-        return action_probs
-
-    def learn(self, state, action_probs, reward, next_state, done):
+    def learn(self, state, reward, next_state, done):
 
         X = state
 
         next_state = tf.convert_to_tensor(next_state)
         next_state = tf.expand_dims(next_state, 0)
 
-        old_state_action_probs = self.act(state=state)
-        new_state_action_probs = self.act(state=next_state)
+        old_state_action_probs = self.model(state)
+        new_state_action_probs = self.model(next_state)
 
         old_action = np.argmax(old_state_action_probs)
         new_action = np.argmax(new_state_action_probs)
@@ -63,7 +95,72 @@ class Q_Learning():
         return
 
 
+    def calculate_reward(self, reward, info):
+        # GAPS CROSSING REWARD
+        '''
+        if not self.crossed1425Gap and info['x_pos'] > 1425: # and hp.WORLD == (1, 1) and not
+            print("Crossed gap! Reward +500!")
+            reward += 500
+            self.crossedGap = True
+        '''
+        if not self.crossed594Gap and info['x_pos'] > 1425: # and hp.WORLD == (1, 1) and not
+            print("Crossed _594_ gap! Reward +500!")
+            reward += 500
+            self.crossed594Gap = True
 
+        # DEATH PUNISH
+        if info['life'] == 0:
+             print("Oh no! Mario died!")
+             reward -= hp.DEATH_PENALTY
+
+
+        return reward
+
+    # https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/heuristicAgent.py
+    # Returns the vert distance from Mario to the ground, 0 if on ground
+    # if no ground below Mario, return number of rows to offscreen
+    # Only call if Mario is on screen
+    # Norm factor is state.shape[0], which is 13
+    def groundVertDistance(self, state, mpos):
+        m_row, m_col = mpos
+
+        if m_row < state.shape[0] - 1:
+            # get the rows in Mario's column with objects, if any
+            col_contents = state[m_row + 1:, m_col]
+            obj_vert_dists = np.nonzero(col_contents == 1)
+
+            if obj_vert_dists[0].size == 0:
+                return float(state.shape[0] - m_row - 1) / state.shape[0]
+            else:
+                return float(obj_vert_dists[0][0]) / state.shape[0]
+        else:
+            return 1.0 / state.shape[0]
+
+    # Returns mario's position as row, col pair
+    # Returns None if Mario not on map
+    # Always perform None check on return val
+    # For functions in this file, use _marioPosition, since functions
+    # should only be called if mario is on screen
+    def marioPosition(self, state):
+        if state is None:
+            return None
+        rows, cols = np.nonzero(state == 3)
+        if rows.size == 0 or cols.size == 0:
+            print("WARNING: Mario is off the map")
+            return None
+        else:
+            return rows[0], cols[0]
+
+    # Return whether Mario can move right in his position (1=true)
+    # Only call if Mario is on screen
+    def canMoveRight(self, state, mpos):
+        m_row, m_col = mpos
+
+        if m_col < state.shape[1] - 1:
+            if state[m_row, m_col + 1] != 1:
+                return 1.0
+            return 0.0
+        return 1.0
 
 
 class Actor_Critic_2():

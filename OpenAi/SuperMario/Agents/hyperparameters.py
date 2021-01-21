@@ -16,3 +16,6 @@ WIN_DISTANCES = OrderedDict([((1, 1), 3266), ((1, 2), 3266), ((1, 3), 2514), ((1
 
 # The flagpole is 40 meters before the castle
 LEVEL_WIN_DIST = WIN_DISTANCES[WORLD] - 40
+
+# Penalty for dying in reward function
+DEATH_PENALTY = 100
