@@ -2,6 +2,8 @@
 
 import tensorflow as tf
 from tensorflow import keras
+from keras import layers
+from keras.optimizers import Adam
 
 from typing import Tuple, List
 import numpy as np
@@ -13,8 +15,53 @@ import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 
 class DQN_Agent():
-    def __init__(self, env):
+    def __init__(self, env, states, num_hidden):
         self.env = env
+        self.states = states
+        self.num_hidden = num_hidden
+        self.num_actions = env.action_space.n
+
+        self.model_online = self.generate_model()
+        self.model_target = self.generate_model()
+
+        # MODELS VISUALISATION
+        self.model_online.summary()
+        #self.model_target.summary()
+
+
+    def run(self, state):
+
+        action = self.env.action_space.sample()
+
+        return action
+
+    def learn(self):
+
+        return
+
+    def add(self, experience):
+
+        return
+
+    def generate_model(self):
+
+        inputs = layers.Input(shape=self.states)
+        input_float = tf.cast(inputs, tf.float32) / 255.
+
+        conv_1 = layers.Convolution2D(filters=32, kernel_size=8, strides=4, activation="relu")(input_float)
+        conv_2 = layers.Convolution2D(filters=32, kernel_size=4, strides=2, activation="relu")(conv_1)
+        conv_3 = layers.Convolution2D(filters=32, kernel_size=3, strides=1, activation="relu")(conv_2)
+
+        flatten = layers.Flatten()(conv_3)
+
+        common = layers.Dense(self.num_hidden, activation="relu")(flatten)
+
+        actions = layers.Dense(self.num_actions, activation="linear")(common)
+
+        model = keras.Model(inputs=inputs, outputs=actions)
+        model.compile(loss="mse", optimizer=Adam(lr=0.001), metrics=['accuracy'])
+
+        return model
 
 
 class Q_Learning():

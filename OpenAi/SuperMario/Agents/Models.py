@@ -10,6 +10,9 @@ import os
 
 
 
+
+
+
 class DQN():
     def __init__(self, input_shape, num_hidden, num_actions, show_model):
 
