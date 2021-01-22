@@ -12,6 +12,11 @@ import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 
 
+class DQN_Agent():
+    def __init__(self, env):
+        self.env = env
+
+
 class Q_Learning():
     def __init__(self, env, gamma, alpha, show_model, num_hidden):
 
@@ -50,26 +55,6 @@ class Q_Learning():
         # from https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/approxQAgent.py#L4
         # other potential: https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/approxSarsaAgent.py
 
-        if(info != 0):
-            #mpos = self.marioPosition(state)
-            # Check if stuck
-            #if not self.canMoveRight(state, mpos):
-            if self.prev_x_pos == info['x_pos']:
-                self.stuck_duration += 1
-
-            if self.stuck_duration > 100:
-                print("Stuck!")
-                if self.jumps > 20:
-                    self.jumps = 0
-                    self.stuck_duration = 0
-                # On ground, get started with jump
-                # if self.groundVertDistance(state, mpos) == 0:
-                if info['y_pos'] == 79:
-                    action = random.choice([2, 5]) # 5 = jump || or 2 = jump and right
-                else:
-                    action = 5
-                    self.jumps += 1
-            self.prev_x_pos = info['x_pos']
 
         return action
 
@@ -90,6 +75,9 @@ class Q_Learning():
         Y = old_state_action_probs + (self.alpha * (reward + self.gamma * new_state_action_probs - old_state_action_probs))
         if done : Y = tf.convert_to_tensor(np.full((7,), reward))
 
+        #Y = old_state_action_probs
+        #Y[old_action] = old_state_action_probs[old_action] + (self.alpha * (reward + self.gamma * new_state_action_probs[old_action] - old_state_action_probs[old_action]))
+
         self.model.fit(X, Y, verbose=0) # verbose=0 -- logging none
 
         return
@@ -103,7 +91,7 @@ class Q_Learning():
             reward += 500
             self.crossedGap = True
         '''
-        if not self.crossed594Gap and info['x_pos'] > 1425: # and hp.WORLD == (1, 1) and not
+        if not self.crossed594Gap and info['x_pos'] > 594: # and hp.WORLD == (1, 1) and not
             print("Crossed _594_ gap! Reward +500!")
             reward += 500
             self.crossed594Gap = True
@@ -115,6 +103,23 @@ class Q_Learning():
 
 
         return reward
+
+    def stuckForTooLong(self, info):
+        if(info != 0):
+
+            if self.prev_x_pos == info['x_pos']:
+                self.stuck_duration += 1
+            else:
+                self.stuck_duration = 0
+
+            if self.stuck_duration > 50:
+                print("stuck")
+                self.stuck_duration = 0
+                return True
+
+            self.prev_x_pos = info['x_pos']
+
+        return False
 
     # https://github.com/gabegrand/Super-Mario-RL/blob/7c0eea5b8a81f06bddfa6bb1036f82bba4b0e806/src/heuristicAgent.py
     # Returns the vert distance from Mario to the ground, 0 if on ground
