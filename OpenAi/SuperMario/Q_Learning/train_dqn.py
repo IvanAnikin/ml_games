@@ -15,9 +15,21 @@ from OpenAi.SuperMario.Agents.wrapper import wrapper
 
 
 # Parameters
-states = (84, 84, 4)    # 0-width, 1-height, 2-skip
+states = (84, 84, 4)    # 0-width, 1-height, 2-skip (learn each + 1)
 num_hidden = 128
+
 episodes = 1000         # 10000
+
+epsilon = 1
+eps_decay = 0.99999975
+eps_min = 0.1
+gamma = 0.90
+
+max_memory = 100000
+copy = 10000            # Target ntwork sync
+learn_each = 3
+save_each = 100000      # 500000 steps
+batch_size = 32
 
 
 
@@ -28,7 +40,9 @@ env = wrapper(env, states)
 actions = env.action_space.n
 
 
-agent = DQN_Agent(env=env, states=states, num_hidden=num_hidden)
+agent = DQN_Agent(env=env, states=states, num_hidden=num_hidden, epsilon=epsilon, eps_decay=eps_decay, eps_min=eps_min,
+                  max_memory=max_memory, copy=copy, learn_each=learn_each, save_each=save_each, batch_size=batch_size,
+                  gamma = gamma)
 
 
 # Variables
