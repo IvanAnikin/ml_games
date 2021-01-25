@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 from keras import layers
 from keras.optimizers import Adam
+from keras.losses import Huber
 
 from typing import Tuple, List
 import numpy as np
@@ -16,7 +17,8 @@ import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 
 class DQN_Agent():
-    def __init__(self, env, states, num_hidden, epsilon, eps_decay, eps_min, max_memory, copy, learn_each, save_each, batch_size, gamma):
+    def __init__(self, env, states, num_hidden, epsilon, eps_decay, eps_min,
+                 max_memory, copy, learn_each, save_each, batch_size, gamma, show_model, double_q):
         self.env = env
         self.states = states
         self.num_hidden = num_hidden
@@ -33,25 +35,20 @@ class DQN_Agent():
         self.learn_each = learn_each
         self.save_each = save_each
         self.num_actions = env.action_space.n
-        self.double_q = False                       # DQ - True
+        self.double_q = double_q                       # DQ - True
 
         self.model_online = self.generate_model()
         self.model_target = self.generate_model()
+        #self.generate_model_2()
+        #self.generate_model_2()
+
 
         # MODELS VISUALISATION
-        self.model_online.summary()
-        #self.model_target.summary()
+        if(show_model):
+            print("Model 'online' summary: ")
+            self.model_online.summary()
+            print("Model 'target': same structure")
 
-        self.a_true = ()
-        self.q_true = ()
-        # Optimizer
-                                        # --?-- self.action = tf.argmax(input=self.output, axis=1)
-
-        #self.q_pred = tf.gather_nd(params=self.output,
-        #                           indices=tf.stack([tf.range(tf.shape(self.a_true)[0]), self.a_true], axis=1))
-
-        #self.loss = tf.losses.huber_loss(labels=self.q_true, predictions=self.q_pred)
-        #self.train = tf.train.AdamOptimizer(learning_rate=0.00025).minimize(self.loss)
 
 
     def run(self, state):
@@ -105,6 +102,7 @@ class DQN_Agent():
             target_q = reward + (1. - done) * self.gamma * next_q[np.arange(0, self.batch_size), a]
         else:
             target_q = reward + (1. - done) * self.gamma * np.amax(next_q, axis=1)
+
         # Update model
         #summary, _ = self.session.run(fetches=[self.summaries, self.train],
         #                              feed_dict={self.input: state,
@@ -114,6 +112,21 @@ class DQN_Agent():
 
         self.a_true = np.array(action)
         self.q_true = np.array(target_q)
+
+        # Optimizer
+        # --?-- self.action = tf.argmax(input=self.output, axis=1)
+
+        #self.q_pred = tf.gather_nd(params=self.actions,
+        #                           indices=tf.stack([tf.range(tf.shape(self.a_true)[0]), self.a_true], axis=1))
+
+        #self.loss = Huber(self.q_true, self.q_pred)
+        #elf.train = Adam(learning_rate=0.00025).minimize(self.loss)
+
+        X = state
+        Y = self.q_true
+
+        self.model_online.fit(X, Y, verbose=0) # verbose=0 -- logging none
+
 
         # Reset learn step
         self.learn_step = 0
@@ -155,6 +168,29 @@ class DQN_Agent():
         model.compile(loss="mse", optimizer=Adam(lr=0.001), metrics=['accuracy'])
 
         return model
+
+    def generate_model_2(self):
+
+        self.inputs = layers.Input(shape=self.states)
+        self.input_float = tf.cast(self.inputs, tf.float32) / 255.
+
+        # ONLINE
+        self.conv_1 = layers.Convolution2D(filters=32, kernel_size=8, strides=4, activation="relu")(self.input_float)
+        self.conv_2 = layers.Convolution2D(filters=32, kernel_size=4, strides=2, activation="relu")(self.conv_1)
+        self.conv_3 = layers.Convolution2D(filters=32, kernel_size=3, strides=1, activation="relu")(self.conv_2)
+        self.flatten = layers.Flatten()(self.conv_3)
+        self.common = layers.Dense(self.num_hidden, activation="relu")(self.flatten)
+        self.actions = layers.Dense(self.num_actions, activation="linear")(self.common)
+
+        # TARGET
+        self.conv_1_t = layers.Convolution2D(filters=32, kernel_size=8, strides=4, activation="relu")(self.input_float)
+        self.conv_2_t = layers.Convolution2D(filters=32, kernel_size=4, strides=2, activation="relu")(self.conv_1_t)
+        self.conv_3_t = layers.Convolution2D(filters=32, kernel_size=3, strides=1, activation="relu")(self.conv_2_t)
+        self.flatten_t = layers.Flatten()(self.conv_3_t)
+        self.common_t = layers.Dense(self.num_hidden, activation="relu")(self.flatten_t)
+        self.actions_t = layers.Dense(self.num_actions, activation="linear")(self.common_t)
+
+
 
 
 class Q_Learning():

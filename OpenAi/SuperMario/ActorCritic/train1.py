@@ -140,9 +140,17 @@ for episode in range(max_episodes):  # Run until solved
 
     episode_count += 1
 
+
+
+    # Log details
+    stats_ep_rewards['ep'].append(episode_count)
+    stats_ep_rewards['avg'].append(episode_reward)
+    stats_ep_rewards['x_pos'].append(info['x_pos'])
+
     # SAVE WEIGHTS
     if (episode_count % save_weights_every == 0):
-        model_file_path = "./{}__{}__{}__ac_model__{}.HDF5".format(env_name, training_version_name, movement_type, episode_count)
+        model_file_path = "./{}__{}__{}__ac_model__{}.HDF5".format(env_name, training_version_name, movement_type,
+                                                                   episode_count)
         Agent.model.save(model_file_path)
 
     # SAVE REWARDS
@@ -153,12 +161,6 @@ for episode in range(max_episodes):  # Run until solved
         storage_agent.save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards['ep']))
         storage_agent.save_np(name=REWARDS_NAME, data=np.array(stats_ep_rewards['avg']))
         storage_agent.save_np(name=X_POS_NAME, data=np.array(stats_ep_rewards['x_pos']))
-
-    # Log details
-    stats_ep_rewards['ep'].append(episode_count)
-    stats_ep_rewards['avg'].append(episode_reward)
-    stats_ep_rewards['x_pos'].append(info['x_pos'])
-
 
     #if episode_count % 10 == 0:
     template = "running reward: {:.2f} at episode {} || x_pos: {} || steps: {} || episode time: {}"
