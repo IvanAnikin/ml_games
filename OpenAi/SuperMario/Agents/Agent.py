@@ -117,7 +117,7 @@ class DQN_Agent():
 
         self.a_true = np.array(action)
         self.q_true = np.array(target_q)
-
+        current_states_q_values = self.model_online(state)
         # Optimizer
         # --?-- self.action = tf.argmax(input=self.output, axis=1)
 
@@ -128,10 +128,16 @@ class DQN_Agent():
         #elf.train = Adam(learning_rate=0.00025).minimize(self.loss)
 
         X = state
-        Y = self.q_true
+        Y = np.array(current_states_q_values)
+
+        index = 0
+        for one_q_true in self.q_true:
+
+            Y[index, self.a_true[index]] = one_q_true
+
+            index+=1
 
         self.model_online.fit(X, Y, verbose=0) # verbose=0 -- logging none
-
 
         # Reset learn step
         self.learn_step = 0

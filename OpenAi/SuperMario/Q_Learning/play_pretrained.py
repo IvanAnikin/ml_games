@@ -110,6 +110,8 @@ for e in range(episodes):
         # Run agent
         action = agent.run(state=state)
 
+        print(action)
+
         # Perform action
         next_state, reward, done, info = env.step(action=action)
 

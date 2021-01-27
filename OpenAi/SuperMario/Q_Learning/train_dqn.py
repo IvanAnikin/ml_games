@@ -40,7 +40,7 @@ epsilon = 0.0000001               # 1
 eps_decay = 0.99999         # avg 0.3 epsilon left after 300 episodes (0.99999975)
 eps_min = 0.1
 gamma = 0.90
-double_q = True
+double_q = False
 
 max_memory = 100000         # steps
 copy = 1000                 # Target ntwork sync - 10000
