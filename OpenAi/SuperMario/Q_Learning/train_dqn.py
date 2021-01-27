@@ -28,7 +28,7 @@ num_hidden = 128
 show_model = True
 load_model = True
 model_file_path_online = "./{}__{}__{}_online.HDF5".format(env_name, training_version_name, movement_type)
-model_file_path_target = "./{}__{}__{}_online.HDF5".format(env_name, training_version_name, movement_type)
+model_file_path_target = "./{}__{}__{}_target.HDF5".format(env_name, training_version_name, movement_type)
 
 episodes = 1000             # 10000
 show_every = 5              # episodes
@@ -60,6 +60,10 @@ print("learn_each: ", learn_each, " steps")
 print("max_memory: ", max_memory, " steps")
 print("batch_size: ", batch_size, " steps")
 print("sync target each: ", copy, " steps")
+print()
+print("epsilon: ", epsilon)
+print("eps_decay: ", eps_decay)
+print("gamma: ", gamma)
 print("gamma: ", gamma)
 print()
 
