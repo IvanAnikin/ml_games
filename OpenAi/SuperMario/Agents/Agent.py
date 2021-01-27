@@ -10,6 +10,7 @@ from typing import Tuple, List
 import numpy as np
 from collections import deque
 import random
+import os
 
 import OpenAi.SuperMario.Agents.Models as Models
 import OpenAi.SuperMario.Agents.hyperparameters as hp
@@ -18,7 +19,8 @@ import OpenAi.SuperMario.Agents.hyperparameters as hp
 
 class DQN_Agent():
     def __init__(self, env, states, num_hidden, epsilon, eps_decay, eps_min,
-                 max_memory, copy, learn_each, save_each, batch_size, gamma, show_model, double_q):
+                 max_memory, copy, learn_each, save_each, batch_size, gamma,
+                 show_model, load_model, model_file_path_online, model_file_path_target, double_q):
         self.env = env
         self.states = states
         self.num_hidden = num_hidden
@@ -37,11 +39,14 @@ class DQN_Agent():
         self.num_actions = env.action_space.n
         self.double_q = double_q                       # DQ - True
 
-        self.model_online = self.generate_model()
-        self.model_target = self.generate_model()
-        #self.generate_model_2()
-        #self.generate_model_2()
-
+        if(load_model and os.path.exists(model_file_path_online) and os.path.exists(model_file_path_target)):
+            print("loading model: {}".format(model_file_path_online))
+            self.model_online = tf.keras.models.load_model(model_file_path_online)
+            print("loading model: {}".format(model_file_path_target))
+            self.model_target = tf.keras.models.load_model(model_file_path_target)
+        else:
+            self.model_online = self.generate_model()
+            self.model_target = self.generate_model()
 
         # MODELS VISUALISATION
         if(show_model):
