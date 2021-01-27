@@ -325,17 +325,20 @@ class DQN_Agent():
         # Checkpoint model
         if self.step % self.save_each == 0:
             self.save_model()
-                                                        # Break if burn-in
-                                                        #if self.step < self.burnin:
-                                                        #    return
+            # Break if burn-in
+            # if self.step < self.burnin:
+            #    return
         # Break if no training
         if self.learn_step < self.learn_each:
             self.learn_step += 1
             return
         # Sample batch
-        if(len(self.memory) < self.batch_size): batch = random.sample(self.memory, len(self.memory))
-        else: batch = random.sample(self.memory, self.batch_size)
+        if (len(self.memory) < self.batch_size):
+            batch = random.sample(self.memory, len(self.memory))
+        else:
+            batch = random.sample(self.memory, self.batch_size)
         state, next_state, action, reward, done = map(np.array, zip(*batch))
+
 
         # Get next q values from target network
         next_q = self.model_target(next_state)
@@ -347,35 +350,27 @@ class DQN_Agent():
         else:
             target_q = reward + (1. - done) * self.gamma * np.amax(next_q, axis=1)
 
-        # Update model
-        #summary, _ = self.session.run(fetches=[self.summaries, self.train],
-        #                              feed_dict={self.input: state,
-        #                                         self.q_true: np.array(target_q),
-        #                                         self.a_true: np.array(action),
-        #                                         self.reward: np.mean(reward)})
 
         self.a_true = np.array(action)
         self.q_true = np.array(target_q)
-
-        # Optimizer
-        # --?-- self.action = tf.argmax(input=self.output, axis=1)
-
-        #self.q_pred = tf.gather_nd(params=self.actions,
-        #                           indices=tf.stack([tf.range(tf.shape(self.a_true)[0]), self.a_true], axis=1))
-
-        #self.loss = Huber(self.q_true, self.q_pred)
-        #elf.train = Adam(learning_rate=0.00025).minimize(self.loss)
+        current_states_q_values = self.model_online(state)
 
         X = state
-        Y = self.q_true
+        Y = np.array(current_states_q_values)
 
-        self.model_online.fit(X, Y, verbose=0) # verbose=0 -- logging none
+        index = 0
+        for one_q_true in self.q_true:
+            Y[index, self.a_true[index]] = one_q_true
 
+            index += 1
+
+        self.model_online.fit(X, Y, verbose=0)  # verbose=0 -- logging none
 
         # Reset learn step
         self.learn_step = 0
+
         # Write
-        #self.writer.add_summary(summary, self.step)
+        # self.writer.add_summary(summary, self.step)
 
         return
 
