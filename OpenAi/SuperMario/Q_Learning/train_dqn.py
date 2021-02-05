@@ -42,10 +42,10 @@ eps_min = 0.1
 gamma = 0.90
 double_q = False
 
-max_memory = 100000         # steps
+max_memory = 10000          # steps 100000
 copy = 1000                 # Target ntwork sync - 10000
 learn_each = 3              # steps
-save_each = 100000          # steps - (500000)
+save_each = 100000          # steps - (500000) #NOT USED
 batch_size = 32             # steps
 
 
@@ -63,7 +63,7 @@ print("sync target each: ", copy, " steps")
 print()
 print("epsilon: ", epsilon)
 print("eps_decay: ", eps_decay)
-print("gamma: ", gamma)
+print("eps_min: ", eps_min)
 print("gamma: ", gamma)
 print()
 
@@ -151,7 +151,7 @@ for e in range(episodes):
 
     if(info['x_pos'] > max_x_pos):
         max_x_pos = info['x_pos']
-        with open('max_x_pos.gif', 'wb') as f:  # change the path if necessary
+        with open('max_x_pos.gif', 'wb') as f:
             im = Image.new('RGB', frames[0].size)
             im.save(f, save_all=True, append_images=frames)
 

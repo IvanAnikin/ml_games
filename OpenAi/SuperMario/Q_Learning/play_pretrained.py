@@ -36,9 +36,9 @@ stats_every = 2             # episodes
 save_weights_every = 10     # episodes
 save_rewards_every = 10     # episodes
 
-epsilon = 0                 # 1
-eps_decay = 0               # avg 0.3 epsilon left after 300 episodes (0.99999975)
-eps_min = 0
+epsilon = 0.2                 # 1
+eps_decay = 0.999999          # (0.99999975)
+eps_min = 0.1
 gamma = 0.90
 double_q = True
 
@@ -109,8 +109,6 @@ for e in range(episodes):
 
         # Run agent
         action = agent.run(state=state)
-
-        print(action)
 
         # Perform action
         next_state, reward, done, info = env.step(action=action)

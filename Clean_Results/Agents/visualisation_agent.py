@@ -19,10 +19,55 @@ def show_env_props(env):
     print("Max Value of Action ->  {}".format(upper_bound))
     print("Min Value of Action ->  {}".format(lower_bound))
 
-def plot_data(X_name, Y_name, NAME):
+def plot_data(X_name, Y_name, xlabel, ylabel, NAME):
     data_avg = storage_agent.load_np(X_name)
     data_ep = storage_agent.load_np(Y_name)
+
+
     plt.plot(data_ep, data_avg, label=NAME)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(NAME)
+    plt.show()
+
+def plot_mario_data_x_pos():
+    env_name = 'SuperMarioBros-1-1-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = 'SIMPLE_MOVEMENT'
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_x_pos".format(env_name, training_version_name, movement_type)
+    NAME = "SuperMario DQN"
+    xlabel = "Episode"
+    ylabel = "Avg. distance"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_mario_data_rewards():
+    env_name = 'SuperMarioBros-1-1-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = 'SIMPLE_MOVEMENT'
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
+    NAME = "SuperMario DQN"
+    xlabel = "Episode"
+    ylabel = "Avg. reward"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_altari_data_rewards():
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
+    NAME = "SpaceInvaders DQN"
+    xlabel = "Episode"
+    ylabel = "Avg. reward"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
 
 def find_max(name):
     data = storage_agent.load_np(name)
