@@ -1,0 +1,463 @@
+PS C:\Users\IvanekAnikin\ML> python .\train_dqn_cloud.py
+2021-01-26 20:36:21.042774: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'cudart64_101.dll'; dlerror: cudart64_101.dll not found
+2021-01-26 20:36:21.046709: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+_ENVIRONMENT_
+env_name:  SuperMarioBros-1-1-v0
+training_version_name:  Deep Q-Learning
+movement_type:  SIMPLE_MOVEMENT
+
+learn_each:  3  steps
+max_memory:  100000  steps
+batch_size:  32  steps
+sync target each:  10000  steps
+gamma:  0.9
+
+loading model: ./SuperMarioBros-1-1-v0__Deep Q-Learning__SIMPLE_MOVEMENT_online.HDF5
+2021-01-26 20:36:23.225780: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'nvcuda.dll'; dlerror: nvcuda.dll not found
+2021-01-26 20:36:23.229491: W tensorflow/stream_executor/cuda/cuda_driver.cc:312] failed call to cuInit: UNKNOWN ERROR (303)
+2021-01-26 20:36:23.235114: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: mlVM
+2021-01-26 20:36:23.238747: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: mlVM
+2021-01-26 20:36:23.241184: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-01-26 20:36:23.258954: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x161251aafa0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-01-26 20:36:23.263188: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+loading model: ./SuperMarioBros-1-1-v0__Deep Q-Learning__SIMPLE_MOVEMENT_online.HDF5
+Model 'online' summary:
+Model: "functional_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+input_1 (InputLayer)         [(None, 84, 84, 4)]       0
+_________________________________________________________________
+tf_op_layer_RealDiv (TensorF (None, 84, 84, 4)         0
+_________________________________________________________________
+conv2d (Conv2D)              (None, 20, 20, 32)        8224
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 9, 9, 32)          16416
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 7, 7, 32)          9248
+_________________________________________________________________
+flatten (Flatten)            (None, 1568)              0
+_________________________________________________________________
+dense (Dense)                (None, 128)               200832
+_________________________________________________________________
+dense_1 (Dense)              (None, 7)                 903
+=================================================================
+Total params: 235,623
+Trainable params: 235,623
+Non-trainable params: 0
+_________________________________________________________________
+Model 'target': same structure
+Episode 5 - Frame 1738/11478333 - Frames/sec 26 - Time 67 | 67/440851 - Epsilon 0.9996 - Mean Reward 0.3569 - Mean X position 656 - Max X position 1238
+Episode 10 - Frame 5416/18372727 - Frames/sec 27 - Time 134 | 201/1003296 - Epsilon 0.9986 - Mean Reward 0.2558 - Mean X position 871 - Max X position 1415
+WARNING:tensorflow:From C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Model.state_updates (from tensorflow.python.keras.engine.training) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+2021-01-26 20:39:45.053538: W tensorflow/python/util/util.cc:348] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+WARNING:tensorflow:From C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Layer.updates (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+weights saved
+Episode 15 - Frame 6682/15079375 - Frames/sec 26 - Time 49 | 250/2979758 - Epsilon 0.9983 - Mean Reward 0.3462 - Mean X position 862 - Max X position 1415
+Episode 20 - Frame 8747/14786667 - Frames/sec 28 - Time 75 | 325/2326279 - Epsilon 0.9978 - Mean Reward 0.3769 - Mean X position 852 - Max X position 1415
+weights saved
+Episode 25 - Frame 11868/16536154 - Frames/sec 26 - Time 122 | 446/2365618 - Epsilon 0.997 - Mean Reward 0.3703 - Mean X position 948 - Max X position 2021
+Episode 30 - Frame 13207/15629677 - Frames/sec 27 - Time 50 | 497/5799458 - Epsilon 0.9967 - Mean Reward 0.462 - Mean X position 841 - Max X position 2021
+weights saved
+Episode 35 - Frame 16347/16247500 - Frames/sec 25 - Time 124 | 621/3213597 - Epsilon 0.9959 - Mean Reward 0.4133 - Mean X position 811 - Max X position 2021
+Episode 40 - Frame 19872/16193902 - Frames/sec 25 - Time 143 | 765/3512268 - Epsilon 0.995 - Mean Reward 0.3678 - Mean X position 823 - Max X position 2021
+weights saved
+Episode 45 - Frame 21341/15106522 - Frames/sec 23 - Time 64 | 829/8521204 - Epsilon 0.9947 - Mean Reward 0.434 - Mean X position 735 - Max X position 2021
+Episode 50 - Frame 22051/13973333 - Frames/sec 23 - Time 31 | 859/16909163 - Epsilon 0.9945 - Mean Reward 0.4668 - Mean X position 682 - Max X position 2021
+weights saved
+Episode 55 - Frame 23172/13307500 - Frames/sec 22 - Time 51 | 910/10801970 - Epsilon 0.9942 - Mean Reward 0.5093 - Mean X position 667 - Max X position 2021
+Episode 60 - Frame 23894/12521967 - Frames/sec 22 - Time 32 | 942/16339989 - Epsilon 0.994 - Mean Reward 0.6168 - Mean X position 580 - Max X position 2021
+weights saved
+Episode 65 - Frame 28157/13583788 - Frames/sec 20 - Time 209 | 1152/3669498 - Epsilon 0.993 - Mean Reward 0.5194 - Mean X position 696 - Max X position 2226
+Episode 70 - Frame 30307/13248592 - Frames/sec 20 - Time 105 | 1257/7745747 - Epsilon 0.9925 - Mean Reward 0.4611 - Mean X position 754 - Max X position 2226
+weights saved
+Episode 75 - Frame 31378/12846184 - Frames/sec 20 - Time 54 | 1311/15727148 - Epsilon 0.9922 - Mean Reward 0.4462 - Mean X position 735 - Max X position 2226
+Episode 80 - Frame 34250/13479506 - Frames/sec 19 - Time 150 | 1462/6860255 - Epsilon 0.9915 - Mean Reward 0.374 - Mean X position 821 - Max X position 2226
+weights saved
+Episode 85 - Frame 35712/13046395 - Frames/sec 18 - Time 80 | 1541/13755578 - Epsilon 0.9911 - Mean Reward 0.4603 - Mean X position 730 - Max X position 2226
+Episode 90 - Frame 37177/12700000 - Frames/sec 18 - Time 80 | 1621/14053067 - Epsilon 0.9907 - Mean Reward 0.4838 - Mean X position 718 - Max X position 2226
+weights saved
+Episode 95 - Frame 37717/12187292 - Frames/sec 17 - Time 31 | 1652/37283557 - Epsilon 0.9906 - Mean Reward 0.5606 - Mean X position 704 - Max X position 2226
+Episode 100 - Frame 39808/12023564 - Frames/sec 18 - Time 117 | 1769/10171168 - Epsilon 0.9901 - Mean Reward 0.5872 - Mean X position 672 - Max X position 2226
+weights saved
+Episode 105 - Frame 41412/11913396 - Frames/sec 17 - Time 94 | 1863/13833449 - Epsilon 0.9897 - Mean Reward 0.5326 - Mean X position 641 - Max X position 2226
+Episode 110 - Frame 43758/11983153 - Frames/sec 17 - Time 138 | 2001/10220916 - Epsilon 0.9891 - Mean Reward 0.5068 - Mean X position 679 - Max X position 2226
+weights saved
+Episode 115 - Frame 45451/11759655 - Frames/sec 16 - Time 103 | 2104/14612862 - Epsilon 0.9887 - Mean Reward 0.4555 - Mean X position 732 - Max X position 2226
+Episode 120 - Frame 46386/11522810 - Frames/sec 16 - Time 58 | 2162/26641329 - Epsilon 0.9885 - Mean Reward 0.4608 - Mean X position 724 - Max X position 2226
+weights saved
+Episode 125 - Frame 47316/11274524 - Frames/sec 16 - Time 60 | 2221/26929340 - Epsilon 0.9882 - Mean Reward 0.5368 - Mean X position 738 - Max X position 2226
+Episode 130 - Frame 48295/11024122 - Frames/sec 16 - Time 62 | 2283/25710630 - Epsilon 0.988 - Mean Reward 0.5818 - Mean X position 713 - Max X position 2226
+weights saved
+Episode 135 - Frame 50936/11366912 - Frames/sec 15 - Time 172 | 2455/10567430 - Epsilon 0.9873 - Mean Reward 0.5312 - Mean X position 753 - Max X position 2226
+Episode 140 - Frame 51592/11075745 - Frames/sec 15 - Time 43 | 2498/42183505 - Epsilon 0.9872 - Mean Reward 0.5353 - Mean X position 700 - Max X position 2226
+weights saved
+Episode 145 - Frame 52321/10837329 - Frames/sec 15 - Time 50 | 2548/37878799 - Epsilon 0.987 - Mean Reward 0.5406 - Mean X position 681 - Max X position 2226
+Episode 150 - Frame 53837/10820993 - Frames/sec 15 - Time 102 | 2650/18917425 - Epsilon 0.9866 - Mean Reward 0.5252 - Mean X position 744 - Max X position 2226
+weights saved
+Episode 155 - Frame 54467/10573013 - Frames/sec 14 - Time 44 | 2694/45213226 - Epsilon 0.9865 - Mean Reward 0.598 - Mean X position 653 - Max X position 2226
+Episode 160 - Frame 55340/10379689 - Frames/sec 15 - Time 60 | 2754/32739694 - Epsilon 0.9863 - Mean Reward 0.6022 - Mean X position 723 - Max X position 2226
+weights saved
+Episode 165 - Frame 56110/10141807 - Frames/sec 14 - Time 54 | 2808/36985733 - Epsilon 0.9861 - Mean Reward 0.6191 - Mean X position 688 - Max X position 2226
+Episode 170 - Frame 58468/10092105 - Frames/sec 14 - Time 167 | 2975/12732446 - Epsilon 0.9855 - Mean Reward 0.6185 - Mean X position 617 - Max X position 2226
+weights saved
+Episode 175 - Frame 59583/10095000 - Frames/sec 14 - Time 82 | 3057/27675818 - Epsilon 0.9852 - Mean Reward 0.6395 - Mean X position 611 - Max X position 2226
+Got the Flag! :D
+x pos: 3161 - steps: 59583 - episode reward: 242.0
+Episode 180 - Frame 62857/10504862 - Frames/sec 12 - Time 268 | 3325/10668178 - Epsilon 0.9844 - Mean Reward 0.5938 - Mean X position 743 - Max X position 3161
+weights saved
+Episode 185 - Frame 63269/10295591 - Frames/sec 13 - Time 33 | 3358/83903410 - Epsilon 0.9843 - Mean Reward 0.5575 - Mean X position 710 - Max X position 3161
+Episode 190 - Frame 65970/10566597 - Frames/sec 13 - Time 211 | 3569/13961926 - Epsilon 0.9836 - Mean Reward 0.5114 - Mean X position 759 - Max X position 3161
+weights saved
+Episode 195 - Frame 67636/10446786 - Frames/sec 12 - Time 138 | 3707/23244048 - Epsilon 0.9832 - Mean Reward 0.429 - Mean X position 813 - Max X position 3161
+Episode 200 - Frame 68707/10396020 - Frames/sec 12 - Time 90 | 3797/36855932 - Epsilon 0.983 - Mean Reward 0.464 - Mean X position 642 - Max X position 3161
+weights saved
+Episode 205 - Frame 69695/10256505 - Frames/sec 12 - Time 86 | 3883/40306455 - Epsilon 0.9827 - Mean Reward 0.4807 - Mean X position 739 - Max X position 3161
+Episode 210 - Frame 70069/10079953 - Frames/sec 12 - Time 32 | 3915/105515179 - Epsilon 0.9826 - Mean Reward 0.583 - Mean X position 611 - Max X position 3161
+weights saved
+Episode 215 - Frame 71591/10060139 - Frames/sec 11 - Time 134 | 4049/26762775 - Epsilon 0.9823 - Mean Reward 0.6033 - Mean X position 616 - Max X position 3161
+Episode 220 - Frame 73517/10118462 - Frames/sec 11 - Time 171 | 4220/22171373 - Epsilon 0.9818 - Mean Reward 0.5693 - Mean X position 713 - Max X position 3161
+weights saved
+Episode 225 - Frame 74185/10001549 - Frames/sec 11 - Time 61 | 4281/64101811 - Epsilon 0.9816 - Mean Reward 0.5639 - Mean X position 665 - Max X position 3161
+Episode 230 - Frame 76444/10149567 - Frames/sec 11 - Time 206 | 4487/20159300 - Epsilon 0.9811 - Mean Reward 0.4954 - Mean X position 767 - Max X position 3161
+weights saved
+Episode 235 - Frame 79852/10386864 - Frames/sec 11 - Time 323 | 4810/14660002 - Epsilon 0.9802 - Mean Reward 0.4749 - Mean X position 773 - Max X position 3161
+Episode 240 - Frame 81799/10367427 - Frames/sec 10 - Time 189 | 4999/26619338 - Epsilon 0.9798 - Mean Reward 0.4837 - Mean X position 765 - Max X position 3161
+weights saved
+Episode 245 - Frame 85433/10603008 - Frames/sec 9 - Time 390 | 5389/15722732 - Epsilon 0.9789 - Mean Reward 0.4023 - Mean X position 835 - Max X position 3161
+Episode 250 - Frame 86471/10545578 - Frames/sec 10 - Time 102 | 5490/55777964 - Epsilon 0.9786 - Mean Reward 0.4096 - Mean X position 782 - Max X position 3161
+weights saved
+Episode 255 - Frame 89714/10652227 - Frames/sec 10 - Time 332 | 5822/19123485 - Epsilon 0.9778 - Mean Reward 0.3549 - Mean X position 842 - Max X position 3161
+Episode 260 - Frame 90662/10535249 - Frames/sec 9 - Time 102 | 5924/65832849 - Epsilon 0.9776 - Mean Reward 0.3598 - Mean X position 746 - Max X position 3161
+weights saved
+Episode 265 - Frame 91234/10409925 - Frames/sec 9 - Time 62 | 5986/108943051 - Epsilon 0.9774 - Mean Reward 0.4504 - Mean X position 667 - Max X position 3161
+Episode 270 - Frame 93714/10491439 - Frames/sec 9 - Time 275 | 6261/26488191 - Epsilon 0.9768 - Mean Reward 0.4395 - Mean X position 699 - Max X position 3161
+weights saved
+Episode 275 - Frame 96888/10600616 - Frames/sec 9 - Time 361 | 6622/22117204 - Epsilon 0.9761 - Mean Reward 0.4577 - Mean X position 661 - Max X position 3161
+Episode 280 - Frame 97642/10473452 - Frames/sec 9 - Time 86 | 6708/93175618 - Epsilon 0.9759 - Mean Reward 0.5132 - Mean X position 684 - Max X position 3161
+weights saved
+Episode 285 - Frame 98275/10345979 - Frames/sec 8 - Time 75 | 6783/110859703 - Epsilon 0.9757 - Mean Reward 0.5268 - Mean X position 671 - Max X position 3161
+Episode 290 - Frame 100087/10414639 - Frames/sec 9 - Time 210 | 6993/40191278 - Epsilon 0.9753 - Mean Reward 0.5077 - Mean X position 678 - Max X position 3161
+weights saved
+Episode 295 - Frame 103614/10621520 - Frames/sec 9 - Time 396 | 7389/22251703 - Epsilon 0.9744 - Mean Reward 0.478 - Mean X position 709 - Max X position 3161
+Episode 300 - Frame 104869/10621960 - Frames/sec 9 - Time 141 | 7530/63732702 - Epsilon 0.9741 - Mean Reward 0.4689 - Mean X position 734 - Max X position 3161
+weights saved
+Episode 305 - Frame 106551/10620261 - Frames/sec 9 - Time 189 | 7719/48738108 - Epsilon 0.9737 - Mean Reward 0.4218 - Mean X position 773 - Max X position 3161
+Episode 310 - Frame 109521/10815788 - Frames/sec 9 - Time 330 | 8049/29313151 - Epsilon 0.973 - Mean Reward 0.4278 - Mean X position 798 - Max X position 3161
+weights saved
+Episode 315 - Frame 111599/10803165 - Frames/sec 9 - Time 231 | 8281/43050464 - Epsilon 0.9725 - Mean Reward 0.493 - Mean X position 728 - Max X position 3161
+Episode 320 - Frame 113483/10816480 - Frames/sec 9 - Time 214 | 8495/48770545 - Epsilon 0.972 - Mean Reward 0.4444 - Mean X position 725 - Max X position 3161
+weights saved
+Episode 325 - Frame 118132/11076902 - Frames/sec 9 - Time 526 | 9021/21493770 - Epsilon 0.9709 - Mean Reward 0.3651 - Mean X position 798 - Max X position 3161
+Episode 330 - Frame 119072/11011662 - Frames/sec 9 - Time 110 | 9131/106968343 - Epsilon 0.9707 - Mean Reward 0.4054 - Mean X position 755 - Max X position 3161
+weights saved
+Episode 335 - Frame 121747/11072470 - Frames/sec 9 - Time 296 | 9427/39022255 - Epsilon 0.97 - Mean Reward 0.3581 - Mean X position 806 - Max X position 3161
+Episode 340 - Frame 125820/11332199 - Frames/sec 9 - Time 441 | 9869/27457051 - Epsilon 0.969 - Mean Reward 0.2818 - Mean X position 855 - Max X position 3161
+weights saved
+Episode 345 - Frame 128321/11386098 - Frames/sec 9 - Time 275 | 10144/46180537 - Epsilon 0.9684 - Mean Reward 0.365 - Mean X position 820 - Max X position 3161
+Episode 350 - Frame 130628/11416895 - Frames/sec 9 - Time 261 | 10405/51490937 - Epsilon 0.9679 - Mean Reward 0.367 - Mean X position 847 - Max X position 3161
+weights saved
+Episode 355 - Frame 131667/11336910 - Frames/sec 9 - Time 115 | 10520/114783458 - Epsilon 0.9676 - Mean Reward 0.4256 - Mean X position 793 - Max X position 3161
+Episode 360 - Frame 133268/11274488 - Frames/sec 9 - Time 170 | 10690/75277199 - Epsilon 0.9672 - Mean Reward 0.5063 - Mean X position 741 - Max X position 3161
+weights saved
+Episode 365 - Frame 134089/11202186 - Frames/sec 9 - Time 88 | 10778/147054598 - Epsilon 0.967 - Mean Reward 0.5018 - Mean X position 699 - Max X position 3161
+Episode 370 - Frame 134984/11135391 - Frames/sec 10 - Time 94 | 10872/135262645 - Epsilon 0.9668 - Mean Reward 0.5012 - Mean X position 652 - Max X position 3161
+weights saved
+Episode 375 - Frame 139619/11221729 - Frames/sec 10 - Time 485 | 11357/27495464 - Epsilon 0.9657 - Mean Reward 0.4691 - Mean X position 658 - Max X position 3161
+Episode 380 - Frame 140733/11178819 - Frames/sec 9 - Time 122 | 11479/115189224 - Epsilon 0.9654 - Mean Reward 0.519 - Mean X position 658 - Max X position 3161
+weights saved
+Episode 385 - Frame 141065/11063083 - Frames/sec 9 - Time 39 | 11517/383791185 - Epsilon 0.9653 - Mean Reward 0.5905 - Mean X position 594 - Max X position 3161
+Episode 390 - Frame 142210/10990639 - Frames/sec 9 - Time 126 | 11644/111767672 - Epsilon 0.9651 - Mean Reward 0.5694 - Mean X position 613 - Max X position 3161
+weights saved
+Episode 395 - Frame 142799/10911086 - Frames/sec 9 - Time 66 | 11710/216922453 - Epsilon 0.9649 - Mean Reward 0.651 - Mean X position 553 - Max X position 3161
+Episode 400 - Frame 145178/11042569 - Frames/sec 9 - Time 277 | 11987/55640524 - Epsilon 0.9644 - Mean Reward 0.645 - Mean X position 522 - Max X position 3161
+weights saved
+Episode 405 - Frame 149936/11291921 - Frames/sec 9 - Time 520 | 12507/29683070 - Epsilon 0.9632 - Mean Reward 0.4874 - Mean X position 675 - Max X position 3161
+Episode 410 - Frame 152052/11334136 - Frames/sec 8 - Time 252 | 12759/68341662 - Epsilon 0.9627 - Mean Reward 0.4795 - Mean X position 714 - Max X position 3161
+weights saved
+Episode 415 - Frame 152338/11217500 - Frames/sec 9 - Time 33 | 12792/501708778 - Epsilon 0.9626 - Mean Reward 0.502 - Mean X position 663 - Max X position 3161
+Episode 420 - Frame 153841/11193753 - Frames/sec 7 - Time 225 | 13017/96943223 - Epsilon 0.9623 - Mean Reward 0.4732 - Mean X position 722 - Max X position 3161
+weights saved
+Episode 425 - Frame 156704/11171033 - Frames/sec 7 - Time 401 | 13417/52353056 - Epsilon 0.9616 - Mean Reward 0.5151 - Mean X position 650 - Max X position 3161
+Episode 430 - Frame 159250/11273503 - Frames/sec 10 - Time 261 | 13679/60568729 - Epsilon 0.961 - Mean Reward 0.4982 - Mean X position 647 - Max X position 3161
+weights saved
+Episode 435 - Frame 160722/11223555 - Frames/sec 10 - Time 148 | 13827/105428805 - Epsilon 0.9606 - Mean Reward 0.4374 - Mean X position 755 - Max X position 3161
+Episode 440 - Frame 164341/11273673 - Frames/sec 10 - Time 369 | 14196/44222960 - Epsilon 0.9597 - Mean Reward 0.3427 - Mean X position 778 - Max X position 3161
+weights saved
+Episode 445 - Frame 165460/11242332 - Frames/sec 10 - Time 116 | 14312/143788462 - Epsilon 0.9595 - Mean Reward 0.3943 - Mean X position 767 - Max X position 3161
+Episode 450 - Frame 167003/11264102 - Frames/sec 10 - Time 159 | 14471/105642859 - Epsilon 0.9591 - Mean Reward 0.4551 - Mean X position 732 - Max X position 3161
+weights saved
+Episode 455 - Frame 168267/11221360 - Frames/sec 10 - Time 132 | 14603/129644150 - Epsilon 0.9588 - Mean Reward 0.444 - Mean X position 741 - Max X position 3161
+Episode 460 - Frame 169191/11132017 - Frames/sec 10 - Time 96 | 14700/177096662 - Epsilon 0.9586 - Mean Reward 0.5706 - Mean X position 652 - Max X position 3161
+weights saved
+Episode 465 - Frame 170592/11105601 - Frames/sec 10 - Time 147 | 14847/117691768 - Epsilon 0.9582 - Mean Reward 0.5532 - Mean X position 684 - Max X position 3161
+Episode 470 - Frame 171757/11084756 - Frames/sec 10 - Time 116 | 14963/142372155 - Epsilon 0.958 - Mean Reward 0.5487 - Mean X position 696 - Max X position 3161
+weights saved
+Episode 475 - Frame 172443/11009769 - Frames/sec 10 - Time 72 | 15035/241306420 - Epsilon 0.9578 - Mean Reward 0.6001 - Mean X position 683 - Max X position 3161
+Episode 480 - Frame 174366/11054283 - Frames/sec 9 - Time 204 | 15239/87600490 - Epsilon 0.9573 - Mean Reward 0.5306 - Mean X position 719 - Max X position 3161
+weights saved
+Episode 485 - Frame 176105/11038066 - Frames/sec 10 - Time 182 | 15421/97884029 - Epsilon 0.9569 - Mean Reward 0.4973 - Mean X position 756 - Max X position 3161
+Episode 490 - Frame 178967/11059491 - Frames/sec 10 - Time 293 | 15714/60721816 - Epsilon 0.9562 - Mean Reward 0.3984 - Mean X position 812 - Max X position 3161
+weights saved
+Episode 495 - Frame 180334/11017500 - Frames/sec 10 - Time 143 | 15857/127801026 - Epsilon 0.9559 - Mean Reward 0.3387 - Mean X position 852 - Max X position 3161
+Episode 500 - Frame 182412/11059840 - Frames/sec 9 - Time 219 | 16076/85562129 - Epsilon 0.9554 - Mean Reward 0.377 - Mean X position 824 - Max X position 3161
+weights saved
+Episode 505 - Frame 183882/11051957 - Frames/sec 10 - Time 151 | 16227/122001123 - Epsilon 0.9551 - Mean Reward 0.4269 - Mean X position 790 - Max X position 3161
+Episode 510 - Frame 184840/11017065 - Frames/sec 10 - Time 98 | 16325/187740943 - Epsilon 0.9548 - Mean Reward 0.5238 - Mean X position 714 - Max X position 3161
+weights saved
+Episode 515 - Frame 188362/11122965 - Frames/sec 10 - Time 358 | 16683/52686988 - Epsilon 0.954 - Mean Reward 0.5057 - Mean X position 725 - Max X position 3161
+Episode 520 - Frame 189807/11099750 - Frames/sec 10 - Time 146 | 16829/129272984 - Epsilon 0.9537 - Mean Reward 0.5167 - Mean X position 733 - Max X position 3161
+weights saved
+Episode 525 - Frame 192091/11084677 - Frames/sec 10 - Time 235 | 17065/82817219 - Epsilon 0.9531 - Mean Reward 0.4902 - Mean X position 717 - Max X position 3161
+Episode 530 - Frame 195500/11237175 - Frames/sec 10 - Time 347 | 17412/57394058 - Epsilon 0.9523 - Mean Reward 0.4498 - Mean X position 786 - Max X position 3161
+weights saved
+Episode 535 - Frame 197735/11242407 - Frames/sec 10 - Time 231 | 17643/88747028 - Epsilon 0.9518 - Mean Reward 0.479 - Mean X position 782 - Max X position 3161
+Episode 540 - Frame 200204/11266100 - Frames/sec 10 - Time 252 | 17895/81654707 - Epsilon 0.9512 - Mean Reward 0.4322 - Mean X position 852 - Max X position 3161
+weights saved
+Episode 545 - Frame 201645/11229890 - Frames/sec 10 - Time 144 | 18039/140580950 - Epsilon 0.9508 - Mean Reward 0.4292 - Mean X position 870 - Max X position 3161
+Episode 550 - Frame 203650/11253321 - Frames/sec 10 - Time 194 | 18233/102337672 - Epsilon 0.9504 - Mean Reward 0.4116 - Mean X position 862 - Max X position 3161
+weights saved
+Episode 555 - Frame 206666/11362230 - Frames/sec 10 - Time 303 | 18537/69833766 - Epsilon 0.9496 - Mean Reward 0.3612 - Mean X position 847 - Max X position 3161
+Episode 560 - Frame 207450/11309643 - Frames/sec 10 - Time 76 | 18612/268494952 - Epsilon 0.9495 - Mean Reward 0.4322 - Mean X position 750 - Max X position 3161
+weights saved
+Episode 565 - Frame 208575/11259152 - Frames/sec 10 - Time 111 | 18723/187386443 - Epsilon 0.9492 - Mean Reward 0.4195 - Mean X position 726 - Max X position 3161
+Episode 570 - Frame 209340/11193363 - Frames/sec 11 - Time 71 | 18795/275003599 - Epsilon 0.949 - Mean Reward 0.4994 - Mean X position 675 - Max X position 3161
+weights saved
+Episode 575 - Frame 211437/11220295 - Frames/sec 10 - Time 207 | 19002/101671900 - Epsilon 0.9485 - Mean Reward 0.5456 - Mean X position 612 - Max X position 3161
+Episode 580 - Frame 213563/11253769 - Frames/sec 10 - Time 211 | 19213/101700344 - Epsilon 0.948 - Mean Reward 0.4705 - Mean X position 708 - Max X position 3161
+weights saved
+Episode 585 - Frame 216570/11299829 - Frames/sec 10 - Time 299 | 19512/73322757 - Epsilon 0.9473 - Mean Reward 0.4716 - Mean X position 696 - Max X position 3161
+Episode 590 - Frame 218356/11317953 - Frames/sec 10 - Time 183 | 19695/124806729 - Epsilon 0.9469 - Mean Reward 0.4248 - Mean X position 732 - Max X position 3161
+weights saved
+Episode 595 - Frame 220932/11339228 - Frames/sec 10 - Time 255 | 19950/87815841 - Epsilon 0.9463 - Mean Reward 0.4175 - Mean X position 763 - Max X position 3161
+Episode 600 - Frame 223399/11300549 - Frames/sec 10 - Time 238 | 20188/92474616 - Epsilon 0.9457 - Mean Reward 0.4532 - Mean X position 703 - Max X position 3161
+weights saved
+Episode 605 - Frame 225106/11311238 - Frames/sec 10 - Time 167 | 20355/134877265 - Epsilon 0.9453 - Mean Reward 0.4662 - Mean X position 707 - Max X position 3161
+Episode 610 - Frame 226785/11330213 - Frames/sec 11 - Time 159 | 20514/138431674 - Epsilon 0.9449 - Mean Reward 0.447 - Mean X position 692 - Max X position 3161
+weights saved
+Episode 615 - Frame 228789/11337386 - Frames/sec 10 - Time 191 | 20705/117137741 - Epsilon 0.9444 - Mean Reward 0.4618 - Mean X position 734 - Max X position 3161
+Episode 620 - Frame 229646/11289614 - Frames/sec 11 - Time 77 | 20782/273774468 - Epsilon 0.9442 - Mean Reward 0.4743 - Mean X position 702 - Max X position 3161
+weights saved
+Episode 625 - Frame 232294/11303722 - Frames/sec 11 - Time 252 | 21034/89790252 - Epsilon 0.9436 - Mean Reward 0.4457 - Mean X position 790 - Max X position 3161
+Episode 630 - Frame 235827/11382425 - Frames/sec 10 - Time 348 | 21383/68889066 - Epsilon 0.9427 - Mean Reward 0.4115 - Mean X position 820 - Max X position 3161
+weights saved
+Episode 635 - Frame 237306/11361101 - Frames/sec 10 - Time 145 | 21527/165363002 - Epsilon 0.9424 - Mean Reward 0.3951 - Mean X position 759 - Max X position 3161
+Episode 640 - Frame 239037/11357207 - Frames/sec 11 - Time 164 | 21691/142318004 - Epsilon 0.942 - Mean Reward 0.3795 - Mean X position 813 - Max X position 3161
+weights saved
+Episode 645 - Frame 240571/11364520 - Frames/sec 10 - Time 149 | 21840/161803026 - Epsilon 0.9416 - Mean Reward 0.4207 - Mean X position 732 - Max X position 3161
+Episode 650 - Frame 242124/11343994 - Frames/sec 10 - Time 149 | 21989/160622844 - Epsilon 0.9413 - Mean Reward 0.4754 - Mean X position 674 - Max X position 3161
+weights saved
+Episode 655 - Frame 243970/11328613 - Frames/sec 10 - Time 177 | 22166/136030370 - Epsilon 0.9408 - Mean Reward 0.4912 - Mean X position 740 - Max X position 3161
+Episode 660 - Frame 246966/11365537 - Frames/sec 11 - Time 282 | 22448/85158001 - Epsilon 0.9401 - Mean Reward 0.4217 - Mean X position 805 - Max X position 3161
+weights saved
+Episode 665 - Frame 247545/11310991 - Frames/sec 11 - Time 52 | 22500/439541142 - Epsilon 0.94 - Mean Reward 0.4406 - Mean X position 769 - Max X position 3161
+Episode 670 - Frame 250472/11349553 - Frames/sec 11 - Time 275 | 22775/88310424 - Epsilon 0.9393 - Mean Reward 0.3895 - Mean X position 768 - Max X position 3161
+weights saved
+Episode 675 - Frame 252064/11315237 - Frames/sec 11 - Time 151 | 22926/162947180 - Epsilon 0.9389 - Mean Reward 0.4293 - Mean X position 692 - Max X position 3161
+Episode 680 - Frame 253548/11302129 - Frames/sec 11 - Time 136 | 23062/175642134 - Epsilon 0.9386 - Mean Reward 0.4925 - Mean X position 638 - Max X position 3161
+weights saved
+Episode 685 - Frame 255976/11359942 - Frames/sec 11 - Time 227 | 23289/108961955 - Epsilon 0.938 - Mean Reward 0.4472 - Mean X position 700 - Max X position 3161
+Episode 690 - Frame 259326/11401751 - Frames/sec 11 - Time 307 | 23596/80308828 - Epsilon 0.9372 - Mean Reward 0.4664 - Mean X position 713 - Max X position 3161
+weights saved
+Episode 695 - Frame 262724/11456695 - Frames/sec 11 - Time 316 | 23912/80620459 - Epsilon 0.9364 - Mean Reward 0.3579 - Mean X position 802 - Max X position 3161
+Episode 700 - Frame 263253/11397932 - Frames/sec 11 - Time 50 | 23962/516285516 - Epsilon 0.9363 - Mean Reward 0.4309 - Mean X position 750 - Max X position 3161
+weights saved
+Episode 705 - Frame 266308/11447521 - Frames/sec 11 - Time 285 | 24247/90855870 - Epsilon 0.9356 - Mean Reward 0.4107 - Mean X position 776 - Max X position 3161
+Episode 710 - Frame 267875/11434852 - Frames/sec 11 - Time 147 | 24394/178006571 - Epsilon 0.9352 - Mean Reward 0.4235 - Mean X position 784 - Max X position 3161
+weights saved
+Episode 715 - Frame 270472/11485349 - Frames/sec 11 - Time 246 | 24640/108971203 - Epsilon 0.9346 - Mean Reward 0.5096 - Mean X position 673 - Max X position 3161
+Episode 720 - Frame 273105/11478211 - Frames/sec 11 - Time 247 | 24887/108489508 - Epsilon 0.934 - Mean Reward 0.4215 - Mean X position 783 - Max X position 3161
+weights saved
+Episode 725 - Frame 273823/11420262 - Frames/sec 11 - Time 67 | 24954/396906579 - Epsilon 0.9338 - Mean Reward 0.4788 - Mean X position 693 - Max X position 3161
+Episode 730 - Frame 276110/11442134 - Frames/sec 11 - Time 210 | 25164/125896456 - Epsilon 0.9333 - Mean Reward 0.5045 - Mean X position 689 - Max X position 3161
+weights saved
+Episode 735 - Frame 278065/11476889 - Frames/sec 11 - Time 182 | 25345/148789262 - Epsilon 0.9328 - Mean Reward 0.4838 - Mean X position 736 - Max X position 3161
+Episode 740 - Frame 280271/11476019 - Frames/sec 11 - Time 202 | 25547/132902414 - Epsilon 0.9323 - Mean Reward 0.4923 - Mean X position 685 - Max X position 3161
+weights saved
+Episode 745 - Frame 281238/11434920 - Frames/sec 11 - Time 91 | 25639/303180802 - Epsilon 0.9321 - Mean Reward 0.5163 - Mean X position 706 - Max X position 3161
+Episode 750 - Frame 283555/11419081 - Frames/sec 11 - Time 216 | 25855/127422805 - Epsilon 0.9316 - Mean Reward 0.4985 - Mean X position 721 - Max X position 3161
+weights saved
+Episode 755 - Frame 284990/11406283 - Frames/sec 11 - Time 133 | 25988/206571254 - Epsilon 0.9312 - Mean Reward 0.4979 - Mean X position 770 - Max X position 3161
+Episode 760 - Frame 285930/11361209 - Frames/sec 11 - Time 86 | 26074/315143879 - Epsilon 0.931 - Mean Reward 0.513 - Mean X position 731 - Max X position 3161
+weights saved
+Episode 765 - Frame 286825/11324935 - Frames/sec 11 - Time 84 | 26158/330997894 - Epsilon 0.9308 - Mean Reward 0.488 - Mean X position 753 - Max X position 3161
+Episode 770 - Frame 289096/11302750 - Frames/sec 11 - Time 208 | 26366/131223539 - Epsilon 0.9303 - Mean Reward 0.4841 - Mean X position 733 - Max X position 3161
+weights saved
+Episode 775 - Frame 290226/11261881 - Frames/sec 11 - Time 105 | 26471/263817948 - Epsilon 0.93 - Mean Reward 0.5506 - Mean X position 644 - Max X position 3161
+Episode 780 - Frame 291068/11214738 - Frames/sec 11 - Time 77 | 26548/353592803 - Epsilon 0.9298 - Mean Reward 0.5651 - Mean X position 670 - Max X position 3161
+weights saved
+Episode 785 - Frame 294531/11228321 - Frames/sec 11 - Time 325 | 26872/87130476 - Epsilon 0.929 - Mean Reward 0.5109 - Mean X position 702 - Max X position 3161
+Episode 790 - Frame 296129/11224905 - Frames/sec 11 - Time 150 | 27022/189815299 - Epsilon 0.9286 - Mean Reward 0.5445 - Mean X position 712 - Max X position 3161
+weights saved
+Episode 795 - Frame 297248/11215126 - Frames/sec 11 - Time 105 | 27128/271886979 - Epsilon 0.9284 - Mean Reward 0.517 - Mean X position 754 - Max X position 3161
+Episode 800 - Frame 298106/11179950 - Frames/sec 11 - Time 79 | 27207/354507632 - Epsilon 0.9282 - Mean Reward 0.5202 - Mean X position 712 - Max X position 3161
+weights saved
+Episode 805 - Frame 299692/11185769 - Frames/sec 11 - Time 147 | 27354/192921396 - Epsilon 0.9278 - Mean Reward 0.5611 - Mean X position 705 - Max X position 3161
+Episode 810 - Frame 300231/11139211 - Frames/sec 11 - Time 49 | 27403/566328076 - Epsilon 0.9277 - Mean Reward 0.6063 - Mean X position 682 - Max X position 3161
+weights saved
+Episode 815 - Frame 300681/11086826 - Frames/sec 11 - Time 41 | 27445/676165726 - Epsilon 0.9276 - Mean Reward 0.6481 - Mean X position 641 - Max X position 3161
+Episode 820 - Frame 302188/11068599 - Frames/sec 11 - Time 137 | 27582/202580988 - Epsilon 0.9272 - Mean Reward 0.6099 - Mean X position 650 - Max X position 3161
+weights saved
+Episode 825 - Frame 304683/11116320 - Frames/sec 11 - Time 226 | 27807/123892830 - Epsilon 0.9267 - Mean Reward 0.6164 - Mean X position 662 - Max X position 3161
+Episode 830 - Frame 307757/11156510 - Frames/sec 11 - Time 277 | 28084/101925054 - Epsilon 0.9259 - Mean Reward 0.4738 - Mean X position 773 - Max X position 3161
+weights saved
+Episode 835 - Frame 308091/11100060 - Frames/sec 10 - Time 32 | 28116/934407158 - Epsilon 0.9259 - Mean Reward 0.4977 - Mean X position 757 - Max X position 3161
+Episode 840 - Frame 309745/11062497 - Frames/sec 11 - Time 147 | 28263/189032643 - Epsilon 0.9255 - Mean Reward 0.5441 - Mean X position 746 - Max X position 3161
+weights saved
+Episode 845 - Frame 310562/11033842 - Frames/sec 11 - Time 75 | 28338/382709257 - Epsilon 0.9253 - Mean Reward 0.5957 - Mean X position 684 - Max X position 3161
+Episode 850 - Frame 312427/11039459 - Frames/sec 11 - Time 168 | 28506/168733601 - Epsilon 0.9249 - Mean Reward 0.6758 - Mean X position 636 - Max X position 3161
+weights saved
+Episode 855 - Frame 312982/10995058 - Frames/sec 11 - Time 52 | 28558/565760964 - Epsilon 0.9247 - Mean Reward 0.6426 - Mean X position 648 - Max X position 3161
+Episode 860 - Frame 314309/10972532 - Frames/sec 11 - Time 120 | 28678/237128933 - Epsilon 0.9244 - Mean Reward 0.6332 - Mean X position 650 - Max X position 3161
+weights saved
+Episode 865 - Frame 315588/10959492 - Frames/sec 11 - Time 114 | 28792/246716704 - Epsilon 0.9241 - Mean Reward 0.5918 - Mean X position 662 - Max X position 3161
+Episode 870 - Frame 317741/10980161 - Frames/sec 11 - Time 192 | 28984/147819015 - Epsilon 0.9236 - Mean Reward 0.5681 - Mean X position 685 - Max X position 3161
+weights saved
+Episode 875 - Frame 318881/10962648 - Frames/sec 11 - Time 104 | 29088/279725170 - Epsilon 0.9234 - Mean Reward 0.5135 - Mean X position 695 - Max X position 3161
+Episode 880 - Frame 319616/10924381 - Frames/sec 11 - Time 66 | 29154/433322940 - Epsilon 0.9232 - Mean Reward 0.531 - Mean X position 684 - Max X position 3161
+weights saved
+Episode 885 - Frame 321157/10896005 - Frames/sec 11 - Time 137 | 29291/207109226 - Epsilon 0.9228 - Mean Reward 0.5356 - Mean X position 753 - Max X position 3161
+Episode 890 - Frame 322375/10879169 - Frames/sec 11 - Time 109 | 29400/262602553 - Epsilon 0.9226 - Mean Reward 0.5918 - Mean X position 660 - Max X position 3161
+weights saved
+Episode 895 - Frame 325174/10924275 - Frames/sec 11 - Time 249 | 29649/115717043 - Epsilon 0.9219 - Mean Reward 0.522 - Mean X position 726 - Max X position 3161
+Episode 900 - Frame 326238/10892986 - Frames/sec 12 - Time 90 | 29738/304455632 - Epsilon 0.9217 - Mean Reward 0.5115 - Mean X position 736 - Max X position 3161
+weights saved
+Episode 905 - Frame 327567/10876225 - Frames/sec 11 - Time 118 | 29856/244336703 - Epsilon 0.9214 - Mean Reward 0.5237 - Mean X position 704 - Max X position 3161
+Episode 910 - Frame 328426/10844907 - Frames/sec 11 - Time 75 | 29931/377885526 - Epsilon 0.9212 - Mean Reward 0.5414 - Mean X position 658 - Max X position 3161
+weights saved
+Episode 915 - Frame 330395/10862980 - Frames/sec 12 - Time 170 | 30102/166072031 - Epsilon 0.9207 - Mean Reward 0.6057 - Mean X position 655 - Max X position 3161
+Episode 920 - Frame 331695/10848208 - Frames/sec 12 - Time 111 | 30213/252120396 - Epsilon 0.9204 - Mean Reward 0.5763 - Mean X position 716 - Max X position 3161
+weights saved
+Episode 925 - Frame 332740/10821501 - Frames/sec 11 - Time 91 | 30304/313815869 - Epsilon 0.9202 - Mean Reward 0.5771 - Mean X position 700 - Max X position 3161
+Episode 930 - Frame 333268/10774705 - Frames/sec 12 - Time 46 | 30350/619340386 - Epsilon 0.9201 - Mean Reward 0.5616 - Mean X position 718 - Max X position 3161
+weights saved
+Episode 935 - Frame 334575/10767596 - Frames/sec 12 - Time 108 | 30457/250921162 - Epsilon 0.9198 - Mean Reward 0.5927 - Mean X position 644 - Max X position 3161
+Episode 940 - Frame 335451/10744772 - Frames/sec 11 - Time 77 | 30535/374529399 - Epsilon 0.9196 - Mean Reward 0.637 - Mean X position 616 - Max X position 3161
+weights saved
+Episode 945 - Frame 337652/10737273 - Frames/sec 12 - Time 188 | 30723/149878054 - Epsilon 0.9191 - Mean Reward 0.5497 - Mean X position 621 - Max X position 3161
+Episode 950 - Frame 338690/10717329 - Frames/sec 12 - Time 89 | 30812/318134299 - Epsilon 0.9188 - Mean Reward 0.5125 - Mean X position 661 - Max X position 3161
+weights saved
+Episode 955 - Frame 340554/10721527 - Frames/sec 12 - Time 160 | 30972/178147782 - Epsilon 0.9184 - Mean Reward 0.4673 - Mean X position 733 - Max X position 3161
+Episode 960 - Frame 343131/10709032 - Frames/sec 12 - Time 216 | 31188/129605638 - Epsilon 0.9178 - Mean Reward 0.4425 - Mean X position 725 - Max X position 3161
+weights saved
+Episode 965 - Frame 345146/10716201 - Frames/sec 12 - Time 174 | 31362/166787927 - Epsilon 0.9173 - Mean Reward 0.4924 - Mean X position 737 - Max X position 3161
+Episode 970 - Frame 347736/10757878 - Frames/sec 12 - Time 220 | 31581/131177243 - Epsilon 0.9167 - Mean Reward 0.4391 - Mean X position 802 - Max X position 3161
+weights saved
+Episode 975 - Frame 348546/10722746 - Frames/sec 12 - Time 68 | 31649/418969745 - Epsilon 0.9166 - Mean Reward 0.4401 - Mean X position 746 - Max X position 3161
+Episode 980 - Frame 350186/10729786 - Frames/sec 12 - Time 136 | 31785/207954713 - Epsilon 0.9162 - Mean Reward 0.4155 - Mean X position 749 - Max X position 3161
+weights saved
+Episode 985 - Frame 352493/10742677 - Frames/sec 11 - Time 203 | 31988/148954571 - Epsilon 0.9156 - Mean Reward 0.3968 - Mean X position 747 - Max X position 3161
+Episode 990 - Frame 354339/10746831 - Frames/sec 12 - Time 158 | 32146/187142410 - Epsilon 0.9152 - Mean Reward 0.3944 - Mean X position 749 - Max X position 3161
+weights saved
+Episode 995 - Frame 360152/10868022 - Frames/sec 12 - Time 494 | 32639/61022900 - Epsilon 0.9139 - Mean Reward 0.3364 - Mean X position 799 - Max X position 3161
+Episode 1000 - Frame 361252/10847323 - Frames/sec 11 - Time 97 | 32737/322823411 - Epsilon 0.9136 - Mean Reward 0.3872 - Mean X position 754 - Max X position 3161
+weights saved
+Episode 1005 - Frame 364208/10879274 - Frames/sec 12 - Time 252 | 32989/121412913 - Epsilon 0.913 - Mean Reward 0.3649 - Mean X position 755 - Max X position 3161
+Episode 1010 - Frame 366277/10902364 - Frames/sec 12 - Time 174 | 33163/174749393 - Epsilon 0.9125 - Mean Reward 0.3935 - Mean X position 725 - Max X position 3161
+weights saved
+Episode 1015 - Frame 367449/10898120 - Frames/sec 12 - Time 101 | 33264/309311856 - Epsilon 0.9122 - Mean Reward 0.4779 - Mean X position 679 - Max X position 3161
+Episode 1020 - Frame 370387/10900764 - Frames/sec 12 - Time 249 | 33512/124340090 - Epsilon 0.9116 - Mean Reward 0.3848 - Mean X position 749 - Max X position 3161
+weights saved
+Episode 1025 - Frame 372504/10904318 - Frames/sec 12 - Time 178 | 33690/173532303 - Epsilon 0.9111 - Mean Reward 0.39 - Mean X position 744 - Max X position 3161
+Episode 1030 - Frame 373334/10878962 - Frames/sec 12 - Time 69 | 33759/442489165 - Epsilon 0.9109 - Mean Reward 0.4628 - Mean X position 673 - Max X position 3161
+weights saved
+Episode 1035 - Frame 374896/10876438 - Frames/sec 12 - Time 130 | 33889/235976509 - Epsilon 0.9105 - Mean Reward 0.4241 - Mean X position 722 - Max X position 3161
+Episode 1040 - Frame 377809/10926763 - Frames/sec 12 - Time 244 | 34134/128036384 - Epsilon 0.9099 - Mean Reward 0.4244 - Mean X position 724 - Max X position 3161
+weights saved
+Episode 1045 - Frame 379807/10931730 - Frames/sec 12 - Time 171 | 34305/187694798 - Epsilon 0.9094 - Mean Reward 0.437 - Mean X position 724 - Max X position 3161
+Episode 1050 - Frame 384431/10975614 - Frames/sec 12 - Time 397 | 34702/82369093 - Epsilon 0.9084 - Mean Reward 0.3376 - Mean X position 830 - Max X position 3161
+weights saved
+Episode 1055 - Frame 385393/10948646 - Frames/sec 12 - Time 82 | 34784/395879226 - Epsilon 0.9081 - Mean Reward 0.3554 - Mean X position 788 - Max X position 3161
+Episode 1060 - Frame 387615/10948690 - Frames/sec 12 - Time 188 | 34971/172318162 - Epsilon 0.9076 - Mean Reward 0.3646 - Mean X position 780 - Max X position 3161
+weights saved
+Episode 1065 - Frame 388635/10930957 - Frames/sec 11 - Time 90 | 35061/375734688 - Epsilon 0.9074 - Mean Reward 0.4059 - Mean X position 752 - Max X position 3161
+Episode 1070 - Frame 389215/10900308 - Frames/sec 12 - Time 49 | 35110/659846798 - Epsilon 0.9073 - Mean Reward 0.4985 - Mean X position 644 - Max X position 3161
+weights saved
+Episode 1075 - Frame 390562/10880809 - Frames/sec 12 - Time 116 | 35226/284549179 - Epsilon 0.907 - Mean Reward 0.5157 - Mean X position 737 - Max X position 3161
+Episode 1080 - Frame 391881/10864727 - Frames/sec 12 - Time 111 | 35337/291077065 - Epsilon 0.9067 - Mean Reward 0.5573 - Mean X position 660 - Max X position 3161
+weights saved
+Episode 1085 - Frame 392944/10833877 - Frames/sec 12 - Time 92 | 35429/361090048 - Epsilon 0.9064 - Mean Reward 0.5719 - Mean X position 640 - Max X position 3161
+Episode 1090 - Frame 395139/10834977 - Frames/sec 12 - Time 185 | 35615/175800854 - Epsilon 0.9059 - Mean Reward 0.5521 - Mean X position 690 - Max X position 3161
+weights saved
+Episode 1095 - Frame 396679/10820593 - Frames/sec 12 - Time 133 | 35748/251175954 - Epsilon 0.9056 - Mean Reward 0.5359 - Mean X position 699 - Max X position 3161
+Episode 1100 - Frame 402017/10955550 - Frames/sec 12 - Time 448 | 36196/74287890 - Epsilon 0.9044 - Mean Reward 0.4481 - Mean X position 786 - Max X position 3161
+weights saved
+Episode 1105 - Frame 403539/10951799 - Frames/sec 12 - Time 126 | 36322/261362865 - Epsilon 0.904 - Mean Reward 0.4389 - Mean X position 794 - Max X position 3161
+Episode 1110 - Frame 404599/10921197 - Frames/sec 12 - Time 90 | 36412/375153541 - Epsilon 0.9038 - Mean Reward 0.4531 - Mean X position 823 - Max X position 3161
+weights saved
+Episode 1115 - Frame 405454/10895609 - Frames/sec 12 - Time 73 | 36485/464944791 - Epsilon 0.9036 - Mean Reward 0.4772 - Mean X position 711 - Max X position 3161
+Episode 1120 - Frame 405988/10855281 - Frames/sec 12 - Time 45 | 36530/742584876 - Epsilon 0.9035 - Mean Reward 0.6243 - Mean X position 598 - Max X position 3161
+weights saved
+Episode 1125 - Frame 406587/10825773 - Frames/sec 12 - Time 50 | 36580/661112041 - Epsilon 0.9033 - Mean Reward 0.6639 - Mean X position 579 - Max X position 3161
+Episode 1130 - Frame 407995/10808727 - Frames/sec 12 - Time 117 | 36697/281707745 - Epsilon 0.903 - Mean Reward 0.6226 - Mean X position 554 - Max X position 3161
+weights saved
+Episode 1135 - Frame 409675/10809445 - Frames/sec 12 - Time 142 | 36839/237026905 - Epsilon 0.9027 - Mean Reward 0.5813 - Mean X position 646 - Max X position 3161
+Episode 1140 - Frame 411765/10822962 - Frames/sec 12 - Time 174 | 37013/191668457 - Epsilon 0.9022 - Mean Reward 0.5228 - Mean X position 755 - Max X position 3161
+weights saved
+Episode 1145 - Frame 412649/10797801 - Frames/sec 11 - Time 78 | 37090/453046453 - Epsilon 0.902 - Mean Reward 0.4856 - Mean X position 798 - Max X position 3161
+Episode 1150 - Frame 413637/10777976 - Frames/sec 12 - Time 82 | 37172/405507629 - Epsilon 0.9018 - Mean Reward 0.4842 - Mean X position 792 - Max X position 3161
+weights saved
+Episode 1155 - Frame 415059/10756453 - Frames/sec 12 - Time 117 | 37289/282067168 - Epsilon 0.9014 - Mean Reward 0.517 - Mean X position 741 - Max X position 3161
+Episode 1160 - Frame 417419/10779940 - Frames/sec 12 - Time 198 | 37487/171234086 - Epsilon 0.9009 - Mean Reward 0.5004 - Mean X position 720 - Max X position 3161
+weights saved
+Episode 1165 - Frame 418493/10754803 - Frames/sec 12 - Time 92 | 37580/376317104 - Epsilon 0.9007 - Mean Reward 0.5184 - Mean X position 744 - Max X position 3161
+Episode 1170 - Frame 420987/10772989 - Frames/sec 12 - Time 206 | 37786/163219181 - Epsilon 0.9001 - Mean Reward 0.4834 - Mean X position 817 - Max X position 3161
+weights saved
+Episode 1175 - Frame 422140/10760587 - Frames/sec 12 - Time 100 | 37886/353577549 - Epsilon 0.8998 - Mean Reward 0.4978 - Mean X position 863 - Max X position 3161
+Episode 1180 - Frame 423381/10736664 - Frames/sec 12 - Time 105 | 37990/328679009 - Epsilon 0.8996 - Mean Reward 0.5436 - Mean X position 852 - Max X position 3161
+weights saved
+Episode 1185 - Frame 425238/10729806 - Frames/sec 12 - Time 158 | 38149/220424310 - Epsilon 0.8991 - Mean Reward 0.4735 - Mean X position 868 - Max X position 3161
+Episode 1190 - Frame 426935/10727145 - Frames/sec 12 - Time 140 | 38289/242033913 - Epsilon 0.8988 - Mean Reward 0.4933 - Mean X position 847 - Max X position 3161
+weights saved
+Episode 1195 - Frame 428278/10725861 - Frames/sec 12 - Time 111 | 38400/306685144 - Epsilon 0.8985 - Mean Reward 0.4873 - Mean X position 836 - Max X position 3161
+Episode 1200 - Frame 429617/10704996 - Frames/sec 12 - Time 110 | 38510/307881226 - Epsilon 0.8982 - Mean Reward 0.4463 - Mean X position 863 - Max X position 3161
+weights saved
+Episode 1205 - Frame 431609/10703027 - Frames/sec 12 - Time 163 | 38673/207792517 - Epsilon 0.8977 - Mean Reward 0.4791 - Mean X position 869 - Max X position 3161
+Episode 1210 - Frame 432047/10670413 - Frames/sec 12 - Time 36 | 38710/943029036 - Epsilon 0.8976 - Mean Reward 0.5661 - Mean X position 763 - Max X position 3161
+weights saved
+Episode 1215 - Frame 433341/10657837 - Frames/sec 12 - Time 109 | 38819/319724302 - Epsilon 0.8973 - Mean Reward 0.5719 - Mean X position 691 - Max X position 3161
+Episode 1220 - Frame 434343/10633047 - Frames/sec 12 - Time 84 | 38903/412830577 - Epsilon 0.8971 - Mean Reward 0.5922 - Mean X position 616 - Max X position 3161
+weights saved
+Episode 1225 - Frame 435471/10619682 - Frames/sec 12 - Time 96 | 38999/367163918 - Epsilon 0.8968 - Mean Reward 0.5985 - Mean X position 554 - Max X position 3161
+Episode 1230 - Frame 436342/10590057 - Frames/sec 12 - Time 72 | 39071/475045619 - Epsilon 0.8967 - Mean Reward 0.5803 - Mean X position 576 - Max X position 3161
+weights saved
+Episode 1235 - Frame 436935/10561432 - Frames/sec 12 - Time 51 | 39122/696767682 - Epsilon 0.8965 - Mean Reward 0.5947 - Mean X position 543 - Max X position 3161
+Episode 1240 - Frame 439754/10579645 - Frames/sec 12 - Time 231 | 39353/147690453 - Epsilon 0.8959 - Mean Reward 0.5435 - Mean X position 623 - Max X position 3161
+weights saved
+Episode 1245 - Frame 441790/10587079 - Frames/sec 12 - Time 167 | 39520/205502190 - Epsilon 0.8954 - Mean Reward 0.5325 - Mean X position 661 - Max X position 3161
+Episode 1250 - Frame 442865/10560823 - Frames/sec 12 - Time 89 | 39610/389125471 - Epsilon 0.8952 - Mean Reward 0.4905 - Mean X position 674 - Max X position 3161
+weights saved
+Episode 1255 - Frame 444217/10560589 - Frames/sec 10 - Time 130 | 39740/310413283 - Epsilon 0.8949 - Mean Reward 0.4519 - Mean X position 738 - Max X position 3161
+2021-01-27 07:40:09.009297: W tensorflow/core/framework/op_kernel.cc:1767] OP_REQUIRES failed at conv_grad_input_ops.cc:683 : Resource exhausted: OOM when allocating tensor with shape[131,81,512] and type float on /job:localhost/replica:0/task:0/device:CPU:0 by allocator cpu
+Traceback (most recent call last):
+  File ".\train_dqn_cloud.py", line 526, in <module>
+    agent.learn()
+  File ".\train_dqn_cloud.py", line 372, in learn
+    self.model_online.fit(X, Y, verbose=0) # verbose=0 -- logging none
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\keras\engine\training.py", line 108, in _method_wrapper
+    return method(self, *args, **kwargs)
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\keras\engine\training.py", line 1098, in fit
+    tmp_logs = train_function(iterator)
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\def_function.py", line 780, in __call__
+    result = self._call(*args, **kwds)
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\def_function.py", line 807, in _call
+    return self._stateless_fn(*args, **kwds)  # pylint: disable=not-callable
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\function.py", line 2829, in __call__
+    return graph_function._filtered_call(args, kwargs)  # pylint: disable=protected-access
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\function.py", line 1848, in _filtered_call
+    cancellation_manager=cancellation_manager)
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\function.py", line 1924, in _call_flat
+    ctx, args, cancellation_manager=cancellation_manager))
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\function.py", line 550, in call
+    ctx=ctx)
+  File "C:\Users\IvanekAnikin\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\eager\execute.py", line 60, in quick_execute
+    inputs, attrs, num_outputs)
+tensorflow.python.framework.errors_impl.ResourceExhaustedError:  OOM when allocating tensor with shape[131,81,512] and type float on /job:localhost/replica:0/task:0/device:CPU:0 by allocator cpu
+         [[node gradient_tape/functional_1/conv2d_1/Conv2D/Conv2DBackpropInput (defined at .\train_dqn_cloud.py:372) ]]
+Hint: If you want to see a list of allocated tensors when OOM happens, add report_tensor_allocations_upon_oom to RunOptions for current allocation info.
+ [Op:__inference_train_function_4625]
