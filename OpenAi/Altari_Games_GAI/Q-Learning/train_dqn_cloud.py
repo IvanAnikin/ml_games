@@ -514,7 +514,7 @@ save_weights_every = 10     # episodes
 save_rewards_every = 10     # episodes
 
 epsilon = 1                 # 1
-eps_decay = 0.999999        # 0.99999 - avg 0.4 epsilon left after 300 episodes (0.99999975)
+eps_decay = 0.9999995       # 999999 - epsilon = 0.45 after 5000 episodes || 0.99999 - avg 0.4 epsilon left after 300 episodes (0.99999975)
 eps_min = 0.1
 gamma = 0.90
 double_q = False
