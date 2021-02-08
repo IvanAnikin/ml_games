@@ -507,7 +507,7 @@ load_model = True
 model_file_path_online = "./{}__{}__{}_online.HDF5".format(env_name, training_version_name, movement_type)
 model_file_path_target = "./{}__{}__{}_target.HDF5".format(env_name, training_version_name, movement_type)
 
-episodes = 5000             # 10000
+episodes = 10000            # 10000
 show_every = 5              # episodes
 stats_every = 2             # episodes
 save_weights_every = 10     # episodes

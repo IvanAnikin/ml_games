@@ -445,10 +445,6 @@ class DQN_Agent():
 
     def add(self, experience):
 
-        if(len(self.memory) == self.max_memory - 1 ): print("memory == max_memory - 1")
-        if(len(self.memory) == self.max_memory): print("memory == max_memory")
-        if(len(self.memory) == self.max_memory + 1): print("memory == max_memory + 1")
-
         self.memory.append(experience)
 
         return
@@ -479,14 +475,15 @@ load_model = True
 model_file_path_online = "./{}__{}__{}_online.HDF5".format(env_name, training_version_name, movement_type)
 model_file_path_target = "./{}__{}__{}_target.HDF5".format(env_name, training_version_name, movement_type)
 
-episodes = 1000             # 10000
+episodes = 10000            # 10000
 show_every = 5              # episodes
 stats_every = 2             # episodes
 save_weights_every = 10     # episodes
 save_rewards_every = 10     # episodes
 
 epsilon = 1                 # 1
-eps_decay = 0.999999        # 0.9999 --> epsilon = 0.1 after 120 episodes (0.99999975 --> epsilon = 0.895 after 250 episodes)
+eps_decay = 0.9999995       # 999999 - epsilon = 0.45 after 5000 episodes || 0.99999 - avg 0.4 epsilon left after 300 episodes (0.99999975)
+                            # 0.9999 --> epsilon = 0.1 after 120 episodes (0.99999975 --> epsilon = 0.895 after 250 episodes)
 eps_min = 0.1
 gamma = 0.90
 double_q = False
