@@ -36,7 +36,7 @@ stats_every = 2             # episodes
 save_weights_every = 10     # episodes
 save_rewards_every = 10     # episodes
 
-epsilon = 0.2                 # 1
+epsilon = 0.1                 # 1
 eps_decay = 0.999999          # (0.99999975)
 eps_min = 0.1
 gamma = 0.90
@@ -104,7 +104,7 @@ for e in range(episodes):
     frames = []
 
     while True:
-        #env.render()
+        env.render()
         frames.append(Image.fromarray(env.render(mode='rgb_array')))
 
         # Run agent

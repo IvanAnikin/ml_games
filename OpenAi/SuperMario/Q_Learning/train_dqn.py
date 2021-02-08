@@ -19,7 +19,7 @@ import Clean_Results.Agents.storage_agent as storage_agent
 # Parameters
 
 env_name = 'SuperMarioBros-1-1-v0'
-training_version_name = 'Deep Q-Learning' # Double
+training_version_name = 'Double Deep Q-Learning' # Double
 movement_type = 'SIMPLE_MOVEMENT'
 
 
@@ -30,20 +30,20 @@ load_model = True
 model_file_path_online = "./{}__{}__{}_online.HDF5".format(env_name, training_version_name, movement_type)
 model_file_path_target = "./{}__{}__{}_target.HDF5".format(env_name, training_version_name, movement_type)
 
-episodes = 1000             # 10000
+episodes = 10000            # 10000
 show_every = 5              # episodes
 stats_every = 2             # episodes
 save_weights_every = 10     # episodes
 save_rewards_every = 10     # episodes
 
-epsilon = 0.0000001               # 1
-eps_decay = 0.99999         # avg 0.3 epsilon left after 300 episodes (0.99999975)
+epsilon = 1                 # 1
+eps_decay = 0.9999995       # avg 0.3 epsilon left after 300 episodes (0.99999975)
 eps_min = 0.1
 gamma = 0.90
-double_q = False
+double_q = True
 
 max_memory = 10000          # steps 100000
-copy = 1000                 # Target ntwork sync - 10000
+copy = 5000                 # Target ntwork sync - 10000
 learn_each = 3              # steps
 save_each = 100000          # steps - (500000) #NOT USED
 batch_size = 32             # steps
