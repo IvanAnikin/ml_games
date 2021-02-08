@@ -95,7 +95,16 @@ class DQN_Agent():
         if self.double_q:
             q = self.model_online(next_state)
             a = np.argmax(q, axis=1)
-            target_q = reward + (1. - done) * self.gamma * next_q[np.arange(0, self.batch_size), a]
+            # target_q = reward + (1. - done) * self.gamma * next_q[np.arange(0, self.batch_size), a]
+            if (len(self.memory) < self.batch_size):
+                target_q = [0] * len(self.memory)
+            else:
+                target_q = [0] * self.batch_size
+            index = 0
+            for TQ in target_q:
+                one_target_q = reward[index] + (1. - done[index]) * self.gamma * next_q[index, a[index]]
+                target_q[index] = one_target_q
+                index += 1
         else:
             target_q = reward + (1. - done) * self.gamma * np.amax(next_q, axis=1)
 
