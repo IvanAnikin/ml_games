@@ -27,6 +27,10 @@ save_gif = True
 save_gif_every = 2
 num_hidden = 128
 
+epsilon = 1
+eps_decay = 0.999999
+eps_min = 0.1
+
 env_name = "SuperMarioBros-v0"
 training_version_name = "Actor_Critic_1"
 movement_type = "SIMPLE_MOVEMENT"
@@ -73,6 +77,7 @@ for episode in range(max_episodes):  # Run until solved
     start = time.time()
     #for timestep in range(1, max_steps_per_episode):
     while(True):
+        env.render()
         with tf.GradientTape() as tape:
 
             state = tf.convert_to_tensor(state)
@@ -85,7 +90,13 @@ for episode in range(max_episodes):  # Run until solved
 
             # Sample action from action probability distribution
             action = np.random.choice(num_actions, p=np.squeeze(action_probs))
+
+            if np.random.rand() < epsilon:
+                # Random action
+                action = env.action_space.sample()
+
             action_probs_history.append(tf.math.log(action_probs[0, action]))
+
 
             # Apply the sampled action in our environment
             state, reward, done, info = env.step(action)
@@ -101,6 +112,9 @@ for episode in range(max_episodes):  # Run until solved
                 action_probs_history.clear()
                 critic_value_history.clear()
                 rewards_history.clear()
+
+            epsilon *= eps_decay
+            epsilon = max(eps_min, epsilon)
 
             # GIFS SAVING
             #if (save_gif and episode_count % save_gif_every == 0):  # and episode_count != 0
