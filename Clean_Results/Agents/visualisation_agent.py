@@ -1,5 +1,7 @@
 
+import numpy as np
 import matplotlib.pyplot as plt
+
 import Clean_Results.Agents.storage_agent as storage_agent
 
 def show_env_props(env):
@@ -67,6 +69,56 @@ def plot_altari_data_rewards():
     xlabel = "Episode"
     ylabel = "Avg. reward"
 
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    REWARDS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
+
+    data = storage_agent.load_np(REWARDS_NAME)
+    data_ep = storage_agent.load_np(EPISODES_NAME)
+
+    data2 = []
+    data3 = np.zeros(shape=(2495,))
+    index = 0
+    for entry in data:
+
+        if (index < 4990): data3[int(index / 2)] = data[index]
+
+        index += 2
+
+    plt.plot(data_ep, data3, label=NAME)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(NAME)
+    plt.show()
+
+def plot_altari_data_steps():
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_steps".format(env_name, training_version_name, movement_type)
+    NAME = "SpaceInvaders DQN"
+    xlabel = "Episode"
+    ylabel = "Epsilon"
+    #ylabel = "Avg. episode steps"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_altari_data_epsilon():
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_epsilon".format(env_name, training_version_name, movement_type)
+    NAME = "SpaceInvaders DQN"
+    xlabel = "Episode"
+    ylabel = "Epsilon"
+
     plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
 
 def find_max(name):
@@ -79,3 +131,27 @@ def find_max(name):
         index+=1
 
     return max_record, index
+
+def convert_altari_rewards():
+
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    REWARDS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
+
+    data = storage_agent.load_np(REWARDS_NAME)
+
+    data2 = []
+    data3 = np.zeros(shape=(2945,))
+    index = 0
+    for entry in data:
+
+        if(index < 4990): data3[int(index/2)] = data[index]
+
+        index+=2
+
+    print("converted arary with shape: ", data.shape, " to: ", data3.shape)
+
+    return data2

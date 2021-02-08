@@ -670,7 +670,7 @@ for e in range(episodes):
         EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
         REWARDS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
         STEPS_NAME = "{}__{}__{}__stats_steps".format(env_name, training_version_name, movement_type)
-        EPSILON_NAME = "{}__{}__{}__stats_steps".format(env_name, training_version_name, movement_type)
+        EPSILON_NAME = "{}__{}__{}__stats_epsilon".format(env_name, training_version_name, movement_type)
         save_np(name=EPISODES_NAME, data=np.array(stats_ep_rewards['ep']), visualise=False)
         save_np(name=REWARDS_NAME, data=np.array(stats_ep_rewards['avg']), visualise=False)
         save_np(name=STEPS_NAME, data=np.array(stats_ep_rewards['steps']), visualise=False)
