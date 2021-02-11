@@ -17,8 +17,18 @@ import Clean_Results.Agents.storage_agent as storage_agent
 
 
 
+# done:
+# SpaceInvaders-v0
 
-env_name = 'SpaceInvaders-v0'
+# todo:
+# BankHeist-v0
+# BeamRider-v0
+# Bowling-v0
+# Breakout-v0
+
+# double deep SpaceInvaders train 10000 ep
+
+env_name = 'AirRaid-v0'
 training_version_name = 'Deep Q-Learning' # Double
 movement_type = "Default"
 
@@ -142,7 +152,7 @@ for e in range(episodes):
 
     if (ep_steps > max_ep_steps):
         max_ep_steps = ep_steps
-        with open('max_ep_steps.gif', 'wb') as f:
+        with open('max_ep_steps' + env_name + '.gif', 'wb') as f:
             im = Image.new('RGB', frames[0].size)
             im.save(f, save_all=True, append_images=frames)
 
@@ -185,7 +195,7 @@ for e in range(episodes):
     if (e % stats_every == 0 and e != 0):
         stats_ep_rewards['ep'].append(e)
         stats_ep_rewards['avg'].append(np.mean(rewards[-20:]))
-        stats_ep_rewards['avg'].append(np.mean(steps[-20:]))
+        stats_ep_rewards['steps'].append(np.mean(steps[-20:]))
         stats_ep_rewards['epsilon'].append(agent.epsilon)
 
     # SAVE REWARDS

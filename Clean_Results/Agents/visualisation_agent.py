@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 
 import Clean_Results.Agents.storage_agent as storage_agent
 
+
+
 def show_env_props(env):
     env_name = env.unwrapped.spec.id
     num_states = env.observation_space.shape[0]
@@ -80,11 +82,11 @@ def plot_altari_data_rewards():
     data_ep = storage_agent.load_np(EPISODES_NAME)
 
     data2 = []
-    data3 = np.zeros(shape=(2495,))
+    data3 = np.zeros(shape=(4995,))
     index = 0
     for entry in data:
 
-        if (index < 4990): data3[int(index / 2)] = data[index]
+        if (index < 9990): data3[int(index / 2)] = data[index] * 10
 
         index += 2
 
@@ -95,6 +97,20 @@ def plot_altari_data_rewards():
     plt.show()
 
 def plot_altari_data_steps():
+    env_name = 'SpaceInvaders-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_steps".format(env_name, training_version_name, movement_type)
+    NAME = "SpaceInvaders DQN"
+    xlabel = "Episode"
+    ylabel = "Epsilon"
+    #ylabel = "Avg. episode steps"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_airrapid_data_steps():
     env_name = 'SpaceInvaders-v0'
     training_version_name = 'Deep Q-Learning'  # Double
     movement_type = "Default"
