@@ -506,6 +506,7 @@ def save_frames_as_gif(frames, path='./', name="gym_animation"):
 
 # done:
 # SpaceInvaders-v0
+# AirRaid-v0
 
 # todo:
 # BankHeist-v0
@@ -515,7 +516,7 @@ def save_frames_as_gif(frames, path='./', name="gym_animation"):
 
 # double deep SpaceInvaders train 10000 ep
 
-env_name = 'AirRaid-v0'
+env_name = 'Bowling-v0'
 training_version_name = 'Deep Q-Learning' # Double
 movement_type = "Default"
 
