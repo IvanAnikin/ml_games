@@ -116,8 +116,6 @@ class ActorCritic_1(tf.keras.Model):
 
 
 
-# from example:
-# https://github.com/yingshaoxo/ML/tree/master/12.reinforcement_learning_with_mario_bros
 class Simple_NN:
     def __init__(self, env, model_file_path, load_model = False, show_model = False):
 
@@ -166,14 +164,6 @@ class Simple_NN:
 
 
 
-"""
-Here we define the Actor and Critic networks. These are basic Dense models
-with `ReLU` activation.
-Note: We need the initialization for last layer of the Actor to be between
-`-0.003` and `0.003` as this prevents us from getting `1` or `-1` output values in
-the initial stages, which would squash our gradients to zero,
-as we use the `tanh` activation.
-"""
 
 class Models:
     def __init__(self, env, critic_lr = 0.002, actor_lr = 0.001):
@@ -240,13 +230,6 @@ class Models:
         model = tf.keras.Model([state_input, action_input], outputs)
 
         return model
-
-
-    """
-    `policy()` returns an action sampled from our Actor network plus some noise for
-    exploration.
-    """
-
 
     def policy(self, state, noise_object):
         sampled_actions = tf.squeeze(self.actor_model(state))

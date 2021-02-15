@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 
 
-def save_np(name, data, visualise):
+def save_np(name, data, visualise=False):
 
     np.save(name, data)
 

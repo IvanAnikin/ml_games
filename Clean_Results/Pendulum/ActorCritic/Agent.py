@@ -5,22 +5,8 @@ import numpy as np
 import Clean_Results.Pendulum.ActorCritic.Models as Models
 
 
+#
 
-"""
-The `Buffer` class implements Experience Replay.
----
-![Algorithm](https://i.imgur.com/mS6iGyJ.jpg)
----
-**Critic loss** - Mean Squared Error of `y - Q(s, a)`
-where `y` is the expected return as seen by the Target network,
-and `Q(s, a)` is action value predicted by the Critic network. `y` is a moving target
-that the critic model tries to achieve; we make this target
-stable by updating the Target model slowly.
-**Actor loss** - This is computed using the mean of the value given by the Critic network
-for the actions taken by the Actor network. We seek to maximize this quantity.
-Hence we update the Actor network so that it produces actions that get
-the maximum predicted value as seen by the Critic, for a given state.
-"""
 class Agent:
     def __init__(self, env, buffer_capacity=100000, batch_size=64, gamma = -0.99, tau = 0.005, critic_lr = 0.002, actor_lr = 0.001):
         num_states = env.observation_space.shape[0]
@@ -30,7 +16,6 @@ class Agent:
         # Num of tuples to train on.
         self.batch_size = batch_size
 
-        # Its tells us num of times record() was called.
         self.buffer_counter = 0
 
         self.gamma = gamma
@@ -38,8 +23,6 @@ class Agent:
         self.critic_lr = critic_lr
         self.actor_l = actor_lr
 
-        # Instead of list of tuples as the exp.replay concept go
-        # We use different np.arrays for each tuple element
         self.state_buffer = np.zeros((self.buffer_capacity, num_states))
         self.action_buffer = np.zeros((self.buffer_capacity, num_actions))
         self.reward_buffer = np.zeros((self.buffer_capacity, 1))
@@ -50,10 +33,7 @@ class Agent:
 
 
 
-    # Takes (s,a,r,s') obervation tuple as input
     def record(self, obs_tuple):
-        # Set index to zero if buffer_capacity is exceeded,
-        # replacing old records
         index = self.buffer_counter % self.buffer_capacity
 
         self.state_buffer[index] = obs_tuple[0]
@@ -63,9 +43,6 @@ class Agent:
 
         self.buffer_counter += 1
 
-    # Eager execution is turned on by default in TensorFlow 2. Decorating with tf.function allows
-    # TensorFlow to build a static graph out of the logic and computations in our function.
-    # This provides a large speed up for blocks of code that contain many small TensorFlow operations such as this one.
     @tf.function
     def update(self, state_batch, action_batch, reward_batch, next_state_batch,):
         # Training and updating Actor & Critic networks.
@@ -86,8 +63,7 @@ class Agent:
         with tf.GradientTape() as tape:
             actions = self.models.actor_model(state_batch, training=True)
             critic_value = self.models.critic_model([state_batch, actions], training=True)
-            # Used `-value` as we want to maximize the value given
-            # by the critic for our actions
+
             actor_loss = -tf.math.reduce_mean(critic_value)
 
         actor_grad = tape.gradient(actor_loss, self.models.actor_model.trainable_variables)
@@ -95,7 +71,6 @@ class Agent:
             zip(actor_grad, self.models.actor_model.trainable_variables)
         )
 
-    # We compute the loss and update parameters
     def learn(self):
         # Get sampling range
         record_range = min(self.buffer_counter, self.buffer_capacity)
@@ -123,12 +98,7 @@ class Agent:
             a.assign(b * tau + a * (1 - tau))
 
 
-"""
-To implement better exploration by the Actor network, we use noisy perturbations,
-specifically
-an **Ornstein-Uhlenbeck process** for generating noise, as described in the paper.
-It samples noise from a correlated normal distribution.
-"""
+
 class OUActionNoise:
     def __init__(self, mean, std_deviation, theta=0.15, dt=1e-2, x_initial=None):
         self.theta = theta
@@ -145,8 +115,6 @@ class OUActionNoise:
             + self.theta * (self.mean - self.x_prev) * self.dt
             + self.std_dev * np.sqrt(self.dt) * np.random.normal(size=self.mean.shape)
         )
-        # Store x into x_prev
-        # Makes next noise dependent on current one
         self.x_prev = x
         return x
 
