@@ -175,6 +175,47 @@ def plot_altari_airraid_data_epsilon():
 
     plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
 
+def plot_altari_Bowling_data_rewards_2():
+    env_name = 'Bowling-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = 'Default'
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_avg".format(env_name, training_version_name, movement_type)
+    NAME = "Bowling DQN"
+    xlabel = "Episode"
+    ylabel = "Avg. reward"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_Bowling_data_steps():
+    env_name = 'Bowling-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_steps".format(env_name, training_version_name, movement_type)
+    NAME = "Bowling DQN"
+    xlabel = "Episode"
+    ylabel = "Avg. steps"
+    #ylabel = "Avg. episode steps"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+def plot_altari_bowling_data_epsilon():
+    env_name = 'Bowling-v0'
+    training_version_name = 'Deep Q-Learning'  # Double
+    movement_type = "Default"
+
+    EPISODES_NAME = "{}__{}__{}__stats_ep".format(env_name, training_version_name, movement_type)
+    X_POS_NAME = "{}__{}__{}__stats_epsilon".format(env_name, training_version_name, movement_type)
+    NAME = "Bowling DQN"
+    xlabel = "Episode"
+    ylabel = "Epsilon"
+
+    plot_data(X_POS_NAME, EPISODES_NAME, xlabel, ylabel, NAME)
+
+
 def plot_altari_data_epsilon():
     env_name = 'SpaceInvaders-v0'
     training_version_name = 'Deep Q-Learning'  # Double
