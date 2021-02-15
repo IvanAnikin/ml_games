@@ -86,10 +86,6 @@ def training_data(num_trials, min_score, sim_steps):
 
 
 
-
-
-
-
 #def cart_pole_v1():
 
 start_time = time.time()

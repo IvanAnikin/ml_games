@@ -1,7 +1,7 @@
 
 
 
-import OpenAi.MountainCar.Q_Learning.storage_agent as MountainCar_Q_Learning_storage_agent
+import Clean_Results.Agents.storage_agent as storage_agent
 
 
 def best_rewards_params(score_count_start_position = 4000, LEARNING_RATES = [0.05, 0.10, 0.15, 0.20], EPSILONS = [0.5], END_EPSILON_DECAYING_POSITIONS = [2.0], DISCOUNTS = [0.95], DISCRETE_OS_SIZES = [20], show_every = 4000, episodes = 5000, stats_every = 100):
@@ -35,7 +35,7 @@ def best_rewards_params(score_count_start_position = 4000, LEARNING_RATES = [0.0
                                                                                                     discount,
                                                                                                     discrete_os_size)
 
-                        data_avg = MountainCar_Q_Learning_storage_agent.load_np(NAME)
+                        data_avg = storage_agent.load_np(NAME)
 
                         for data in range(len(data_avg)):
                             if data >= score_count_start:
