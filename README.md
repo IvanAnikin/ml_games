@@ -2,6 +2,7 @@
 
 # Neural networks in games
 
+![](https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif)
 
 ##### Video presentation in czech [Link to YouTube](https://youtu.be/YTSBJUGzinw)
 
