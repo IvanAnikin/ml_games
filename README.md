@@ -4,7 +4,7 @@
 
 <div>
   <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
-  <img style="display:inline-block; margin-left: 50px;" src="https://supercoolserver.azurewebsites.net/assets/projects_images/getting_flag_2_cut_loop.gif" width="200" /> 
+  <img style="display:inline-block; margin-left: 50px;" src="https://supercoolserver.azurewebsites.net/assets/projects_images/getting_flag_2_cut_loop.gif" width="300" /> 
   <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/getting_flag_2_cut2_loop.gif" width="200" /> 
   <img style="display:inline-block margin-left: 50px;" src="https://supercoolserver.azurewebsites.net/assets/projects_images/SpaceInvaders_500_cut_loop.gif" width="200" /> 
 </div>
