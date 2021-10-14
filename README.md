@@ -2,7 +2,12 @@
 
 # Neural networks in games
 
-<img src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
+<div>
+  <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
+  <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
+  <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
+  <img style="display:inline-block" src="https://supercoolserver.azurewebsites.net/assets/projects_images/gym_explanation.gif" width="200" /> 
+</div>
 
 ##### Video presentation in czech [Link to YouTube](https://youtu.be/YTSBJUGzinw)
 
